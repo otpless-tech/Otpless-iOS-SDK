@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Otpless'
-  s.version          = '1.0.2'
+  s.version          = '1.0.4'
   s.summary          = 'Sign-up/ Sign-in via Whatsapp engineered by Otpless.'
 
 # This description is used to generate tags and improve search results.
