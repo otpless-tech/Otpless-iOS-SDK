@@ -31,7 +31,7 @@ pod 'OtplessSDK'
 
 ## Author
 
-121038664, developer@otpless.com
+Otpless, developer@otpless.com
 
 ## License
 
