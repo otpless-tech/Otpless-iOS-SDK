@@ -1,0 +1,6 @@
+framework module Pods_OtplessSDK_Example {
+  umbrella header "Pods-OtplessSDK_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

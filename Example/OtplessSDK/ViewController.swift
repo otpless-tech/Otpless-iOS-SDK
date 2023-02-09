@@ -7,11 +7,22 @@
 //
 
 import UIKit
+import OtplessSDK
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController, onCallbackResponseDelegate{
+    func onCallbackResponse(waId: String?, message: String?, error: String?) {
+        print(waId,"__",message,"__",error)
+    }
+    
+    
+    @IBOutlet weak var whatsappButton: WhatsappLoginButton!
+    
+   // var codeWhatappButton = WhatsappLoginButton(type: .custom)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        whatsappButton.delegate = self
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -19,6 +30,7 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 
 }
 
