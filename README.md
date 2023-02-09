@@ -1,9 +1,9 @@
 
 <p align="center">
-  <img src="https://github.com/otpless-tech/otpless-android-sdk/blob/main/otpless.svg" height="220"/>
+  <img src="https://github.com/otpless-tech/Otpless-iOS-SDK/blob/main/otpless.svg" height="220"/>
 </p>
 <p align="center">
-  <img src="https://github.com/otpless-tech/otpless-android-sdk/blob/main/apple-logo.svg" height="50" width "50"/>
+  <img src="https://github.com/otpless-tech/Otpless-iOS-SDK/blob/main/apple-logo.svg" height="50" width "50"/>
 </p>
 
 
