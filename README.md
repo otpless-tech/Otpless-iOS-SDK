@@ -1,3 +1,12 @@
+
+<p align="center">
+  <img src="https://github.com/otpless-tech/otpless-android-sdk/blob/main/otpless.svg" height="220"/>
+</p>
+<p align="center">
+  <img src="https://github.com/otpless-tech/otpless-android-sdk/blob/main/apple-logo.svg" height="50" width "50"/>
+</p>
+
+
 # OtplessSDK
 
 [![CI Status](https://img.shields.io/travis/121038664/OtplessSDK.svg?style=flat)](https://travis-ci.org/121038664/OtplessSDK)
