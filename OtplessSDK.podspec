@@ -7,9 +7,9 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'OtplessSDK'
+  s.name             = 'Otpless'
   s.version          = '1.0.2'
-  s.summary          = 'A short description of OtplessSDK.'
+  s.summary          = 'Sign-up/ Sign-in via Whatsapp engineered by Otpless. Only five minutes of integration thats it and you are sorted with user authentication in your app'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
