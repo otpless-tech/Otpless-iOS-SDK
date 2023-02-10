@@ -18,8 +18,9 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+  'Sign-up/ Sign-in via Whatsapp engineered by Otpless. Get your user authentication sorted in just five minutes by integrating of Otpless sdk.'
+  DESC
+
 
   s.homepage         = 'https://github.com/otpless-tech/Otpless-iOS-SDK'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
