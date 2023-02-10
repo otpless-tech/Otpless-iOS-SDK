@@ -11,12 +11,6 @@ Pod::Spec.new do |s|
   s.version          = '1.0.6'
   s.summary          = 'Sign-up/ Sign-in via Whatsapp engineered by Otpless.'
 
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
   s.description      = <<-DESC
   'Sign-up/ Sign-in via Whatsapp engineered by Otpless. Get your user authentication sorted in just five minutes by integrating of Otpless sdk.'
   DESC
@@ -36,6 +30,7 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
       'OtplessSDK' => ['OtplessSDK/Assets/*.png']
   }
+  s.swift_versions = ['4.0', '4.1', '4.2', '5.0', '5.1', '5.2', '5.3', '5.4', '5.5']
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
