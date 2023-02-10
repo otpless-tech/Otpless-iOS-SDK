@@ -16,12 +16,21 @@ public class Otpless {
         let instance = Otpless()
         return instance
     }()
-    private var loader : OtplessLoader? = nil
+    var loader : OtplessLoader? = nil
     private init(){}
         
-     func continueToWhatsapp(url: String){
+    
+    public func isWhatsappInstalled() -> Bool{
+        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://app")! as URL) {
+            return true
+        } else {
+            return false
+        }
+    }
+    public func continueToWhatsapp(url: String){
         UIApplication.shared.open(URL(string: url)!)
     }
+    
     
     public func continueToWhatsapp(){
         if let completeUrl = OtplessHelper.getCompleteUrl() {
@@ -38,7 +47,6 @@ public class Otpless {
             case "otpless":
                 return true
             default:
-                return false
                 break
             }
         }
@@ -65,60 +73,53 @@ public class Otpless {
             let bodyParams = ["userId": waId, "api": "getUserDetail"]
             OtplessNetworkHelper.shared.fetchData(from: "metaverse", method: "POST", headers: headers, bodyParams:bodyParams) { (data, response, error) in
               guard let data = data else {
-                // handle error
-                  if (error != nil) {
-                      OtplessHelper.removeUserMobileAndWaid()
-                  }
-                  DispatchQueue.main.async { [self] in
-                      if((self.delegateOnVerify) != nil){
-                          delegateOnVerify?.onVerifyWaid(mobile: nil, waId: nil, message: "error", error: "Error in verify waid :" + waId)
-                      } else {
-                          loader?.hide()
-                          if((self.delegate) != nil){
-                              delegate?.onResponse(waId: nil, message: "error", error: "Error in verify waid :" + waId)
-                          }
-                      }
-                      
-                  }
+                
+                  onError(mobile: nil, waId: nil, message: "error", error: "Error in verify waid api error")
                 return
               }
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     // process the JSON data
                     let jsonDictionary = json as? [String: Any]
-                     if let jsonData = jsonDictionary?["data"] as? [String: Any]{
-                         if let mobile = jsonData["userMobile"] as? String,
-                        let waid = jsonData["waId"] as? String {
-                         OtplessHelper.saveUserMobileAndWaid(waId: waid, userMobile: mobile)
-                             DispatchQueue.main.async { [self] in
-                                 if((self.delegateOnVerify) != nil){
-                                     delegateOnVerify?.onVerifyWaid(mobile: mobile, waId: waid, message: "success", error: nil)
-                                 } else {
-                                     loader?.hide()
-                                     if((self.delegate) != nil){
-                                         delegate?.onResponse(waId: waid, message: "success", error: nil)
-                                     }
-                                 }
-                                 
-                             }
-                     }
-                  }
-                    
+                    if let success = jsonDictionary?["success"] as? Bool {
+                        if success{
+                            if let jsonData = jsonDictionary?["data"] as? [String: Any]{
+                                if let mobile = jsonData["userMobile"] as? String,
+                                   let waid = jsonData["waId"] as? String {
+                                    OtplessHelper.saveUserMobileAndWaid(waId: waid, userMobile: mobile)
+                                    DispatchQueue.main.async { [self] in
+                                        if((self.delegateOnVerify) != nil){
+                                            delegateOnVerify?.onVerifyWaid(mobile: mobile, waId: waid, message: "success", error: nil)
+                                        }
+                                          
+                                        if((self.delegate) != nil){
+                                                loader?.hide()
+                                                delegate?.onResponse(waId: waid, message: "success", error: nil)
+                                        }
+                                        
+                                    }
+                                } else {onError(mobile: nil, waId: nil, message: "error", error: "Error in verify waid parse error")}
+                            } else {onError(mobile: nil, waId: nil, message: "error", error: "Error in verify waid parse error")}
+                        } else {onError(mobile: nil, waId: nil, message: "error", error: "Error in verify waid parse error")}
+                    } else {onError(mobile: nil, waId: nil, message: "error", error: "Error in verify waid parse error")}
                   } catch {
-                      DispatchQueue.main.async { [self] in
-                          if((self.delegateOnVerify) != nil){
-                              delegateOnVerify?.onVerifyWaid(mobile: nil, waId: nil, message: "error", error: "Exception occured verifying waid :" + waId)
-                          } else {
-                              loader?.hide()
-                              if((self.delegate) != nil){
-                                  delegate?.onResponse(waId: nil, message: "error", error: "Exception occured verifying waid :" + waId)
-                              }
-                          }
-                          
-                      }
+                      onError(mobile: nil, waId: nil, message: "error", error: "Exception occured verifying waid")
                   }
             }
     }
+}
+private func onError(mobile : String?, waId : String?,message: String?, error : String?){
+    OtplessHelper.removeUserMobileAndWaid()
+    DispatchQueue.main.async {
+        if((Otpless.sharedInstance.delegateOnVerify) != nil){
+            Otpless.sharedInstance.delegateOnVerify?.onVerifyWaid(mobile: mobile, waId: waId, message: message, error: error)
+        }
+        if((Otpless.sharedInstance.delegate) != nil){
+                Otpless.sharedInstance.loader?.hide()
+                Otpless.sharedInstance.delegate?.onResponse(waId: nil, message: "error", error: error)
+            }
+        }
+    
 }
 // used for internal purpose by WhatsappLoginButton
 public protocol onVerifyWaidDelegate: AnyObject {

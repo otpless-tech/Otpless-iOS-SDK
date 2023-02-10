@@ -9,7 +9,9 @@
 import UIKit
 import OtplessSDK
 
-class ViewController: UIViewController, onCallbackResponseDelegate{
+class ViewController: UIViewController, onCallbackResponseDelegate, onResponseDelegate{
+   
+    
     func onCallbackResponse(waId: String?, message: String?, error: String?) {
         print(waId,"__",message,"__",error)
     }
@@ -21,11 +23,24 @@ class ViewController: UIViewController, onCallbackResponseDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        whatsappButton.delegate = self
-        
+        if Otpless.sharedInstance.isWhatsappInstalled() {
+            whatsappButton.delegate = self
+        } else {
+            whatsappButton.hide()
+        }
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    @IBAction func customeButtonTapped(_ sender: UIButton) {
+        Otpless.sharedInstance.delegate = self
+        Otpless.sharedInstance.continueToWhatsapp()
+    }
+    
+    func onResponse(waId: String?, message: String?, error: String?) {
+        print(waId,"__",message,"__",error)
+    }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

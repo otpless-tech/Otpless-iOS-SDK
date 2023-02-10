@@ -7,9 +7,11 @@
 
 import UIKit
 
+
 class OtplessLoader: UIView {
-    private var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        
         private var closeButton = UIButton(type: .system)
+        private var label = UILabel()
 
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -23,14 +25,13 @@ class OtplessLoader: UIView {
 
         private func setupView() {
             backgroundColor = UIColor.black.withAlphaComponent(0.7)
-            activityIndicator.startAnimating()
-            addSubview(activityIndicator)
-            activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            label.frame = CGRect(x:  (UIScreen.main.bounds.width - 100)/2, y:  (UIScreen.main.bounds.height - 100)/2, width: 100, height: 100)
+                           addSubview(label)
+            label.text = "Verifying..."
+            label.textColor = UIColor.white
             
             addSubview(closeButton)
-            closeButton.setTitleColor(OtplessHelper.UIColorFromRGB(rgbValue: 0x23D366), for: .normal)
+            closeButton.setTitleColor(UIColor.white, for: .normal)
             closeButton.translatesAutoresizingMaskIntoConstraints = false
             closeButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20).isActive = true
             closeButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -45,7 +46,7 @@ class OtplessLoader: UIView {
     public func show(){
         DispatchQueue.main.async { [self] in
             self.frame = CGRect(x: 0,y: 0,width: UIScreen.main.bounds.width,height: UIScreen.main.bounds.height)
-            var window = UIApplication.shared.windows.last!
+            let window = UIApplication.shared.windows.last!
             window.addSubview(self)
         }
         
@@ -57,3 +58,4 @@ class OtplessLoader: UIView {
         }
     }
 }
+

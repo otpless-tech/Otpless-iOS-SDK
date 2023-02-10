@@ -18,13 +18,7 @@ import UIKit
     private var loader = OtplessLoader()
     
     public weak var delegate: onCallbackResponseDelegate?
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+   
     
     public func setButtonFontSize(size: CGFloat)
     {
@@ -46,7 +40,6 @@ import UIKit
       }
     
       func setImageAndTitle(imageName: String, title: String) {
-          
           if let completeUrl = OtplessHelper.getCompleteUrl() {
               otplessUrl = OtplessHelper.addEventDetails(url: completeUrl)
               OtplessNetworkHelper.shared.setBaseUrl(url: otplessUrl)
@@ -58,7 +51,7 @@ import UIKit
           setTitle(title, for: .normal)
         addTarget(self, action:#selector(self.buttonClicked), for: .touchUpInside)
         backgroundColor = OtplessHelper.UIColorFromRGB(rgbValue: 0x23D366)
-        setTitleColor(UIColor.white, for: UIControlState.normal)
+          setTitleColor(UIColor.white, for: UIControl.State.normal)
         layer.cornerRadius = 20
         layer.masksToBounds = true
       }
@@ -81,35 +74,38 @@ import UIKit
             let waId = OtplessHelper.getValue(forKey:OtplessHelper.waidDefaultKey) as String?
             let headers = ["Content-Type": "application/json","Accept":"application/json"]
             let bodyParams = ["userId": waId, "api": "getUserDetail"]
-            OtplessNetworkHelper.shared.fetchData(from: "metaverse", method: "POST", headers: headers, bodyParams:bodyParams) { [self] (data, response, error) in
+            OtplessNetworkHelper.shared.fetchData(from: "metaverse", method: "POST", headers: headers, bodyParams:bodyParams as [String : Any]) { [self] (data, response, error) in
               guard let data = data else {
                 // handle error
-                  if (error != nil) {
-                      OtplessHelper.removeUserMobileAndWaid()
-                  }
-                  Otpless.sharedInstance.continueToWhatsapp(url: otplessUrl)
+                  removeWaidAndContinueToWhatsapp()
                 return
               }
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
                     // process the JSON data
                     let jsonDictionary = json as? [String: Any]
-                     if let jsonData = jsonDictionary?["data"] as? [String: Any]{
-                         if let mobile = jsonData["userMobile"] as? String {
-                             DispatchQueue.main.async { [self] in
-                                 self.setTitle(mobile, for: .normal)
-                                 if((self.delegate) != nil){
-                                     delegate?.onCallbackResponse(waId: waId!, message: "success", error: nil)
-                                     self.loader.hide()
-                                 }
-                             }
-                     }
-                  }
+                    if let success = jsonDictionary?["success"] as? Bool {
+                        if success{
+                            if let jsonData = jsonDictionary?["data"] as? [String: Any]{
+                                if let mobile = jsonData["userMobile"] as? String {
+                                    DispatchQueue.main.async { [self] in
+                                        self.setTitle(mobile, for: .normal)
+                                        if((self.delegate) != nil){
+                                            delegate?.onCallbackResponse(waId: waId!, message: "success", error: nil)
+                                            self.loader.hide()
+                                        }
+                                    }
+                                } else {removeWaidAndContinueToWhatsapp()}
+                            } else {removeWaidAndContinueToWhatsapp()}
+                        } else {
+                            removeWaidAndContinueToWhatsapp()
+                        }
+                    } else {
+                        removeWaidAndContinueToWhatsapp()
+                    }
                     
                   } catch {
-                      OtplessHelper.removeUserMobileAndWaid()
-                      Otpless.sharedInstance.continueToWhatsapp(url: otplessUrl)
-                    // handle error
+                      removeWaidAndContinueToWhatsapp()
                   }
             }
 
@@ -118,6 +114,19 @@ import UIKit
             self.loader.show()
             Otpless.sharedInstance.continueToWhatsapp(url: otplessUrl)
         }
+    }
+    
+    public func removeWaidAndContinueToWhatsapp (){
+        OtplessHelper.removeUserMobileAndWaid()
+        Otpless.sharedInstance.continueToWhatsapp(url: otplessUrl)
+    }
+    
+    public func show(){
+        self.isHidden = false
+    }
+    
+    public func hide(){
+        self.isHidden = true
     }
     
     public override func layoutSubviews() {
@@ -144,7 +153,7 @@ import UIKit
                 
                 let headers = ["Content-Type": "application/json","Accept":"application/json"]
                 let bodyParams = ["userId": waId, "api": "getUserDetail"]
-                OtplessNetworkHelper.shared.fetchData(from: "metaverse", method: "POST", headers: headers, bodyParams:bodyParams) { (data, response, error) in
+                OtplessNetworkHelper.shared.fetchData(from: "metaverse", method: "POST", headers: headers, bodyParams:bodyParams as [String : Any]) { (data, response, error) in
                   guard let data = data else {
                     // handle error
                       if (error != nil) {
