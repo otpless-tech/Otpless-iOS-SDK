@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'OtplessSDK'
-  s.version          = '1.0.7'
+  s.version          = '1.0.8'
   s.summary          = 'Sign-up/ Sign-in via Whatsapp engineered by Otpless.'
 
   s.description      = <<-DESC
@@ -17,11 +17,9 @@ Pod::Spec.new do |s|
 
 
   s.homepage         = 'https://github.com/otpless-tech/Otpless-iOS-SDK'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Otpless' => 'developer@otpless.com' }
   s.source           = { :git => 'https://github.com/otpless-tech/Otpless-iOS-SDK.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '11.0'
 
@@ -30,6 +28,8 @@ Pod::Spec.new do |s|
   s.resource_bundles = {
       'OtplessSDK' => ['OtplessSDK/Assets/*.png']
   }
+  s.resources = ["OtplessSDK/Assets/*.png"]
+  
   s.swift_versions = ['4.0', '4.1', '4.2', '5.0', '5.1', '5.2', '5.3', '5.4', '5.5']
 
   # s.public_header_files = 'Pod/Classes/**/*.h'

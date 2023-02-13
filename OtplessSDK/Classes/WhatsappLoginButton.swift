@@ -9,7 +9,7 @@ import UIKit
 
 @IBDesignable public class WhatsappLoginButton: UIButton,onVerifyWaidDelegate {
    
-    @IBInspectable var buttonfontSize: CGFloat = 15.0
+    @IBInspectable var buttonfontSize: CGFloat = 20.0
     let spacing: CGFloat = 8.0
     var otplessUrl: String = ""
     var apiRoute = "metaverse"
@@ -30,30 +30,32 @@ import UIKit
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        setImageAndTitle(imageName: "otplesswhatsapp.png", title: "Continue with WhatsApp")
+        setImageAndTitle()
       }
       
       required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        setImageAndTitle(imageName: "otplesswhatsapp.png", title: "Continue with WhatsApp")
+        setImageAndTitle()
       }
     
-      func setImageAndTitle(imageName: String, title: String) {
+      func setImageAndTitle() {
+          if !Otpless.sharedInstance.isWhatsappInstalled() {
+              self.isHidden = true
+              return
+          }
           if let completeUrl = OtplessHelper.getCompleteUrl() {
               otplessUrl = OtplessHelper.addEventDetails(url: completeUrl)
               OtplessNetworkHelper.shared.setBaseUrl(url: otplessUrl)
-          } 
+          }
           Otpless.sharedInstance.delegateOnVerify = self
-          if let image = UIImage(named: imageName, in: Bundle(for: type(of: self)), compatibleWith: nil) {
+          if let image = UIImage(named: "otplesswhatsapp.png", in: Bundle(for: type(of: self)), compatibleWith: nil) {
             setImage(image, for: .normal)
           }
-          setTitle(title, for: .normal)
+          setTitle("Continue with WhatsApp", for: .normal)
         addTarget(self, action:#selector(self.buttonClicked), for: .touchUpInside)
         backgroundColor = OtplessHelper.UIColorFromRGB(rgbValue: 0x23D366)
           setTitleColor(UIColor.white, for: UIControl.State.normal)
-        layer.cornerRadius = 20
-        layer.masksToBounds = true
       }
     
     public func onVerifyWaid(mobile: String?, waId: String?, message: String?, error: String?) {
@@ -132,15 +134,37 @@ import UIKit
     public override func layoutSubviews() {
         super.layoutSubviews()
         checkWaidExistsAndVerified()
+        manageLabelAndImage()
+    }
+    
+    func manageLabelAndImage(){
+        let imgVwWidthAndHeight =  self.frame.height/2
+        let expectedHeightForView = imgVwWidthAndHeight * 7
+        
+        let marginBetweenImgVwAndLabel = self.frame.height/8
+        let marginLeftAndRight = self.frame.height/4
+        var labelWidth = self.frame.width - imgVwWidthAndHeight - marginBetweenImgVwAndLabel - (marginLeftAndRight * 2)
+        if labelWidth > expectedHeightForView {
+            labelWidth = expectedHeightForView
+        }
+        let xForImgVw = (self.frame.width - (imgVwWidthAndHeight + marginBetweenImgVwAndLabel + labelWidth))/2
+        let yForImgVw = (self.frame.height - imgVwWidthAndHeight)/2
+        let xForLabel = xForImgVw + imgVwWidthAndHeight + marginBetweenImgVwAndLabel
        if let imageView = self.imageView {
-            imageView.frame = CGRect(x: self.frame.height/4, y: (self.frame.height - (self.frame.height/2))/2, width: self.frame.height/2, height: self.frame.height/2)
-            //imageView.contentMode = UIViewContentMode.scaleAspectFill
+            imageView.frame = CGRect(x:xForImgVw, y: yForImgVw, width: imgVwWidthAndHeight, height:imgVwWidthAndHeight)
             }
         if let titleLabel = self.titleLabel {
-            titleLabel.frame = CGRect(x: 0 , y: 0, width: self.frame.width , height: self.frame.height)
-            titleLabel.textAlignment  = .center
-            titleLabel.font = UIFont(name:"HelveticaNeue-Bold", size:buttonfontSize)
+            titleLabel.frame = CGRect(x: xForLabel , y: yForImgVw, width: labelWidth , height: imgVwWidthAndHeight)
+            titleLabel.textAlignment = .left
+            titleLabel.numberOfLines = 1
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+            
+            titleLabel.adjustsFontSizeToFitWidth = true
+            titleLabel.minimumScaleFactor=0.001
+            //titleLabel.translatesAutoresizingMaskIntoConstraints = false
             }
+        layer.cornerRadius = self.frame.height * 0.14
+        layer.masksToBounds = true
     }
     
     func checkWaidExistsAndVerified (){
@@ -169,7 +193,6 @@ import UIKit
                              if let mobile = jsonData["userMobile"] as? String {
                                  DispatchQueue.main.async {
                                      self.setTitle(mobile, for: .normal)
-                                     
                                  }
                          }
                       }
