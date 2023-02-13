@@ -9,13 +9,15 @@
 import UIKit
 import OtplessSDK
 
-class ViewController: UIViewController, onCallbackResponseDelegate, onResponseDelegate{
+class ViewController: UIViewController, onCallbackResponseDelegate{
    
     
     func onCallbackResponse(waId: String?, message: String?, error: String?) {
         print(waId,"__",message,"__",error)
+        // waid to fetch user details when callback is recieved
+        // error if something is failing
+        // message denotes message recieved on success and failure
     }
-    
     
     @IBOutlet weak var whatsappButton: WhatsappLoginButton!
     
@@ -23,21 +25,8 @@ class ViewController: UIViewController, onCallbackResponseDelegate, onResponseDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Otpless.sharedInstance.isWhatsappInstalled() {
-            whatsappButton.delegate = self
-        } else {
-            whatsappButton.hide()
-        }
+        whatsappButton.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
-    }
-    
-    @IBAction func customeButtonTapped(_ sender: UIButton) {
-        Otpless.sharedInstance.delegate = self
-        Otpless.sharedInstance.continueToWhatsapp()
-    }
-    
-    func onResponse(waId: String?, message: String?, error: String?) {
-        print(waId,"__",message,"__",error)
     }
 
     

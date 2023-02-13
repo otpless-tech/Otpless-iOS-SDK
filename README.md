@@ -9,7 +9,6 @@
 
 # OtplessSDK
 
-[![CI Status](https://img.shields.io/travis/121038664/OtplessSDK.svg?style=flat)](https://travis-ci.org/121038664/OtplessSDK)
 [![Version](https://img.shields.io/cocoapods/v/OtplessSDK.svg?style=flat)](https://cocoapods.org/pods/OtplessSDK)
 [![License](https://img.shields.io/cocoapods/l/OtplessSDK.svg?style=flat)](https://cocoapods.org/pods/OtplessSDK)
 [![Platform](https://img.shields.io/cocoapods/p/OtplessSDK.svg?style=flat)](https://cocoapods.org/pods/OtplessSDK)

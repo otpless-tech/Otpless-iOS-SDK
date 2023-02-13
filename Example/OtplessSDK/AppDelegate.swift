@@ -43,7 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        Otpless.sharedInstance.processOtplessDeeplink(url: url)
+        if Otpless.sharedInstance.isOtplessDeeplink(url: url){
+            Otpless.sharedInstance.processOtplessDeeplink(url: url)
+        }
         return true
     }
 }
