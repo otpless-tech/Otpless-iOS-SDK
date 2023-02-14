@@ -13,8 +13,7 @@ import UIKit
     let spacing: CGFloat = 8.0
     var otplessUrl: String = ""
     var apiRoute = "metaverse"
-    var progressing = false;
-    var checked = false;
+    var buttonText = "Continue with WhatsApp"
     private var loader = OtplessLoader()
     
     public weak var delegate: onCallbackResponseDelegate?
@@ -52,7 +51,8 @@ import UIKit
           if let image = UIImage(named: "otplesswhatsapp.png", in: Bundle(for: type(of: self)), compatibleWith: nil) {
             setImage(image, for: .normal)
           }
-          setTitle("Continue with WhatsApp", for: .normal)
+          checkWaidExistsAndVerified()
+          setTitle(buttonText, for: .normal)
         addTarget(self, action:#selector(self.buttonClicked), for: .touchUpInside)
         backgroundColor = OtplessHelper.UIColorFromRGB(rgbValue: 0x23D366)
           setTitleColor(UIColor.white, for: UIControl.State.normal)
@@ -60,8 +60,9 @@ import UIKit
     
     public func onVerifyWaid(mobile: String?, waId: String?, message: String?, error: String?) {
         DispatchQueue.main.async { [self] in
+            buttonText = mobile ?? "Continue with WhatsApp"
             self.loader.hide()
-            self.setTitle(mobile, for: .normal)
+            manageLabelAndImage()
             if((self.delegate) != nil){
                 delegate?.onCallbackResponse(waId: waId, message: message, error: error)
             }
@@ -91,7 +92,8 @@ import UIKit
                             if let jsonData = jsonDictionary?["data"] as? [String: Any]{
                                 if let mobile = jsonData["userMobile"] as? String {
                                     DispatchQueue.main.async { [self] in
-                                        self.setTitle(mobile, for: .normal)
+                                        buttonText = mobile
+                                        manageLabelAndImage()
                                         if((self.delegate) != nil){
                                             delegate?.onCallbackResponse(waId: waId!, message: "success", error: nil)
                                             self.loader.hide()
@@ -133,11 +135,11 @@ import UIKit
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        checkWaidExistsAndVerified()
         manageLabelAndImage()
     }
     
     func manageLabelAndImage(){
+        
         let imgVwWidthAndHeight =  self.frame.height/2
         let expectedHeightForView = imgVwWidthAndHeight * 7
         
@@ -154,6 +156,7 @@ import UIKit
             imageView.frame = CGRect(x:xForImgVw, y: yForImgVw, width: imgVwWidthAndHeight, height:imgVwWidthAndHeight)
             }
         if let titleLabel = self.titleLabel {
+            setTitle(buttonText, for: .normal)
             titleLabel.frame = CGRect(x: xForLabel , y: yForImgVw, width: labelWidth , height: imgVwWidthAndHeight)
             titleLabel.textAlignment = .left
             titleLabel.numberOfLines = 1
@@ -168,9 +171,7 @@ import UIKit
     }
     
     func checkWaidExistsAndVerified (){
-        if (!progressing){
-            progressing = true
-            
+
             let waIdExists = OtplessHelper.checkValueExists(forKey: OtplessHelper.waidDefaultKey);
             if (waIdExists){
                 let waId = OtplessHelper.getValue(forKey:OtplessHelper.waidDefaultKey) as String?
@@ -192,7 +193,8 @@ import UIKit
                          if let jsonData = jsonDictionary?["data"] as? [String: Any]{
                              if let mobile = jsonData["userMobile"] as? String {
                                  DispatchQueue.main.async {
-                                     self.setTitle(mobile, for: .normal)
+                                     self.buttonText = mobile
+                                     self.manageLabelAndImage()
                                  }
                          }
                       }
@@ -203,7 +205,6 @@ import UIKit
                       }
                 }
             }
-        }
     }
     
 }
