@@ -29,9 +29,11 @@ class OtplessLoader: UIView {
                            addSubview(label)
             label.text = "Verifying..."
             label.textColor = UIColor.white
+            label.textAlignment = .center
             
             addSubview(closeButton)
             closeButton.setTitleColor(UIColor.white, for: .normal)
+            closeButton.titleLabel?.textAlignment = .center
             closeButton.translatesAutoresizingMaskIntoConstraints = false
             closeButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20).isActive = true
             closeButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true

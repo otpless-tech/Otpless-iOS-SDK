@@ -140,9 +140,7 @@ public final class WhatsappLoginButton: UIButton,onVerifyWaidDelegate {
         if labelWidth > expectedHeightForView {
             labelWidth = expectedHeightForView
         }
-        let xForImgVw = (self.frame.width - (imgVwWidthAndHeight + marginBetweenImgVwAndLabel + labelWidth))/2
         let yForImgVw = (self.frame.height - imgVwWidthAndHeight)/2
-        let xForLabel = xForImgVw + imgVwWidthAndHeight + marginBetweenImgVwAndLabel
     
         if let titleLabel = self.titleLabel ,let imageView = self.imageView  {
             setTitle(buttonText, for: .normal)
