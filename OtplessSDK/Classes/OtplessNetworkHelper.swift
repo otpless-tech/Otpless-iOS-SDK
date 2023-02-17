@@ -8,11 +8,12 @@
 import Foundation
  class OtplessNetworkHelper {
     var baseurl : String = ""
+     var apiRoute = "metaverse"
   typealias NetworkCompletion = (Data?, URLResponse?, Error?) -> Void
   
   static let shared = OtplessNetworkHelper()
   
-  func fetchData(from apiRoute: String, method: String , headers: [String: String]? = nil, bodyParams: [String: Any]? = nil, completion: @escaping NetworkCompletion) {
+  func fetchData(method: String , headers: [String: String]? = nil, bodyParams: [String: Any]? = nil, completion: @escaping NetworkCompletion) {
       var request = URLRequest(url:URL(string:baseurl + apiRoute)!)
     request.httpMethod = method
     

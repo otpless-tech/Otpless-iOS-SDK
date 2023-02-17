@@ -68,10 +68,14 @@ public class Otpless {
         }
     }
     
+    public func clearSession(){
+        OtplessHelper.removeUserMobileAndWaid()
+    }
+    
     private func verifywaID(waId : String){
             let headers = ["Content-Type": "application/json","Accept":"application/json"]
             let bodyParams = ["userId": waId, "api": "getUserDetail"]
-            OtplessNetworkHelper.shared.fetchData(from: "metaverse", method: "POST", headers: headers, bodyParams:bodyParams) { (data, response, error) in
+            OtplessNetworkHelper.shared.fetchData(method: "POST", headers: headers, bodyParams:bodyParams) { (data, response, error) in
               guard let data = data else {
                 
                   onError(mobile: nil, waId: nil, message: "error", error: "Error in verify waid api error")
