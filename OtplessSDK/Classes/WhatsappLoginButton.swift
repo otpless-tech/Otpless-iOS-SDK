@@ -7,10 +7,8 @@
 
 import UIKit
 
-@IBDesignable public class WhatsappLoginButton: UIButton,onVerifyWaidDelegate {
+public final class WhatsappLoginButton: UIButton,onVerifyWaidDelegate {
    
-    @IBInspectable var buttonfontSize: CGFloat = 20.0
-    let spacing: CGFloat = 8.0
     var otplessUrl: String = ""
     var apiRoute = "metaverse"
     var buttonText = "Continue with WhatsApp"
@@ -18,13 +16,6 @@ import UIKit
     
     public weak var delegate: onCallbackResponseDelegate?
    
-    
-    public func setButtonFontSize(size: CGFloat)
-    {
-        buttonfontSize = size
-        titleLabel?.font = UIFont(name:"HelveticaNeue-Bold", size:buttonfontSize)
-    
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -77,7 +68,7 @@ import UIKit
             let waId = OtplessHelper.getValue(forKey:OtplessHelper.waidDefaultKey) as String?
             let headers = ["Content-Type": "application/json","Accept":"application/json"]
             let bodyParams = ["userId": waId, "api": "getUserDetail"]
-            OtplessNetworkHelper.shared.fetchData(from: "metaverse", method: "POST", headers: headers, bodyParams:bodyParams as [String : Any]) { [self] (data, response, error) in
+            OtplessNetworkHelper.shared.fetchData(method: "POST", headers: headers, bodyParams:bodyParams as [String : Any]) { [self] (data, response, error) in
               guard let data = data else {
                 // handle error
                   removeWaidAndContinueToWhatsapp()
@@ -152,19 +143,22 @@ import UIKit
         let xForImgVw = (self.frame.width - (imgVwWidthAndHeight + marginBetweenImgVwAndLabel + labelWidth))/2
         let yForImgVw = (self.frame.height - imgVwWidthAndHeight)/2
         let xForLabel = xForImgVw + imgVwWidthAndHeight + marginBetweenImgVwAndLabel
-       if let imageView = self.imageView {
-            imageView.frame = CGRect(x:xForImgVw, y: yForImgVw, width: imgVwWidthAndHeight, height:imgVwWidthAndHeight)
-            }
-        if let titleLabel = self.titleLabel {
+    
+        if let titleLabel = self.titleLabel ,let imageView = self.imageView  {
             setTitle(buttonText, for: .normal)
-            titleLabel.frame = CGRect(x: xForLabel , y: yForImgVw, width: labelWidth , height: imgVwWidthAndHeight)
-            titleLabel.textAlignment = .left
-            titleLabel.numberOfLines = 1
             titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+            titleLabel.textAlignment = .center
+            titleLabel.sizeToFit()
+            if titleLabel.frame.width > labelWidth {
+                titleLabel.frame = CGRect(x: (self.frame.width - labelWidth + imgVwWidthAndHeight + marginBetweenImgVwAndLabel)/2 , y: yForImgVw, width: labelWidth , height: imgVwWidthAndHeight)
+            }
+            titleLabel.frame = CGRect(x: (self.frame.width - titleLabel.frame.width + imgVwWidthAndHeight + marginBetweenImgVwAndLabel)/2 , y: yForImgVw, width: titleLabel.frame.width , height: imgVwWidthAndHeight)
             
+            imageView.frame = CGRect(x:(self.frame.width - titleLabel.frame.width - imgVwWidthAndHeight - marginBetweenImgVwAndLabel)/2, y: yForImgVw, width: imgVwWidthAndHeight, height:imgVwWidthAndHeight)
+            
+            titleLabel.numberOfLines = 1
             titleLabel.adjustsFontSizeToFitWidth = true
             titleLabel.minimumScaleFactor=0.001
-            //titleLabel.translatesAutoresizingMaskIntoConstraints = false
             }
         layer.cornerRadius = self.frame.height * 0.14
         layer.masksToBounds = true
@@ -178,7 +172,7 @@ import UIKit
                 
                 let headers = ["Content-Type": "application/json","Accept":"application/json"]
                 let bodyParams = ["userId": waId, "api": "getUserDetail"]
-                OtplessNetworkHelper.shared.fetchData(from: "metaverse", method: "POST", headers: headers, bodyParams:bodyParams as [String : Any]) { (data, response, error) in
+                OtplessNetworkHelper.shared.fetchData(method: "POST", headers: headers, bodyParams:bodyParams as [String : Any]) { (data, response, error) in
                   guard let data = data else {
                     // handle error
                       if (error != nil) {
