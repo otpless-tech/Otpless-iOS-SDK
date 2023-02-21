@@ -32,7 +32,6 @@ public final class WhatsappLoginButton: UIButton,onVerifyWaidDelegate {
       func setImageAndTitle() {
           if !Otpless.sharedInstance.isWhatsappInstalled() {
               self.isHidden = true
-              return
           }
           if let completeUrl = OtplessHelper.getCompleteUrl() {
               otplessUrl = OtplessHelper.addEventDetails(url: completeUrl)
@@ -47,6 +46,7 @@ public final class WhatsappLoginButton: UIButton,onVerifyWaidDelegate {
         addTarget(self, action:#selector(self.buttonClicked), for: .touchUpInside)
         backgroundColor = OtplessHelper.UIColorFromRGB(rgbValue: 0x23D366)
           setTitleColor(UIColor.white, for: UIControl.State.normal)
+          titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
       }
     
     public func onVerifyWaid(mobile: String?, waId: String?, message: String?, error: String?) {
@@ -143,9 +143,11 @@ public final class WhatsappLoginButton: UIButton,onVerifyWaidDelegate {
         let yForImgVw = (self.frame.height - imgVwWidthAndHeight)/2
     
         if let titleLabel = self.titleLabel ,let imageView = self.imageView  {
-            setTitle(buttonText, for: .normal)
-            titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+            if titleLabel.text != buttonText{
+                setTitle(buttonText, for: .normal)
+            }
             titleLabel.textAlignment = .center
+            titleLabel.numberOfLines = 1
             titleLabel.sizeToFit()
             if titleLabel.frame.width > labelWidth {
                 titleLabel.frame = CGRect(x: (self.frame.width - labelWidth + imgVwWidthAndHeight + marginBetweenImgVwAndLabel)/2 , y: yForImgVw, width: labelWidth , height: imgVwWidthAndHeight)
@@ -154,7 +156,6 @@ public final class WhatsappLoginButton: UIButton,onVerifyWaidDelegate {
             
             imageView.frame = CGRect(x:(self.frame.width - titleLabel.frame.width - imgVwWidthAndHeight - marginBetweenImgVwAndLabel)/2, y: yForImgVw, width: imgVwWidthAndHeight, height:imgVwWidthAndHeight)
             
-            titleLabel.numberOfLines = 1
             titleLabel.adjustsFontSizeToFitWidth = true
             titleLabel.minimumScaleFactor=0.001
             }
