@@ -90,20 +90,30 @@ class OtplessHelper {
     
     
     public static func saveUserMobileAndWaid(waId : String, userMobile : String) {
-        setValue(value: waId, forKey: waidDefaultKey)
-        setValue(value: userMobile, forKey: userMobileDefaultKey)
+        //setValue(value: waId, forKey: waidDefaultKey)
+        //setValue(value: userMobile, forKey: userMobileDefaultKey)
     }
     public static func removeUserMobileAndWaid() {
-        removeValue(forKey: waidDefaultKey)
-        removeValue(forKey: userMobileDefaultKey)
+//        removeValue(forKey: waidDefaultKey)
+//        removeValue(forKey: userMobileDefaultKey)
     }
     
     public static func getCompleteUrl() -> String? {
         if let urlTypes = Bundle.main.object(forInfoDictionaryKey: "CFBundleURLTypes") as? [[String: Any]] {
             for urlType in urlTypes {
                 if let urlSchemes = urlType["CFBundleURLSchemes"] as? [String], let identifier = urlType["CFBundleURLName"] as? String {
-                    if urlSchemes.count == 1 && urlSchemes[0].contains("otpless") && identifier.contains("otpless") {
-                        let scheme = urlSchemes[0]
+                    if urlSchemes.count > 0  {
+                        var hostUri = ""
+                        for url in urlSchemes {
+                            if (url.contains("otpless") && identifier.contains("otpless")){
+                                hostUri = url
+                                break
+                            }
+                        }
+                        if hostUri == "" {
+                            continue
+                        }
+                        let scheme = hostUri
                         let urlScheme = String(scheme).replacingOccurrences(of: "otpless", with: "")
                         let domainUrl = String(link).replacingOccurrences(of: "*", with:urlScheme)
                         let completeUrl = domainUrl + "?redirectUri=" + scheme + "://" + identifier
