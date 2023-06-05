@@ -9,15 +9,11 @@
 /* Begin PBXBuildFile section */
 		02F7F9A143041F027ECE01E3333D4258 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 		045F32C367236F6A2C13E99D47109EE9 /* Pods-OtplessSDK_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F9947807AF4B0DF78CE668396CB2CC44 /* Pods-OtplessSDK_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		244D354A2A27371D0042E5AC /* OtplessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244D35492A27371D0042E5AC /* OtplessVC.swift */; };
-		244D354C2A27380C0042E5AC /* NativeWebBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244D354B2A27380C0042E5AC /* NativeWebBridge.swift */; };
-		244D35592A27C58D0042E5AC /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244D35562A27C58C0042E5AC /* Utils.swift */; };
-		244D355A2A27C58D0042E5AC /* DeviceInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244D35572A27C58C0042E5AC /* DeviceInfoModel.swift */; };
-		244D355B2A27C58D0042E5AC /* DeviceInfoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244D35582A27C58C0042E5AC /* DeviceInfoUtils.swift */; };
-		244D355D2A2DE0FD0042E5AC /* FabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 244D355C2A2DE0FD0042E5AC /* FabButton.swift */; };
+		24402E92299587B700F5A09A /* otplesswhatsapp.png in Resources */ = {isa = PBXBuildFile; fileRef = 24402E91299587B700F5A09A /* otplesswhatsapp.png */; };
 		24AE7B49299080400061B977 /* OtplessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AE7B48299080400061B977 /* OtplessHelper.swift */; };
 		24AE7B4B299083FF0061B977 /* OtplessNetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AE7B4A299083FF0061B977 /* OtplessNetworkHelper.swift */; };
 		24AE7B4D299261880061B977 /* OtplessLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AE7B4C299261880061B977 /* OtplessLoader.swift */; };
+		24FB736A2990512F0055B653 /* WhatsappLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24FB73692990512F0055B653 /* WhatsappLoginButton.swift */; };
 		3F51928E4F77DA2C01327B26E88FA32F /* Otpless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBB1C4180331240C13296554AB0D2F2 /* Otpless.swift */; };
 		6891EC5DF9DA233F5BD9F7EF5485D5F7 /* Pods-OtplessSDK_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E146F3771BDDED30456B50131F5664FB /* Pods-OtplessSDK_Tests-dummy.m */; };
 		7141A3C90BB018BEBD3DCBF384D65CDC /* OtplessSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 18D87F2D45C6006713134D115EE61E82 /* OtplessSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -48,15 +44,11 @@
 /* Begin PBXFileReference section */
 		18D87F2D45C6006713134D115EE61E82 /* OtplessSDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OtplessSDK-umbrella.h"; sourceTree = "<group>"; };
 		192D048CC8858A592E91D0282E79A062 /* OtplessSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OtplessSDK.debug.xcconfig; sourceTree = "<group>"; };
-		244D35492A27371D0042E5AC /* OtplessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessVC.swift; path = OtplessSDK/Classes/OtplessVC.swift; sourceTree = "<group>"; };
-		244D354B2A27380C0042E5AC /* NativeWebBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeWebBridge.swift; sourceTree = "<group>"; };
-		244D35562A27C58C0042E5AC /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = OtplessSDK/Classes/Utils.swift; sourceTree = "<group>"; };
-		244D35572A27C58C0042E5AC /* DeviceInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceInfoModel.swift; path = OtplessSDK/Classes/DeviceInfoModel.swift; sourceTree = "<group>"; };
-		244D35582A27C58C0042E5AC /* DeviceInfoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceInfoUtils.swift; path = OtplessSDK/Classes/DeviceInfoUtils.swift; sourceTree = "<group>"; };
-		244D355C2A2DE0FD0042E5AC /* FabButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FabButton.swift; path = OtplessSDK/Classes/FabButton.swift; sourceTree = "<group>"; };
+		24402E91299587B700F5A09A /* otplesswhatsapp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = otplesswhatsapp.png; path = OtplessSDK/Assets/otplesswhatsapp.png; sourceTree = "<group>"; };
 		24AE7B48299080400061B977 /* OtplessHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessHelper.swift; path = OtplessSDK/Classes/OtplessHelper.swift; sourceTree = "<group>"; };
 		24AE7B4A299083FF0061B977 /* OtplessNetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessNetworkHelper.swift; path = OtplessSDK/Classes/OtplessNetworkHelper.swift; sourceTree = "<group>"; };
 		24AE7B4C299261880061B977 /* OtplessLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessLoader.swift; path = OtplessSDK/Classes/OtplessLoader.swift; sourceTree = "<group>"; };
+		24FB73692990512F0055B653 /* WhatsappLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WhatsappLoginButton.swift; path = OtplessSDK/Classes/WhatsappLoginButton.swift; sourceTree = "<group>"; };
 		25068B13729D089AD896F900D1A58127 /* OtplessSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = OtplessSDK.modulemap; sourceTree = "<group>"; };
 		34C1ED3A4355CC35D4225C427A9410B0 /* Pods-OtplessSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OtplessSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		38DB573872309041ACF90A9EA92FD50F /* Pods-OtplessSDK_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OtplessSDK_Example-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -145,16 +137,12 @@
 		3A95F053AB8714093E451313A4E2EB61 /* OtplessSDK */ = {
 			isa = PBXGroup;
 			children = (
-				244D355C2A2DE0FD0042E5AC /* FabButton.swift */,
-				244D35572A27C58C0042E5AC /* DeviceInfoModel.swift */,
-				244D35582A27C58C0042E5AC /* DeviceInfoUtils.swift */,
-				244D35562A27C58C0042E5AC /* Utils.swift */,
-				244D354B2A27380C0042E5AC /* NativeWebBridge.swift */,
-				244D35492A27371D0042E5AC /* OtplessVC.swift */,
+				24402E91299587B700F5A09A /* otplesswhatsapp.png */,
 				5CBB1C4180331240C13296554AB0D2F2 /* Otpless.swift */,
 				24AE7B4C299261880061B977 /* OtplessLoader.swift */,
 				24AE7B4A299083FF0061B977 /* OtplessNetworkHelper.swift */,
 				24AE7B48299080400061B977 /* OtplessHelper.swift */,
+				24FB73692990512F0055B653 /* WhatsappLoginButton.swift */,
 				43F6A2B4CFE3A6F3CC8CBF648B0C7E8D /* Pod */,
 				A2A0816F4A9942A1C920F76D9E25A0E2 /* Support Files */,
 			);
@@ -370,6 +358,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24402E92299587B700F5A09A /* otplesswhatsapp.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,16 +400,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				24AE7B49299080400061B977 /* OtplessHelper.swift in Sources */,
-				244D354A2A27371D0042E5AC /* OtplessVC.swift in Sources */,
-				244D35592A27C58D0042E5AC /* Utils.swift in Sources */,
-				244D354C2A27380C0042E5AC /* NativeWebBridge.swift in Sources */,
 				24AE7B4D299261880061B977 /* OtplessLoader.swift in Sources */,
-				244D355A2A27C58D0042E5AC /* DeviceInfoModel.swift in Sources */,
 				24AE7B4B299083FF0061B977 /* OtplessNetworkHelper.swift in Sources */,
-				244D355D2A2DE0FD0042E5AC /* FabButton.swift in Sources */,
 				3F51928E4F77DA2C01327B26E88FA32F /* Otpless.swift in Sources */,
 				7488EF17B5AD63411990576A13476AFD /* OtplessSDK-dummy.m in Sources */,
-				244D355B2A27C58D0042E5AC /* DeviceInfoUtils.swift in Sources */,
+				24FB736A2990512F0055B653 /* WhatsappLoginButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
