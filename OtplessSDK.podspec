@@ -9,10 +9,10 @@
 Pod::Spec.new do |s|
   s.name             = 'OtplessSDK'
   s.version          = '1.1.3'
-  s.summary          = 'Sign-up/ Sign-in via by Otpless.'
+  s.summary          = 'Sign-up/ Sign-in by OTPLESS.'
 
   s.description      = <<-DESC
-  'Sign-up/ Sign-in by Otpless. Get your user authentication sorted in just five minutes by integrating of Otpless SDK.'
+  'Sign-up/ Sign-in by OTPLESS. Get your user authentication sorted in just five minutes by integrating of OTPLESS SDK.'
   DESC
 
 
