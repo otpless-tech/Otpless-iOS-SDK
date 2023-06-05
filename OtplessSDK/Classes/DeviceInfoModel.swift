@@ -23,7 +23,6 @@ class DeviceInfoModel: NSObject {
         if let _udid = UIDevice.current.identifierForVendor?.uuidString as String? {
             udid = _udid
         }
-        let os = ProcessInfo().operatingSystemVersion
 
     }
     

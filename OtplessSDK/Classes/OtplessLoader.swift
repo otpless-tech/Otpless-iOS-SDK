@@ -17,11 +17,6 @@ class OtplessLoader: UIView {
          super.init(frame: frame)
          loader.startAnimating()
          loader.color = .white
-         if #available(iOS 13.0, *) {
-             loader.activityIndicatorViewStyle = UIActivityIndicatorView.Style.large
-         } else {
-             // Fallback on earlier versions
-         }
          setupView()
      }
 
