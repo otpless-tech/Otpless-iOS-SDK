@@ -40,6 +40,34 @@ import Foundation
             baseurl = combinedString
         }
     }
+    
+     
+     func fetchDataWithGET(apiRoute: String, params: [String: String]? = nil, headers: [String: String]? = nil, completion: @escaping NetworkCompletion) {
+         var components = URLComponents(string:apiRoute)
+         
+         if let params = params {
+             components?.queryItems = params.map { URLQueryItem(name: $0.key, value: $0.value) }
+         }
+         
+         guard let url = components?.url else {
+             completion(nil, nil, NSError(domain: "InvalidURL", code: 0, userInfo: nil))
+             return
+         }
+         
+         var request = URLRequest(url: url)
+         request.httpMethod = "GET"
+         
+         if let headers = headers {
+             for (key, value) in headers {
+                 request.setValue(value, forHTTPHeaderField: key)
+             }
+         }
+         
+         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+             completion(data, response, error)
+         }
+         task.resume()
+     }
 }
 
 

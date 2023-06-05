@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,17 +20,80 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EDW-e7-Wxv" customClass="WhatsappLoginButton" customModule="OtplessSDK">
-                                <rect key="frame" x="48" y="237" width="284" height="55"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Sign In/ Sign up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BeT-uq-HEn">
+                                <rect key="frame" x="74.5" y="30" width="226" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="226" id="9EQ-rF-TIx"/>
+                                    <constraint firstAttribute="height" constant="21" id="gxK-sn-wKr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ah6-IM-x4K">
+                                <rect key="frame" x="23.5" y="299.5" width="328" height="68"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="68" id="5nC-gk-xzc"/>
+                                    <constraint firstAttribute="width" constant="328" id="nsN-ev-cAs"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Sign In with WhatsApp">
+                                    <color key="baseForegroundColor" systemColor="systemBackgroundColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="buttonClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="qwY-mr-GHe"/>
+                                </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click the button to login with WhatsApp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BFf-qT-WzN">
+                                <rect key="frame" x="61.5" y="245.5" width="252" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="OFC-tk-9Xr"/>
+                                    <constraint firstAttribute="width" constant="252" id="mQh-gl-2sL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="k8F-bP-R05">
+                                <rect key="frame" x="36" y="457" width="303" height="174"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="174" id="7iC-Rz-hMN"/>
+                                </constraints>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Response will be printed below :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WK1-zO-tmu">
+                                <rect key="frame" x="41" y="422" width="156" height="12"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="12" id="Wa3-mf-lOn"/>
+                                    <constraint firstAttribute="width" constant="156" id="XE0-rN-IGN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ah6-IM-x4K" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="DD0-73-8Rf"/>
+                            <constraint firstItem="BFf-qT-WzN" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="FXm-tP-ewg"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="k8F-bP-R05" secondAttribute="bottom" constant="36" id="JFc-Fw-CFi"/>
+                            <constraint firstItem="ah6-IM-x4K" firstAttribute="top" secondItem="BFf-qT-WzN" secondAttribute="bottom" constant="37" id="Qam-8R-cFT"/>
+                            <constraint firstItem="WK1-zO-tmu" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="25" id="UVp-UH-XiI"/>
+                            <constraint firstItem="BeT-uq-HEn" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="fg1-6j-R28"/>
+                            <constraint firstItem="k8F-bP-R05" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="g3v-Cb-9qo"/>
+                            <constraint firstItem="k8F-bP-R05" firstAttribute="top" secondItem="WK1-zO-tmu" secondAttribute="bottom" constant="23" id="hFm-6u-Sh0"/>
+                            <constraint firstItem="BeT-uq-HEn" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="30" id="pKv-jQ-VaL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="k8F-bP-R05" secondAttribute="trailing" constant="20" id="rQf-HR-Wgz"/>
+                            <constraint firstItem="ah6-IM-x4K" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="u4K-6h-R4h"/>
+                            <constraint firstItem="k8F-bP-R05" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="20" id="zgK-cf-nDh"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="whatsappButton" destination="EDW-e7-Wxv" id="Ibg-Zo-sfb"/>
+                        <outlet property="responseTxtVw" destination="k8F-bP-R05" id="hlH-nH-2mj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -37,4 +101,15 @@
             <point key="canvasLocation" x="104.8" y="-0.44977511244377816"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>
