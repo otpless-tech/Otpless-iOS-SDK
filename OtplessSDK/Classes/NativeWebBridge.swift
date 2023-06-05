@@ -23,7 +23,6 @@ class NativeWebBridge {
     func parseScriptMessage(message: WKScriptMessage,webview : WKWebView){
             webView = webview
         if let jsonStringFromWeb = message.body as? String {
-            print("CALLBACK ------> \(jsonStringFromWeb)")
             let dataDict = Utils.convertToDictionary(text: jsonStringFromWeb)
             var nativeKey = 0
             if let key = dataDict?["key"] as? String {
