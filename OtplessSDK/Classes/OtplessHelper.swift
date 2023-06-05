@@ -41,7 +41,7 @@ class OtplessHelper {
         var params = [String: String]()
         params["event_name"]=event
         params["platform"]="iOS"
-        params["sdk_version"]="1.1.3"
+        params["sdk_version"]="1.1.4"
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: DeviceInfoUtils.shared.getAppInfo(), options: .prettyPrinted)
