@@ -9,23 +9,13 @@
 import UIKit
 import OtplessSDK
 
-class ViewController: UIViewController, onCallbackResponseDelegate{
+class ViewController: UIViewController{
    
-    
-    func onCallbackResponse(waId: String?, message: String?, error: String?) {
-        print(waId,"__",message,"__",error)
-        // waid to fetch user details when callback is recieved
-        // error if something is failing
-        // message denotes message recieved on success and failure
-    }
-    
-    @IBOutlet weak var whatsappButton: WhatsappLoginButton!
     
    // var codeWhatappButton = WhatsappLoginButton(type: .custom)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        whatsappButton.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
 
