@@ -35,67 +35,23 @@ class OtplessHelper {
             alpha: CGFloat(1.0)
         )
     }
-    /*
-    https://anubhav.authlink.me?
-    redirectUri=otpless://dgotpless
-    &deviceId=ff8fb67386576cbd
-    &package=com.otpless.otplesssample
-     &platform=android
-     &osVersion=33
-     &manufacturer=samsung
-     &appVersionName=1.0.2
-     &appVersionCode=102
-     &sdkVersion=1.0.0
-    https://anubhav.authlink.me?
-     redirectUri=anubhavotpless://otpless
-     &deviceId=14FB377C-E7FA-4E67-B322-6F30DCA36A4B
-     &package=org.cocoapods.demo.OtplessSDK-Example
-     &platform=iOS
-     &osVersion=14.7.1
-     &manufacturer=Apple-iPhone-iPhone
-     &appVersionName=1.0
-     &appVersionCode=1
-     &sdkVersion=1.0.0"
-
-    */
-    public static func addEventDetails(url: String) -> String{
-        let deviceId = UIDevice.current.identifierForVendor?.uuidString
-        let package = Bundle.main.bundleIdentifier
-        let platform = "iOS"
-        let osVersion = UIDevice.current.systemVersion
-        let manufacturer = "Apple-" + UIDevice.current.model
-        let appVersionName = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        let appVersionCode = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
-        let sdkVersion = "1.0.0"
+    
+    
+    public static func sendEvent(event: String){
+        var params = [String: String]()
+        params["event_name"]=event
+        params["platform"]="iOS"
+        params["sdk_version"]="1.1.3"
         
-        let baseURL = URL(string:url)!
-        var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)!
-        var queryItems = components.queryItems ?? []
-        let newQueryItems = [
-            URLQueryItem(name: "deviceId", value: deviceId),
-            URLQueryItem(name: "package", value: package),
-            URLQueryItem(name: "platform", value: platform),
-            URLQueryItem(name: "osVersion", value: osVersion),
-            URLQueryItem(name: "manufacturer", value: manufacturer),
-            URLQueryItem(name: "appVersionName", value: appVersionName),
-            URLQueryItem(name: "appVersionCode", value: appVersionCode),
-            URLQueryItem(name: "sdkVersion", value: sdkVersion)
-        ]
-        queryItems.append(contentsOf: newQueryItems)
-        components.queryItems = queryItems
-        let finalURL = components.url!
-        return finalURL.absoluteString
-    }
-    
-    
-    
-    public static func saveUserMobileAndWaid(waId : String, userMobile : String) {
-        //setValue(value: waId, forKey: waidDefaultKey)
-        //setValue(value: userMobile, forKey: userMobileDefaultKey)
-    }
-    public static func removeUserMobileAndWaid() {
-//        removeValue(forKey: waidDefaultKey)
-//        removeValue(forKey: userMobileDefaultKey)
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: DeviceInfoUtils.shared.getAppInfo(), options: .prettyPrinted)
+            if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
+                params["event_params"] = jsonStr
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        OtplessNetworkHelper.shared.fetchDataWithGET(apiRoute: "https://mtkikwb8yc.execute-api.ap-south-1.amazonaws.com/prod/appevent",params: params) { (data, response, error) in}
     }
     
     public static func getCompleteUrl() -> String? {

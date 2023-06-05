@@ -8,11 +8,11 @@
 
 Pod::Spec.new do |s|
   s.name             = 'OtplessSDK'
-  s.version          = '1.1.2'
-  s.summary          = 'Sign-up/ Sign-in via Whatsapp engineered by Otpless.'
+  s.version          = '1.1.3'
+  s.summary          = 'Sign-up/ Sign-in by OTPLESS.'
 
   s.description      = <<-DESC
-  'Sign-up/ Sign-in via Whatsapp engineered by Otpless. Get your user authentication sorted in just five minutes by integrating of Otpless sdk.'
+  'Sign-up/ Sign-in by OTPLESS. Get your user authentication sorted in just five minutes by integrating of OTPLESS SDK.'
   DESC
 
 
@@ -32,7 +32,4 @@ Pod::Spec.new do |s|
   
   s.swift_versions = ['4.0', '4.1', '4.2', '5.0', '5.1', '5.2', '5.3', '5.4', '5.5']
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
