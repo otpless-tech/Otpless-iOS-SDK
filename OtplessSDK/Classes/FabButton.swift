@@ -23,11 +23,14 @@ class FabButton: UIButton {
     private func setupButton() {
         setTitle("Sign in", for: .normal)
         setTitleColor(.black, for: .normal)
-        layer.borderWidth = 0.5
-        layer.borderColor = UIColor.black.cgColor
+        layer.borderColor = UIColor.lightGray.cgColor
+        layer.shadowColor = UIColor.lightGray.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = CGSize(width: 2, height: 2)
+        layer.shadowRadius = 4
         backgroundColor = .white
         layer.cornerRadius = 5
-        layer.masksToBounds = true
+        
         
         addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }

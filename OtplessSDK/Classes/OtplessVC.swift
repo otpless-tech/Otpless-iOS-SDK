@@ -19,6 +19,7 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.presentationController?.delegate = self
         bridge.delegate = self
         // Do any additional setup after loading the view.
         initialise()
@@ -107,7 +108,6 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
                         // Load a webpage
                         var urlComponents = URLComponents(string: startUrl)!
                         if let bundleIdentifier = Bundle.main.bundleIdentifier {
-                            print("Bundle Identifier: \(bundleIdentifier)")
                             let queryItem = URLQueryItem(name: "package", value: bundleIdentifier)
                             let queryItemloginuri = URLQueryItem(name: "login_uri", value: bundleIdentifier + ".otpless://otpless")
                             if urlComponents.queryItems != nil {
@@ -174,6 +174,14 @@ extension OtplessVC: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return nil
     }
+}
+
+extension OtplessVC: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+            // Handle the dismiss event here
+        Otpless.sharedInstance.addButtonToVC()
+        OtplessHelper.sendEvent(event: "user_abort_pan")
+        }
 }
 
 extension OtplessVC: BridgeDelegate {
