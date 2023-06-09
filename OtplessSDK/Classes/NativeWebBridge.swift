@@ -51,9 +51,45 @@ class NativeWebBridge {
                 break
             case 4:
                 // save string
+                if let key = dataDict?["infoKey"] as? String{
+                    if let value =  dataDict?["infoValue"] as? String{
+                        OtplessHelper.setValue(value: key, forKey: value)
+                    }
+                }
                 break
             case 5:
                 // get string
+                if let key = dataDict?["infoKey"] as? String{
+                    let value : String? = OtplessHelper.getValue(forKey: key)
+                    if value != nil {
+                        var params = [String: String]()
+                        params[key] = value
+                        do {
+                            let jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                            if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
+                                let tempScript = "onStorageValueSuccess(" + jsonStr + ")"
+                                let script = tempScript.replacingOccurrences(of: "\n", with: "")
+                                callJs(webview: webView, script: script)
+                            }
+                        } catch {
+
+                        }
+                    } else {
+                        do {
+                            var params = [String: String]()
+                            params[key] = ""
+                            let jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+                            if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
+                                let tempScript = "onStorageValueSuccess(" + jsonStr + ")"
+                                let script = tempScript.replacingOccurrences(of: "\n", with: "")
+                                callJs(webview: webView, script: script)
+                            }
+                        } catch {
+                        
+                        }
+                    }
+                    //onStorageValueSuccess
+                }
                 break
             case 7:
                 // open deeplink
@@ -68,7 +104,9 @@ class NativeWebBridge {
             case 8:
                 // get app info
                 do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: DeviceInfoUtils.shared.getAppInfo(), options: .prettyPrinted)
+                    var parametersToSend =  DeviceInfoUtils.shared.getAppInfo()
+                    parametersToSend["appSignature"] = DeviceInfoUtils.shared.getAppHash()
+                    let jsonData = try JSONSerialization.data(withJSONObject: parametersToSend, options: .prettyPrinted)
                     if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
                         let tempScript = "onAppInfoResult(" + jsonStr + ")"
                         let script = tempScript.replacingOccurrences(of: "\n", with: "")
@@ -81,7 +119,10 @@ class NativeWebBridge {
             case 11:
                 // verification status call key 11
                 if let response = dataDict?["response"] as? [String: Any] {
-                    Otpless.sharedInstance.delegate?.onResponse(response: response)
+                    var responseParams =  [String : Any]()
+                    responseParams["data"] = response
+                    let otplessResponse = OtplessResponse(responseString: nil, responseData: responseParams)
+                    Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
                     delegate?.dismissVC()
                     OtplessHelper.sendEvent(event: "auth_completed")
                 }
@@ -95,6 +136,8 @@ class NativeWebBridge {
             case 14:
                 // close
                 if delegate != nil {
+                    let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
+                    Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
                     delegate?.dismissVC()
                     OtplessHelper.sendEvent(event: "user_abort")
                 }

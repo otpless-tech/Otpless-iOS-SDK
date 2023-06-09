@@ -7,6 +7,8 @@
 
 import Foundation
 import UIKit
+import Foundation
+import CommonCrypto
 
 class DeviceInfoUtils {
     static let shared: DeviceInfoUtils = {
@@ -15,8 +17,40 @@ class DeviceInfoUtils {
     }()
     
 
+    func getAppHash() -> String? {
+        if let executablePath = Bundle.main.executablePath {
+            let fileURL = URL(fileURLWithPath: executablePath)
+            if let fileData = try? Data(contentsOf: fileURL) {
+                var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+                fileData.withUnsafeBytes {
+                    _ = CC_SHA256($0.baseAddress, CC_LONG(fileData.count), &hash)
+                }
+                let hashData = Data(hash)
+                let hashString = hashData.map { String(format: "%02hhx", $0) }.joined()
+                return hashString
+            }
+        }
+        return nil
+    }
+
     func isWhatsappInstalled() -> Bool{
         if UIApplication.shared.canOpenURL(URL(string: "whatsapp://app")! as URL) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func isGmailInstalled() -> Bool{
+        if UIApplication.shared.canOpenURL(URL(string: "googlegmail://")! as URL) {
+            return true
+        } else {
+            return false
+        }
+    }
+    func isOTPLESSInstalled() -> Bool{
+        if ((UIApplication.shared.canOpenURL(URL(string: "otpless://")! as URL)
+             || UIApplication.shared.canOpenURL(URL(string: "gootpless://")! as URL)) && UIApplication.shared.canOpenURL(URL(string: "com.otpless.ios.app.otpless://")! as URL)){
             return true
         } else {
             return false
@@ -54,6 +88,8 @@ class DeviceInfoUtils {
         }
         params["osVersion"] = os.majorVersion.description + "." + os.minorVersion.description
         params["hasWhatsapp"] = isWhatsappInstalled().description
+        params["hasOtplessApp"] = isOTPLESSInstalled().description
+        params["hasGmailApp"] = isGmailInstalled().description
         return params
     }
 }

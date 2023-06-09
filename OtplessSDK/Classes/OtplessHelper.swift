@@ -7,9 +7,6 @@
 
 import Foundation
 class OtplessHelper {
-   public static let waidDefaultKey = "otpless_waId"
-   public static let userMobileDefaultKey = "otpless_user_mobile"
-    private static let link = "https://*.authlink.me"
     
   public static func checkValueExists(forKey key: String) -> Bool {
         return UserDefaults.standard.object(forKey: key) != nil
@@ -41,7 +38,7 @@ class OtplessHelper {
         var params = [String: String]()
         params["event_name"]=event
         params["platform"]="iOS"
-        params["sdk_version"]="1.1.6"
+        params["sdk_version"]="1.1.7"
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: DeviceInfoUtils.shared.getAppInfo(), options: .prettyPrinted)
@@ -54,30 +51,4 @@ class OtplessHelper {
         OtplessNetworkHelper.shared.fetchDataWithGET(apiRoute: "https://mtkikwb8yc.execute-api.ap-south-1.amazonaws.com/prod/appevent",params: params) { (data, response, error) in}
     }
     
-    public static func getCompleteUrl() -> String? {
-        if let urlTypes = Bundle.main.object(forInfoDictionaryKey: "CFBundleURLTypes") as? [[String: Any]] {
-            for urlType in urlTypes {
-                if let urlSchemes = urlType["CFBundleURLSchemes"] as? [String], let identifier = urlType["CFBundleURLName"] as? String {
-                    if urlSchemes.count > 0  {
-                        var hostUri = ""
-                        for url in urlSchemes {
-                            if (url.contains("otpless") && identifier.contains("otpless")){
-                                hostUri = url
-                                break
-                            }
-                        }
-                        if hostUri == "" {
-                            continue
-                        }
-                        let scheme = hostUri
-                        let urlScheme = String(scheme).replacingOccurrences(of: "otpless", with: "")
-                        let domainUrl = String(link).replacingOccurrences(of: "*", with:urlScheme)
-                        let completeUrl = domainUrl + "?redirectUri=" + scheme + "://" + identifier
-                        return completeUrl
-                      }
-                }
-            }
-        }
-        return nil
-    }
 }

@@ -36,6 +36,18 @@ public class Otpless {
         }
     }
     
+    public func startwithParams(vc: UIViewController,params: [String : Any]?){
+        
+        merchantVC = vc
+        let oVC = OtplessVC()
+        oVC.initialParams = params
+        otplessVC = oVC
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            vc.present(oVC, animated: true) {
+            }
+        }
+    }
+    
     public func shouldHideButton(hide: Bool){
         floatingButtonHidden = hide
     }
@@ -76,7 +88,7 @@ public class Otpless {
         }
     }
     
-    public func onResponse(response: [String:String]){
+    public func onResponse(response : OtplessResponse){
         if((Otpless.sharedInstance.delegate) != nil){
             Otpless.sharedInstance.delegate?.onResponse(response: response)
         }
@@ -126,10 +138,17 @@ public class Otpless {
             }
         }
     }
+    
+    public func onSignedInComplete(){
+        if fabButton != nil {
+            fabButton?.removeFromSuperview()
+            fabButton = nil
+        }
+    }
 }
 
 // When you want to do direct integration in which you will not be using WhatsappLoginButton
 public protocol onResponseDelegate: AnyObject {
-    func onResponse(response: [String: Any]?)
+    func onResponse(response: OtplessResponse?)
 }
 
