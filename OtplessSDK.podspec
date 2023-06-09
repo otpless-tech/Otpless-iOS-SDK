@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'OtplessSDK'
-  s.version          = '1.1.6'
+  s.version          = '1.1.7'
   s.summary          = 'Sign-up/ Sign-in via Whatsapp engineered by Otpless.'
 
   s.description      = <<-DESC

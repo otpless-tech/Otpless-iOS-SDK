@@ -16,6 +16,7 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
     var bridge: NativeWebBridge = NativeWebBridge()
     var startUri = "https://otpless.com/ios/index.html"
     private var loader = OtplessLoader()
+    var initialParams : [String: Any]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,40 +99,66 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
         mWebView.evaluateJavaScript("navigator.userAgent") { [weak self] (result, error) in
                     guard let self = self else { return }
 
-                    if let currentUserAgent = result as? String {
-                        // Append the custom User-Agent
-                        let customUserAgent = "\(currentUserAgent) otplesssdk"
-
-                        // Set the modified User-Agent
-                        self.mWebView.customUserAgent = customUserAgent
-
-                        // Load a webpage
-                        var urlComponents = URLComponents(string: startUrl)!
-                        if let bundleIdentifier = Bundle.main.bundleIdentifier {
-                            let queryItem = URLQueryItem(name: "package", value: bundleIdentifier)
-                            let queryItemloginuri = URLQueryItem(name: "login_uri", value: bundleIdentifier + ".otpless://otpless")
-                            if urlComponents.queryItems != nil {
-                                urlComponents.queryItems?.append(queryItem)
-                                urlComponents.queryItems?.append(queryItemloginuri)
-                            } else {
-                                urlComponents.queryItems = [queryItem]
-                                urlComponents.queryItems?.append(queryItemloginuri)
-                            }
-                        }
-                       // let queryItem = URLQueryItem(name: "hasWhatsapp", value: "true")
-                        let queryItem = URLQueryItem(name: "hasWhatsapp", value: DeviceInfoUtils.shared.isWhatsappInstalled() ? "true" : "false" )
-                        if urlComponents.queryItems != nil {
-                            urlComponents.queryItems?.append(queryItem)
-                        } else {
-                            urlComponents.queryItems = [queryItem]
-                        }
+            if let currentUserAgent = result as? String {
+                // Append the custom User-Agent
+                let customUserAgent = "\(currentUserAgent) otplesssdk"
+                
+                // Set the modified User-Agent
+                self.mWebView.customUserAgent = customUserAgent
+                
+                // Load a webpage
+                var urlComponents = URLComponents(string: startUrl)!
+                if let bundleIdentifier = Bundle.main.bundleIdentifier {
+                    let queryItem = URLQueryItem(name: "package", value: bundleIdentifier)
+                    let queryItemloginuri = URLQueryItem(name: "login_uri", value: bundleIdentifier + ".otpless://otpless")
+                    if urlComponents.queryItems != nil {
+                        urlComponents.queryItems?.append(queryItem)
+                        urlComponents.queryItems?.append(queryItemloginuri)
+                    } else {
+                        urlComponents.queryItems = [queryItem]
+                        urlComponents.queryItems?.append(queryItemloginuri)
+                    }
+                }
+                // let queryItem = URLQueryItem(name: "hasWhatsapp", value: "true")
+                let queryItem = URLQueryItem(name: "hasWhatsapp", value: DeviceInfoUtils.shared.isWhatsappInstalled() ? "true" : "false" )
+                let queryItemOtpless = URLQueryItem(name: "hasOtplessApp", value: DeviceInfoUtils.shared.isOTPLESSInstalled() ? "true" : "false" )
+                let queryItemGmail = URLQueryItem(name: "hasGmailApp", value: DeviceInfoUtils.shared.isGmailInstalled() ? "true" : "false" )
+                if urlComponents.queryItems != nil {
+                    urlComponents.queryItems?.append(queryItem)
+                    urlComponents.queryItems?.append(queryItemOtpless)
+                    urlComponents.queryItems?.append(queryItemGmail)
+                } else {
+                    urlComponents.queryItems = [queryItem,queryItemOtpless,queryItemGmail]
+                }
+                let updatedUrlComponents =  self.addInitialParams(urlComponents: urlComponents)
+                
                         // Get the updated URL with the appended query parameter
-                        if let updatedURL = urlComponents.url {
+                        if let updatedURL = updatedUrlComponents.url {
                             let request = URLRequest(url: updatedURL)
                             self.mWebView.load(request)
                         }
                     }
                 }
+    }
+
+    public func addInitialParams(urlComponents: URLComponents) -> URLComponents  {
+        var updatedURLComponents = urlComponents // Create a mutable copy of urlComponents
+
+        if let initialParams = self.initialParams {
+            if let method = initialParams["method"] as? String, method == "get" {
+                if let parameters = initialParams["params"] as? [String: String] {
+                    for (key, value) in parameters {
+                        let queryItem = URLQueryItem(name: key, value: value)
+                        if updatedURLComponents.queryItems != nil {
+                            updatedURLComponents.queryItems?.append(queryItem)
+                        } else {
+                            updatedURLComponents.queryItems = [queryItem]
+                        }
+                    }
+                }
+            }
+        }
+        return updatedURLComponents
     }
 
  
@@ -180,6 +207,8 @@ extension OtplessVC: UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
             // Handle the dismiss event here
         Otpless.sharedInstance.addButtonToVC()
+        let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
+        Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
         OtplessHelper.sendEvent(event: "user_abort_pan")
         }
 }
