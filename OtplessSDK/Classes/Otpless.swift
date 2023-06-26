@@ -15,7 +15,7 @@ import Foundation
     weak var merchantVC: UIViewController?
     weak var fabButton: FabButton?
     var floatingButtonHidden = false
-    public static let sharedInstance: Otpless = {
+    @objc public static let sharedInstance: Otpless = {
         let instance = Otpless()
         return instance
     }()
