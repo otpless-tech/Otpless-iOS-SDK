@@ -8,9 +8,9 @@
 import Foundation
 
 
-public class Otpless {
+@objc final public class Otpless:NSObject {
     
-    public weak var delegate: onResponseDelegate?
+    @objc public weak var delegate: onResponseDelegate?
     weak var otplessVC: OtplessVC?
     weak var merchantVC: UIViewController?
     weak var fabButton: FabButton?
@@ -20,13 +20,13 @@ public class Otpless {
         return instance
     }()
     var loader : OtplessLoader? = nil
-    private init(){}
+    private override init(){}
     
-    public func initialise(vc : UIViewController){
+    @objc public func initialise(vc : UIViewController){
         merchantVC = vc
     }
     
-    public func start(vc : UIViewController){
+    @objc public func start(vc : UIViewController){
         merchantVC = vc
         let oVC = OtplessVC()
         otplessVC = oVC
@@ -36,7 +36,7 @@ public class Otpless {
         }
     }
     
-    public func startwithParams(vc: UIViewController,params: [String : Any]?){
+    @objc public func startwithParams(vc: UIViewController,params: [String : Any]?){
         
         merchantVC = vc
         let oVC = OtplessVC()
@@ -48,7 +48,7 @@ public class Otpless {
         }
     }
     
-    public func shouldHideButton(hide: Bool){
+    @objc public func shouldHideButton(hide: Bool){
         floatingButtonHidden = hide
     }
     
@@ -94,7 +94,7 @@ public class Otpless {
         }
     }
     
-    public func isWhatsappInstalled() -> Bool{
+    @objc public func isWhatsappInstalled() -> Bool{
         if UIApplication.shared.canOpenURL(URL(string: "whatsapp://app")! as URL) {
             return true
         } else {
@@ -102,7 +102,7 @@ public class Otpless {
         }
     }
     
-    public func isOtplessDeeplink(url : URL) -> Bool{
+    @objc public func isOtplessDeeplink(url : URL) -> Bool{
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host {
             switch host {
             case "otpless":
@@ -114,7 +114,7 @@ public class Otpless {
         return false
     }
     
-    public func start(){
+    @objc public func start(){
         if self.merchantVC != nil {
             let oVC = OtplessVC()
             otplessVC = oVC
@@ -125,7 +125,7 @@ public class Otpless {
         }
     }
     
-    public func processOtplessDeeplink(url : URL) {
+    @objc public func processOtplessDeeplink(url : URL) {
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host {
             switch host {
             case "otpless":
@@ -139,7 +139,7 @@ public class Otpless {
         }
     }
     
-    public func onSignedInComplete(){
+    @objc public func onSignedInComplete(){
         if fabButton != nil {
             fabButton?.removeFromSuperview()
             fabButton = nil
@@ -147,8 +147,8 @@ public class Otpless {
     }
 }
 
-// When you want to do direct integration in which you will not be using WhatsappLoginButton
-public protocol onResponseDelegate: AnyObject {
-    func onResponse(response: OtplessResponse?)
+
+@objc public protocol onResponseDelegate: AnyObject {
+    @objc func onResponse(response: OtplessResponse?)
 }
 

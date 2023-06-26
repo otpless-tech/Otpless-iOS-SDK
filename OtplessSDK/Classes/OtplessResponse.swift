@@ -7,9 +7,9 @@
 
 import Foundation
 
-public class OtplessResponse {
-   public var errorString: String?
-   public var responseData: [String: Any]?
+@objc public class OtplessResponse:NSObject {
+    @objc public var errorString: String?
+    @objc public var responseData: [String: Any]?
 
     init(responseString: String?, responseData: [String: Any]?) {
         self.errorString = responseString
