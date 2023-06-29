@@ -9,7 +9,23 @@
 import UIKit
 import OtplessSDK
 
-class ViewController: UIViewController{
+class ViewController: UIViewController, onResponseDelegate{
+    func onResponse(response: OtplessSDK.OtplessResponse?) {
+        if (response?.errorString != nil) {
+            print(response?.errorString ?? "no value in erro")
+               } else {
+                   if (response != nil && response?.responseData != nil
+       && response?.responseData?["data"] != nil){
+                       if let data = response?.responseData?["data"] as? [String: Any] {
+                           let token = data["token"]
+                           print(token ?? "no token")
+                       }
+                   }
+                   
+               }
+        
+    }
+    
    
     
    // var codeWhatappButton = WhatsappLoginButton(type: .custom)
@@ -17,6 +33,7 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        Otpless.sharedInstance.delegate = self
         Otpless.sharedInstance.start(vc: self)
     }
 

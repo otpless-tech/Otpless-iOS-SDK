@@ -47,7 +47,7 @@ class DeviceInfoUtils {
     }
 
     func isWhatsappInstalled() -> Bool{
-        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://app")! as URL) {
+        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://")! as URL) {
             return true
         } else {
             return false
