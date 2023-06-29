@@ -120,9 +120,9 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
                     }
                 }
                 // let queryItem = URLQueryItem(name: "hasWhatsapp", value: "true")
-                let queryItem = URLQueryItem(name: "hasWhatsapp", value: DeviceInfoUtils.shared.isWhatsappInstalled() ? "true" : "false" )
-                let queryItemOtpless = URLQueryItem(name: "hasOtplessApp", value: DeviceInfoUtils.shared.isOTPLESSInstalled() ? "true" : "false" )
-                let queryItemGmail = URLQueryItem(name: "hasGmailApp", value: DeviceInfoUtils.shared.isGmailInstalled() ? "true" : "false" )
+                let queryItem = URLQueryItem(name: "hasWhatsapp", value: DeviceInfoUtils.shared.hasWhatsApp ? "true" : "false" )
+                let queryItemOtpless = URLQueryItem(name: "hasOtplessApp", value: DeviceInfoUtils.shared.hasOTPLESSInstalled ? "true" : "false" )
+                let queryItemGmail = URLQueryItem(name: "hasGmailApp", value: DeviceInfoUtils.shared.hasGmailInstalled ? "true" : "false" )
                 if urlComponents.queryItems != nil {
                     urlComponents.queryItems?.append(queryItem)
                     urlComponents.queryItems?.append(queryItemOtpless)
@@ -150,7 +150,12 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
                     for (key, value) in parameters {
                         let queryItem = URLQueryItem(name: key, value: value)
                         if updatedURLComponents.queryItems != nil {
-                            updatedURLComponents.queryItems?.append(queryItem)
+                            if let index = updatedURLComponents.queryItems?.firstIndex(where: { $0.name == key }) {
+                                   // Update the value of the query item
+                                updatedURLComponents.queryItems?[index].value = value
+                            } else {
+                                updatedURLComponents.queryItems?.append(queryItem)
+                            }
                         } else {
                             updatedURLComponents.queryItems = [queryItem]
                         }

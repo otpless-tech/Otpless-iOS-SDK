@@ -4,7 +4,11 @@
 <dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>whatsapp</string>
+        <string>whatsapp</string>
+                <string>otpless</string>
+                <string>gootpless</string>
+                <string>com.otpless.ios.app.otpless</string>
+                <string>googlegmail</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
