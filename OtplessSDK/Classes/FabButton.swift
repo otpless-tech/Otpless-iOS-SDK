@@ -37,7 +37,7 @@ class FabButton: UIButton {
     
     @objc private func buttonTapped() {
         // Custom action when the button is tapped
-        Otpless.sharedInstance.start()
+        Otpless.sharedInstance.signInButtonClicked()
     }
     
 }

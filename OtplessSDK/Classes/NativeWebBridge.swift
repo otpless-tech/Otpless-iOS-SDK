@@ -105,7 +105,7 @@ class NativeWebBridge {
                 // get app info
                 do {
                     var parametersToSend =  DeviceInfoUtils.shared.getAppInfo()
-                    parametersToSend["appSignature"] = DeviceInfoUtils.shared.getAppHash()
+                    parametersToSend["appSignature"] = DeviceInfoUtils.shared.appHash
                     let jsonData = try JSONSerialization.data(withJSONObject: parametersToSend, options: .prettyPrinted)
                     if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
                         let tempScript = "onAppInfoResult(" + jsonStr + ")"

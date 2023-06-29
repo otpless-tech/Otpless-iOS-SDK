@@ -15,7 +15,20 @@ class DeviceInfoUtils {
         let instance = DeviceInfoUtils()
         return instance
     }()
-    
+    public var isIntialised = false
+    public var hasWhatsApp : Bool = false
+    public var hasGmailInstalled : Bool = false
+    public var hasOTPLESSInstalled : Bool = false
+    public var appHash = ""
+    func initialise () {
+        if (!isIntialised){
+            hasWhatsApp = isWhatsappInstalled()
+            hasGmailInstalled = isGmailInstalled()
+            hasOTPLESSInstalled = isOTPLESSInstalled()
+            appHash = getAppHash() ?? "noapphash"
+            isIntialised = true
+        }
+    }
 
     func getAppHash() -> String? {
         if let executablePath = Bundle.main.executablePath {
@@ -34,7 +47,7 @@ class DeviceInfoUtils {
     }
 
     func isWhatsappInstalled() -> Bool{
-        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://app")! as URL) {
+        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://")! as URL) {
             return true
         } else {
             return false
@@ -49,8 +62,7 @@ class DeviceInfoUtils {
         }
     }
     func isOTPLESSInstalled() -> Bool{
-        if ((UIApplication.shared.canOpenURL(URL(string: "otpless://")! as URL)
-             || UIApplication.shared.canOpenURL(URL(string: "gootpless://")! as URL)) && UIApplication.shared.canOpenURL(URL(string: "com.otpless.ios.app.otpless://")! as URL)){
+        if (UIApplication.shared.canOpenURL(URL(string: "com.otpless.ios.app.otpless://")! as URL)){
             return true
         } else {
             return false
@@ -58,6 +70,7 @@ class DeviceInfoUtils {
     }
     
     func getAppInfo() -> [String: String] {
+        initialise()
         var udid : String!
         var appVersion : String!
         var manufacturer : String!
@@ -87,9 +100,9 @@ class DeviceInfoUtils {
             params["model"] = model
         }
         params["osVersion"] = os.majorVersion.description + "." + os.minorVersion.description
-        params["hasWhatsapp"] = isWhatsappInstalled().description
-        params["hasOtplessApp"] = isOTPLESSInstalled().description
-        params["hasGmailApp"] = isGmailInstalled().description
+        params["hasWhatsapp"] = hasWhatsApp.description
+        params["hasOtplessApp"] = hasOTPLESSInstalled.description
+        params["hasGmailApp"] = hasGmailInstalled.description
         return params
     }
 }

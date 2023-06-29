@@ -15,8 +15,10 @@ import Foundation
     weak var merchantVC: UIViewController?
     weak var fabButton: FabButton?
     var floatingButtonHidden = false
+    var initialParams: [String : Any]?
     @objc public static let sharedInstance: Otpless = {
         let instance = Otpless()
+        DeviceInfoUtils.shared.initialise()
         return instance
     }()
     var loader : OtplessLoader? = nil
@@ -40,6 +42,7 @@ import Foundation
         
         merchantVC = vc
         let oVC = OtplessVC()
+        initialParams = params
         oVC.initialParams = params
         otplessVC = oVC
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -95,7 +98,7 @@ import Foundation
     }
     
     @objc public func isWhatsappInstalled() -> Bool{
-        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://app")! as URL) {
+        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://")! as URL) {
             return true
         } else {
             return false
@@ -122,6 +125,22 @@ import Foundation
                 self.merchantVC?.present(oVC, animated: true) {
                 }
             }
+        }
+    }
+    
+    public func signInButtonClicked(){
+        if initialParams != nil {
+            if self.merchantVC != nil {
+                let oVC = OtplessVC()
+                oVC.initialParams = initialParams
+                otplessVC = oVC
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.merchantVC?.present(oVC, animated: true) {
+                    }
+                }
+            }
+        } else {
+            start()
         }
     }
     
