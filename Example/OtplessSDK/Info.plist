@@ -4,9 +4,9 @@
 <dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-        <string>whatsapp</string>
-                <string>com.otpless.ios.app.otpless</string>
-                <string>googlegmail</string>
+		<string>whatsapp</string>
+		<string>com.otpless.ios.app.otpless</string>
+		<string>googlegmail</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
@@ -33,7 +33,7 @@
 			<string>otpless</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.acviss.sturliterewards.otpless</string>
+				<string>anubhavotpless</string>
 			</array>
 		</dict>
 	</array>
