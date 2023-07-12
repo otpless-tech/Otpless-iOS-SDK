@@ -10,21 +10,9 @@
 [![License](https://img.shields.io/cocoapods/l/OtplessSDK.svg?style=flat)](https://cocoapods.org/pods/OtplessSDK)
 [![Platform](https://img.shields.io/cocoapods/p/OtplessSDK.svg?style=flat)](https://cocoapods.org/pods/OtplessSDK)
 
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
-
 ## Installation
 
-OtplessSDK is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'OtplessSDK'
-```
-
+You can checkout the complete [installation guide here](https://otpless.com/platforms/ios)
 ## Author
 
 Otpless, developer@otpless.com
