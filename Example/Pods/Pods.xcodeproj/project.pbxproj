@@ -25,6 +25,7 @@
 		7488EF17B5AD63411990576A13476AFD /* OtplessSDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C1331A47F4DE876780CFFC25451BC8D5 /* OtplessSDK-dummy.m */; };
 		8D52B3FE0999D6B3FDCFB6BF79B27601 /* Pods-OtplessSDK_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D803D00F91C2347AB32C1E6A57FE63D5 /* Pods-OtplessSDK_Example-dummy.m */; };
 		AE9CDC48B2A5FF7EB449B7B448163DBB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		C298485C2A73CE34000BCFAA /* OtplessNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C298485B2A73CE34000BCFAA /* OtplessNetworkManager.swift */; };
 		C910AF8858B42AA34A4FF43237B5348B /* Pods-OtplessSDK_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A8FBC36DAE3B78586EDEEE5BCF54273B /* Pods-OtplessSDK_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E5C3967D87AD4C6B16EBCBAA26FCFAEE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -79,6 +80,7 @@
 		A8FBC36DAE3B78586EDEEE5BCF54273B /* Pods-OtplessSDK_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OtplessSDK_Example-umbrella.h"; sourceTree = "<group>"; };
 		BA2FB19DBEE25B54A767E34E97A0856A /* OtplessSDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "OtplessSDK-Info.plist"; sourceTree = "<group>"; };
 		C1331A47F4DE876780CFFC25451BC8D5 /* OtplessSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "OtplessSDK-dummy.m"; sourceTree = "<group>"; };
+		C298485B2A73CE34000BCFAA /* OtplessNetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OtplessNetworkManager.swift; path = OtplessSDK/Classes/OtplessNetworkManager.swift; sourceTree = "<group>"; };
 		C6F6A6A77927A4F985F4046064EAB081 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D14361EC80603708839B6A80EE20FFEB /* OtplessSDK */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = OtplessSDK; path = OtplessSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods-OtplessSDK_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-OtplessSDK_Example"; path = Pods_OtplessSDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +149,7 @@
 		3A95F053AB8714093E451313A4E2EB61 /* OtplessSDK */ = {
 			isa = PBXGroup;
 			children = (
+				C298485B2A73CE34000BCFAA /* OtplessNetworkManager.swift */,
 				24AB69012A32C66E00831F66 /* OtplessResponse.swift */,
 				24DAD86C2A2E4F2100A92FC0 /* DeviceInfoModel.swift */,
 				24DAD86A2A2E4F2100A92FC0 /* DeviceInfoUtils.swift */,
@@ -420,6 +423,7 @@
 				24DAD8722A2E4F2100A92FC0 /* DeviceInfoModel.swift in Sources */,
 				24AE7B4B299083FF0061B977 /* OtplessNetworkHelper.swift in Sources */,
 				3F51928E4F77DA2C01327B26E88FA32F /* Otpless.swift in Sources */,
+				C298485C2A73CE34000BCFAA /* OtplessNetworkManager.swift in Sources */,
 				24DAD8702A2E4F2100A92FC0 /* DeviceInfoUtils.swift in Sources */,
 				24DAD8752A2E4F2100A92FC0 /* FabButton.swift in Sources */,
 				24DAD8742A2E4F2100A92FC0 /* Utils.swift in Sources */,

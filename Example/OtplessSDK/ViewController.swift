@@ -34,7 +34,8 @@ class ViewController: UIViewController, onResponseDelegate{
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         Otpless.sharedInstance.delegate = self
-        Otpless.sharedInstance.start(vc: self)
+        let params: [String: Any] = ["method": "get", "params": ["login_uri": "com.digvijayanubhav.app"]]
+        Otpless.sharedInstance.startwithParams(vc: self, params: params)
     }
 
     

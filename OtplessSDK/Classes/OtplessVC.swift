@@ -27,6 +27,16 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
         OtplessHelper.sendEvent(event: "sdk_screen_loaded")
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        OtplessNetworkManager.sharedInstance.addListener(callback: self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        OtplessNetworkManager.sharedInstance.removeListener(callback: self)
+    }
+    
     private func initialise() {
         self.loader.show()
         showWebview(url: startUri)
@@ -232,5 +242,30 @@ extension OtplessVC: BridgeDelegate {
         self.mWebView.isHidden = true
         self.dismiss(animated: true)
         OtplessHelper.sendEvent(event: "sdk_screen_dismissed")
+    }
+}
+
+extension OtplessVC: OnNetworkChange {
+    func onNetworkChange(data networkData: NetworkData) {
+        var msg = ""
+        switch networkData {
+        case.disabled:
+            msg = "Network is not available"
+        case.enabled(type: .wifi):
+            msg = "wifi network is available"
+        case .enabled(type: .cellular):
+            msg = "cellular network is available"
+        }
+        
+        let alert = UIAlertController(title: "Network status", message: msg, preferredStyle: .alert)
+            alert.view.backgroundColor = UIColor.black
+            alert.view.alpha = 0.6
+            alert.view.layer.cornerRadius = 15
+
+            self.present(alert, animated: true)
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
+                alert.dismiss(animated: true)
+            }
     }
 }
