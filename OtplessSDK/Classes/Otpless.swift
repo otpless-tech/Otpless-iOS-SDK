@@ -16,6 +16,7 @@ import Foundation
     weak var fabButton: FabButton?
     var floatingButtonHidden = false
     var initialParams: [String : Any]?
+    var isLoginPage = false
     @objc public static let sharedInstance: Otpless = {
         let instance = Otpless()
         DeviceInfoUtils.shared.initialise()
@@ -30,7 +31,9 @@ import Foundation
     
     @objc public func start(vc : UIViewController){
         merchantVC = vc
+        isLoginPage = false
         let oVC = OtplessVC()
+        oVC.isLoginPage = isLoginPage
         otplessVC = oVC
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             vc.present(oVC, animated: true) {
@@ -41,9 +44,38 @@ import Foundation
     @objc public func startwithParams(vc: UIViewController,params: [String : Any]?){
         
         merchantVC = vc
+        isLoginPage = false
+        let oVC = OtplessVC()
+        oVC.isLoginPage = isLoginPage
+        initialParams = params
+        oVC.initialParams = params
+        otplessVC = oVC
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            vc.present(oVC, animated: true) {
+            }
+        }
+    }
+    
+    @objc public func showOtplessLoginPage(vc : UIViewController){
+        merchantVC = vc
+        isLoginPage = true
+        let oVC = OtplessVC()
+        oVC.isLoginPage = isLoginPage
+        otplessVC = oVC
+        oVC.isLoginPage = isLoginPage
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            vc.present(oVC, animated: true) {
+            }
+        }
+    }
+    
+    @objc public func showOtplessLoginPageWithParams(vc: UIViewController,params: [String : Any]?){
+        
+        merchantVC = vc
         let oVC = OtplessVC()
         initialParams = params
         oVC.initialParams = params
+        oVC.isLoginPage = isLoginPage
         otplessVC = oVC
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             vc.present(oVC, animated: true) {
@@ -120,6 +152,7 @@ import Foundation
     @objc public func start(){
         if self.merchantVC != nil {
             let oVC = OtplessVC()
+            oVC.isLoginPage = isLoginPage
             otplessVC = oVC
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 self.merchantVC?.present(oVC, animated: true) {
@@ -132,6 +165,7 @@ import Foundation
         if initialParams != nil {
             if self.merchantVC != nil {
                 let oVC = OtplessVC()
+                oVC.isLoginPage = isLoginPage
                 oVC.initialParams = initialParams
                 otplessVC = oVC
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
