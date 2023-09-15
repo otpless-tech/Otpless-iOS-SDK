@@ -16,6 +16,7 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
     var bridge: NativeWebBridge = NativeWebBridge()
     var startUri = "https://otpless.com/ios/index.html"
     private var loader = OtplessLoader()
+    var isLoginPage = false
     var initialParams : [String: Any]?
     
     override func viewDidLoad() {
@@ -89,7 +90,7 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
                 self.mWebView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor).isActive = true
                 self.mWebView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor).isActive = true
                 //self.mWebView.topAnchor.constraint(equalTo: layoutGuide.topAnchor).isActive = true
-                self.mWebView.heightAnchor.constraint(equalToConstant: 220).isActive = true
+                self.mWebView.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
                 self.mWebView.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor).isActive = true
             } else {
                 mWebView.frame = self.view.frame
@@ -119,7 +120,6 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
                         urlComponents.queryItems?.append(queryItemloginuri)
                     }
                 }
-                // let queryItem = URLQueryItem(name: "hasWhatsapp", value: "true")
                 let queryItem = URLQueryItem(name: "hasWhatsapp", value: DeviceInfoUtils.shared.hasWhatsApp ? "true" : "false" )
                 let queryItemOtpless = URLQueryItem(name: "hasOtplessApp", value: DeviceInfoUtils.shared.hasOTPLESSInstalled ? "true" : "false" )
                 let queryItemGmail = URLQueryItem(name: "hasGmailApp", value: DeviceInfoUtils.shared.hasGmailInstalled ? "true" : "false" )
@@ -130,15 +130,32 @@ class OtplessVC: UIViewController,WKNavigationDelegate {
                 } else {
                     urlComponents.queryItems = [queryItem,queryItemOtpless,queryItemGmail]
                 }
-                let updatedUrlComponents =  self.addInitialParams(urlComponents: urlComponents)
+                let updatedUrlComponentsWithLoginPage = self.manageLoginPage(urlComponents: urlComponents);
+                let updatedUrlComponents =  self.addInitialParams(urlComponents: updatedUrlComponentsWithLoginPage)
                 
                         // Get the updated URL with the appended query parameter
                         if let updatedURL = updatedUrlComponents.url {
-                            let request = URLRequest(url: updatedURL)
-                            self.mWebView.load(request)
+                            if let encodedURLString = updatedURL.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                                if let encodedURL = URL(string: encodedURLString) {
+                                    let request = URLRequest(url: encodedURL)
+                                    self.mWebView.load(request)
+                                }
+                            }
+                            
                         }
                     }
                 }
+    }
+    
+    func manageLoginPage(urlComponents: URLComponents) -> URLComponents {
+        var updatedURLComponents = urlComponents // Create a mutable copy of urlComponents
+        if (isLoginPage){
+            let queryItem = URLQueryItem(name: "lp", value: "true");
+            if updatedURLComponents.queryItems != nil {
+                updatedURLComponents.queryItems?.append(queryItem)
+            }
+        }
+        return updatedURLComponents
     }
 
     public func addInitialParams(urlComponents: URLComponents) -> URLComponents  {
