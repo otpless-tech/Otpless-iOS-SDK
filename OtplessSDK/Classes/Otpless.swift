@@ -57,25 +57,17 @@ import Foundation
     }
     
     @objc public func showOtplessLoginPage(vc : UIViewController){
-        merchantVC = vc
-        isLoginPage = true
-        let oVC = OtplessVC()
-        oVC.isLoginPage = isLoginPage
-        otplessVC = oVC
-        oVC.isLoginPage = isLoginPage
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            vc.present(oVC, animated: true) {
-            }
-        }
+        showOtplessLoginPageWithParams(vc: vc, params: nil)
     }
     
     @objc public func showOtplessLoginPageWithParams(vc: UIViewController,params: [String : Any]?){
         
         merchantVC = vc
+        isLoginPage = true
         let oVC = OtplessVC()
+        oVC.isLoginPage = isLoginPage
         initialParams = params
         oVC.initialParams = params
-        oVC.isLoginPage = isLoginPage
         otplessVC = oVC
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             vc.present(oVC, animated: true) {
