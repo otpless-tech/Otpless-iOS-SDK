@@ -64,7 +64,7 @@ class OtplessLoader: UIView {
         // Setup center text label
         centerTextLabel.text = centerLabelText
         centerTextLabel.numberOfLines = 0
-        centerTextLabel.textColor = primaryColor
+        centerTextLabel.textColor = textColor
         centerTextLabel.textAlignment = .center
         addSubview(centerTextLabel)
         centerTextLabel.translatesAutoresizingMaskIntoConstraints = false

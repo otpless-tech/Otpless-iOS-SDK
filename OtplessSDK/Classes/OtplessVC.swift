@@ -195,18 +195,20 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
     }
     
     func clearWebViewCache() {
-        if #available(iOS 9.0, *) {
-            let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
-            let date = Date(timeIntervalSince1970: 0)
-            WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: date, completionHandler: {})
-        } else {
-            // Clear cache for earlier versions of iOS
-            let libraryPath = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true).first!
-            let cookiesFolderPath = "\(libraryPath)/Cookies"
-            do {
-                try FileManager.default.removeItem(atPath: cookiesFolderPath)
-            } catch {
-                print("Error removing cookies folder: \(error.localizedDescription)")
+        do {
+            if #available(iOS 9.0, *) {
+                let websiteDataTypes = NSSet(array: [WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache])
+                let date = Date(timeIntervalSince1970: 0)
+                WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes as! Set<String>, modifiedSince: date, completionHandler: {})
+            } else {
+                // Clear cache for earlier versions of iOS
+                let libraryPath = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true).first!
+                let cookiesFolderPath = "\(libraryPath)/Cookies"
+                do {
+                    try FileManager.default.removeItem(atPath: cookiesFolderPath)
+                } catch {
+                    print("Error removing cookies folder: \(error.localizedDescription)")
+                }
             }
         }
     }

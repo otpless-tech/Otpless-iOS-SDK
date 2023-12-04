@@ -93,8 +93,13 @@ import Foundation
                         if vcView != nil {
                             let button = FabButton(frame: CGRectZero)
                             self.fabButton = button
-                            vcView!.insertSubview(button, aboveSubview: (vcView?.subviews.last)!)
-                            // Set constraints to position your view inside the safe area layout guide
+                            if let view = vcView {
+                                if let lastSubview = view.subviews.last {
+                                    view.insertSubview(button, aboveSubview: lastSubview)
+                                } else {
+                                    view.addSubview(button)
+                                }
+                            }
                             if #available(iOS 11.0, *) {
                                 button.translatesAutoresizingMaskIntoConstraints = false
                                 NSLayoutConstraint.activate([
