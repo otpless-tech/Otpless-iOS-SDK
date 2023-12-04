@@ -57,25 +57,17 @@ import Foundation
     }
     
     @objc public func showOtplessLoginPage(vc : UIViewController){
-        merchantVC = vc
-        isLoginPage = true
-        let oVC = OtplessVC()
-        oVC.isLoginPage = isLoginPage
-        otplessVC = oVC
-        oVC.isLoginPage = isLoginPage
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            vc.present(oVC, animated: true) {
-            }
-        }
+        showOtplessLoginPageWithParams(vc: vc, params: nil)
     }
     
     @objc public func showOtplessLoginPageWithParams(vc: UIViewController,params: [String : Any]?){
         
         merchantVC = vc
+        isLoginPage = true
         let oVC = OtplessVC()
+        oVC.isLoginPage = isLoginPage
         initialParams = params
         oVC.initialParams = params
-        oVC.isLoginPage = isLoginPage
         otplessVC = oVC
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             vc.present(oVC, animated: true) {
@@ -101,8 +93,13 @@ import Foundation
                         if vcView != nil {
                             let button = FabButton(frame: CGRectZero)
                             self.fabButton = button
-                            vcView!.insertSubview(button, aboveSubview: (vcView?.subviews.last)!)
-                            // Set constraints to position your view inside the safe area layout guide
+                            if let view = vcView {
+                                if let lastSubview = view.subviews.last {
+                                    view.insertSubview(button, aboveSubview: lastSubview)
+                                } else {
+                                    view.addSubview(button)
+                                }
+                            }
                             if #available(iOS 11.0, *) {
                                 button.translatesAutoresizingMaskIntoConstraints = false
                                 NSLayoutConstraint.activate([
