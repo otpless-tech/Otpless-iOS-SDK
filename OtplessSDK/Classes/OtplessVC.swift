@@ -20,12 +20,16 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
     var isLoginPage = false
     var initialParams : [String: Any]?
     var configParams : [String: Any]?
+    var networkUIHidden : Bool = false
+    var hideActivityIndicator : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.presentationController?.delegate = self
         bridge.delegate = self
         loader.delegate = self
+        loader.networkFailureUiHidden = networkUIHidden
+        loader.loaderHidden = hideActivityIndicator
         getConfigParams()
         // Do any additional setup after loading the view.
         initialise()
@@ -59,8 +63,13 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
         OtplessHelper.sendEvent(event: "user_abort_connection_error")
     }
     
+    public func merchantDismissVc(animated : Bool){
+        self.loader.hide()
+        self.dismiss(animated: animated)
+        OtplessHelper.sendEvent(event: "merchant_abort")
+    }
+    
     func loaderRetryButtonTapped() {
-        print("retry clicked")
         reloadUrl()
     }
     
@@ -182,13 +191,8 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
                 
                 // Get the updated URL with the appended query parameter
                 if let updatedURL = updatedUrlComponents.url {
-                    if let encodedURLString = updatedURL.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                        if let encodedURL = URL(string: encodedURLString) {
-                            let request = URLRequest(url: encodedURL)
+                            let request = URLRequest(url: updatedURL)
                             self.mWebView.load(request)
-                        }
-                    }
-                    
                 }
             }
         }
@@ -207,7 +211,7 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
                 do {
                     try FileManager.default.removeItem(atPath: cookiesFolderPath)
                 } catch {
-                    print("Error removing cookies folder: \(error.localizedDescription)")
+                    
                 }
             }
         }
@@ -297,6 +301,13 @@ extension OtplessVC: UIAdaptivePresentationControllerDelegate {
         Otpless.sharedInstance.addButtonToVC()
         let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
         Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
+        Otpless.sharedInstance.eventDelegate?.onEvent(
+            eventCallback: OtplessEventResponse(
+                responseString: "user cancelled.",
+                responseData: nil,
+                eventCode: .userDismissed
+            )
+        )
         OtplessHelper.sendEvent(event: "user_abort_pan")
     }
 }
@@ -306,22 +317,28 @@ extension OtplessVC: WKNavigationDelegate
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         loader.hide()
         guard let urlError = error as? URLError else {
-                   // Handle other types of errors if needed
-                   
-                   return
-               }
-               
-               if [
-                   .notConnectedToInternet,
-                   .cannotFindHost,
-                   .cannotConnectToHost,
-                   .networkConnectionLost,
-                   .timedOut,
-                   .unsupportedURL
-               ].contains(urlError.code)  {
-                   loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
-               }
+            // Handle other types of errors if needed
+            
+            return
+        }
         
+        if [
+            .notConnectedToInternet,
+            .cannotFindHost,
+            .cannotConnectToHost,
+            .networkConnectionLost,
+            .timedOut,
+            .unsupportedURL
+        ].contains(urlError.code)  {
+            Otpless.sharedInstance.eventDelegate?.onEvent(
+                eventCallback: OtplessEventResponse(
+                    responseString: error.localizedDescription,
+                    responseData: nil,
+                    eventCode: .networkFailure
+                )
+            )
+            loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
+        }
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -331,21 +348,28 @@ extension OtplessVC: WKNavigationDelegate
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         loader.hide()
         guard let urlError = error as? URLError else {
-                   // Handle other types of errors if needed
-                   
-                   return
-               }
-               
-               if [
-                   .notConnectedToInternet,
-                   .cannotFindHost,
-                   .cannotConnectToHost,
-                   .networkConnectionLost,
-                   .timedOut,
-                   .unsupportedURL
-               ].contains(urlError.code) {
-                   loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
-               }
+            // Handle other types of errors if needed
+            
+            return
+        }
+        
+        if [
+            .notConnectedToInternet,
+            .cannotFindHost,
+            .cannotConnectToHost,
+            .networkConnectionLost,
+            .timedOut,
+            .unsupportedURL
+        ].contains(urlError.code) {
+            Otpless.sharedInstance.eventDelegate?.onEvent(
+                eventCallback: OtplessEventResponse(
+                    responseString: error.localizedDescription,
+                    responseData: nil,
+                    eventCode: .networkFailure
+                )
+            )
+            loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
+        }
     }
     
 }
