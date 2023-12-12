@@ -113,7 +113,7 @@ class NativeWebBridge {
                         callJs(webview: webView, script: script)
                     }
                 } catch {
-                    print(error.localizedDescription)
+                    
                 }
                 break
             case 11:

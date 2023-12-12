@@ -25,6 +25,9 @@ class OtplessLoader: UIView {
     public var textColor : UIColor = UIColor.black
     public var primaryColor : UIColor = UIColor(hexString:"#25d366") ?? UIColor.gray
     public var closeButtonColor : UIColor = UIColor.black
+    public var loaderAlpha : CGFloat = 0.4
+    public var loaderHidden : Bool = false
+    public var networkFailureUiHidden : Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,6 +51,11 @@ class OtplessLoader: UIView {
             if let color = UIColor(hexString: configParams?["textColor"] as? String ) {
                 textColor = color
             }
+            if let alpha = configParams?["loaderAlpha"] as? String {
+                if let floatValue = Float(alpha) {
+                    loaderAlpha = CGFloat(floatValue)
+                }
+            }
         }
     }
     
@@ -58,7 +66,7 @@ class OtplessLoader: UIView {
     }
     
     private func setupView() {
-        backgroundColor = UIColor.white.withAlphaComponent(0.4)
+        backgroundColor = UIColor.white.withAlphaComponent(loaderAlpha)
         loader.frame = CGRect(x:  (UIScreen.main.bounds.width - 100)/2, y:  (UIScreen.main.bounds.height - 100)/2, width: 100, height: 100)
         addSubview(loader)
         // Setup center text label
@@ -105,6 +113,7 @@ class OtplessLoader: UIView {
     
     func updateAllColors(){
         getColorFromParams()
+        backgroundColor = UIColor.white.withAlphaComponent(loaderAlpha)
         retryButton.setTitleColor(textColor, for: .normal)
         retryButton.backgroundColor = primaryColor
         
@@ -125,24 +134,26 @@ class OtplessLoader: UIView {
     }
     
     public func show(){
-        DispatchQueue.main.async { [self] in
-            configure(withLoader: true, withCenterText: false, withRetryButton: false, withCloseButton: false)
-            self.frame = CGRect(x: 0,y: 0,width: UIScreen.main.bounds.width,height: UIScreen.main.bounds.height)
-            let window = UIApplication.shared.windows.last!
-            window.addSubview(self)
+        if !loaderHidden {
+            DispatchQueue.main.async { [self] in
+                configure(withLoader: true, withCenterText: false, withRetryButton: false, withCloseButton: false)
+                self.frame = CGRect(x: 0,y: 0,width: UIScreen.main.bounds.width,height: UIScreen.main.bounds.height)
+                let window = UIApplication.shared.windows.last!
+                window.addSubview(self)
+            }
         }
-        
     }
     
     public func showWithErrorAndRetry(errorText : String){
-        DispatchQueue.main.async { [self] in
-            configure(withLoader: false, withCenterText: true, withRetryButton: true, withCloseButton: true)
-            updateTextForError(errorText: errorText)
-            self.frame = CGRect(x: 0,y: 0,width: UIScreen.main.bounds.width,height: UIScreen.main.bounds.height)
-            let window = UIApplication.shared.windows.last!
-            window.addSubview(self)
+        if !networkFailureUiHidden {
+            DispatchQueue.main.async { [self] in
+                configure(withLoader: false, withCenterText: true, withRetryButton: true, withCloseButton: true)
+                updateTextForError(errorText: errorText)
+                self.frame = CGRect(x: 0,y: 0,width: UIScreen.main.bounds.width,height: UIScreen.main.bounds.height)
+                let window = UIApplication.shared.windows.last!
+                window.addSubview(self)
+            }
         }
-        
     }
     
     private func updateTextForError(errorText: String){

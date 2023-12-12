@@ -9,7 +9,34 @@
 import UIKit
 import OtplessSDK
 
-class ViewController: UIViewController, onResponseDelegate{
+class ViewController: UIViewController, onResponseDelegate , onEventCallback{
+    func onEvent(eventCallback: OtplessSDK.OtplessEventResponse?) {
+        guard let eventCodeInstance = eventCallback?.eventCode else {
+            print("Event callback or event code is missing.")
+            return
+        }
+
+        if let responseString = eventCallback?.responseString {
+            switch eventCodeInstance {
+            case .networkFailure:
+                print("networkFailure - EventCallback: \(responseString)")
+                // Handle network failure case using responseString
+
+            case .userDismissed:
+                print("userDismissed - EventCallback: \(responseString)")
+                // Handle user dismissed case using responseString
+
+            // You can add more cases if needed
+
+            @unknown default:
+                print("Unknown case.")
+                // Handle any unknown cases that might occur
+            }
+        } else {
+            print("No response string provided.")
+        }
+    }
+
     func onResponse(response: OtplessSDK.OtplessResponse?) {
         if (response?.errorString != nil) {
             print(response?.errorString ?? "no value in erro")
@@ -30,6 +57,7 @@ class ViewController: UIViewController, onResponseDelegate{
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         Otpless.sharedInstance.delegate = self
+        Otpless.sharedInstance.eventDelegate = self
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -37,7 +65,7 @@ class ViewController: UIViewController, onResponseDelegate{
     }
     
     @IBAction func buttonclicked(_ sender: Any) {
-        Otpless.sharedInstance.showOtplessLoginPage(vc: self)
+        Otpless.sharedInstance.startwithParams(vc: self, params: nil)
     }
     
 }

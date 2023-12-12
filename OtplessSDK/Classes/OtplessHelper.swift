@@ -38,7 +38,7 @@ class OtplessHelper {
         var params = [String: String]()
         params["event_name"]=event
         params["platform"]="iOS"
-        params["sdk_version"]="2.0.2"
+        params["sdk_version"]="2.0.3"
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: DeviceInfoUtils.shared.getAppInfo(), options: .prettyPrinted)
@@ -46,7 +46,7 @@ class OtplessHelper {
                 params["event_params"] = jsonStr
             }
         } catch {
-            print(error.localizedDescription)
+           
         }
         OtplessNetworkHelper.shared.fetchDataWithGET(apiRoute: "https://mtkikwb8yc.execute-api.ap-south-1.amazonaws.com/prod/appevent",params: params) { (data, response, error) in}
     }

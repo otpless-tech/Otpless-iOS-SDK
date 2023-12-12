@@ -11,6 +11,9 @@ import Foundation
 @objc final public class Otpless:NSObject {
     
     @objc public weak var delegate: onResponseDelegate?
+    @objc public weak var eventDelegate: onEventCallback?
+    @objc public var hideNetworkFailureUserInterface: Bool = false
+    @objc public var hideActivityIndicator: Bool = false
     weak var otplessVC: OtplessVC?
     weak var merchantVC: UIViewController?
     weak var fabButton: FabButton?
@@ -30,42 +33,30 @@ import Foundation
     }
     
     @objc public func start(vc : UIViewController){
-        merchantVC = vc
-        isLoginPage = false
-        let oVC = OtplessVC()
-        oVC.isLoginPage = isLoginPage
-        otplessVC = oVC
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            vc.present(oVC, animated: true) {
-            }
-        }
+        initiateVC(vc: vc, params: nil, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: false, hideIndicator: hideActivityIndicator)
     }
     
     @objc public func startwithParams(vc: UIViewController,params: [String : Any]?){
         
-        merchantVC = vc
-        isLoginPage = false
-        let oVC = OtplessVC()
-        oVC.isLoginPage = isLoginPage
-        initialParams = params
-        oVC.initialParams = params
-        otplessVC = oVC
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            vc.present(oVC, animated: true) {
-            }
-        }
+        initiateVC(vc: vc, params: params, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: false , hideIndicator: hideActivityIndicator)
     }
     
     @objc public func showOtplessLoginPage(vc : UIViewController){
-        showOtplessLoginPageWithParams(vc: vc, params: nil)
+        initiateVC(vc: vc, params: nil, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: true , hideIndicator: hideActivityIndicator)
     }
     
     @objc public func showOtplessLoginPageWithParams(vc: UIViewController,params: [String : Any]?){
         
+        initiateVC(vc: vc, params: params, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: true , hideIndicator: hideActivityIndicator)
+    }
+    
+    func initiateVC (vc: UIViewController,params: [String : Any]?,hideNetworkUi : Bool, loginPage : Bool, hideIndicator : Bool){
         merchantVC = vc
-        isLoginPage = true
+        isLoginPage = loginPage
         let oVC = OtplessVC()
         oVC.isLoginPage = isLoginPage
+        oVC.networkUIHidden = hideNetworkUi
+        oVC.hideActivityIndicator = hideIndicator
         initialParams = params
         oVC.initialParams = params
         otplessVC = oVC
@@ -73,6 +64,10 @@ import Foundation
             vc.present(oVC, animated: true) {
             }
         }
+    }
+    
+    @objc public func dismissVC(animated : Bool){
+        otplessVC?.merchantDismissVc(animated: animated)
     }
     
     @objc public func shouldHideButton(hide: Bool){
@@ -200,5 +195,9 @@ import Foundation
 
 @objc public protocol onResponseDelegate: AnyObject {
     @objc func onResponse(response: OtplessResponse?)
+}
+
+@objc public protocol onEventCallback: AnyObject {
+    @objc func onEvent(eventCallback: OtplessEventResponse?)
 }
 
