@@ -1,8 +1,10 @@
 
-<p align="center">
-  <img src="https://github.com/otpless-tech/Otpless-iOS-SDK/blob/main/otpless.svg" height="80"/>
+<p align="right">
+  <img src="https://github.com/otpless-tech/Otpless-iOS-SDK/blob/main/otpless.svg" height="20"/>
 </p>
-
+<p align="center">
+  <img src="https://github.com/otpless-tech/Otpless-iOS-SDK/blob/main/loginPage.png" height="400"/>
+</p>
 
 # OtplessSDK
 
