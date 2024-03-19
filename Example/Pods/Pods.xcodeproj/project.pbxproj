@@ -19,7 +19,6 @@
 		24DAD8722A2E4F2100A92FC0 /* DeviceInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DAD86C2A2E4F2100A92FC0 /* DeviceInfoModel.swift */; };
 		24DAD8732A2E4F2100A92FC0 /* NativeWebBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DAD86D2A2E4F2100A92FC0 /* NativeWebBridge.swift */; };
 		24DAD8742A2E4F2100A92FC0 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DAD86E2A2E4F2100A92FC0 /* Utils.swift */; };
-		24DAD8752A2E4F2100A92FC0 /* FabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DAD86F2A2E4F2100A92FC0 /* FabButton.swift */; };
 		3F51928E4F77DA2C01327B26E88FA32F /* Otpless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBB1C4180331240C13296554AB0D2F2 /* Otpless.swift */; };
 		6891EC5DF9DA233F5BD9F7EF5485D5F7 /* Pods-OtplessSDK_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E146F3771BDDED30456B50131F5664FB /* Pods-OtplessSDK_Tests-dummy.m */; };
 		7141A3C90BB018BEBD3DCBF384D65CDC /* OtplessSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 18D87F2D45C6006713134D115EE61E82 /* OtplessSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -60,7 +59,6 @@
 		24DAD86C2A2E4F2100A92FC0 /* DeviceInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeviceInfoModel.swift; path = OtplessSDK/Classes/DeviceInfoModel.swift; sourceTree = "<group>"; };
 		24DAD86D2A2E4F2100A92FC0 /* NativeWebBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NativeWebBridge.swift; path = OtplessSDK/Classes/NativeWebBridge.swift; sourceTree = "<group>"; };
 		24DAD86E2A2E4F2100A92FC0 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = OtplessSDK/Classes/Utils.swift; sourceTree = "<group>"; };
-		24DAD86F2A2E4F2100A92FC0 /* FabButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FabButton.swift; path = OtplessSDK/Classes/FabButton.swift; sourceTree = "<group>"; };
 		25068B13729D089AD896F900D1A58127 /* OtplessSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = OtplessSDK.modulemap; sourceTree = "<group>"; };
 		34C1ED3A4355CC35D4225C427A9410B0 /* Pods-OtplessSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OtplessSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		38DB573872309041ACF90A9EA92FD50F /* Pods-OtplessSDK_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OtplessSDK_Example-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -153,7 +151,6 @@
 				2490FEEA2B27AD7F0000709E /* OtplessEventResponse.swift */,
 				24DAD86C2A2E4F2100A92FC0 /* DeviceInfoModel.swift */,
 				24DAD86A2A2E4F2100A92FC0 /* DeviceInfoUtils.swift */,
-				24DAD86F2A2E4F2100A92FC0 /* FabButton.swift */,
 				24DAD86D2A2E4F2100A92FC0 /* NativeWebBridge.swift */,
 				24DAD86B2A2E4F2100A92FC0 /* OtplessVC.swift */,
 				24DAD86E2A2E4F2100A92FC0 /* Utils.swift */,
@@ -425,7 +422,6 @@
 				2490FEEB2B27AD7F0000709E /* OtplessEventResponse.swift in Sources */,
 				3F51928E4F77DA2C01327B26E88FA32F /* Otpless.swift in Sources */,
 				24DAD8702A2E4F2100A92FC0 /* DeviceInfoUtils.swift in Sources */,
-				24DAD8752A2E4F2100A92FC0 /* FabButton.swift in Sources */,
 				24DAD8742A2E4F2100A92FC0 /* Utils.swift in Sources */,
 				24DAD8712A2E4F2100A92FC0 /* OtplessVC.swift in Sources */,
 				7488EF17B5AD63411990576A13476AFD /* OtplessSDK-dummy.m in Sources */,

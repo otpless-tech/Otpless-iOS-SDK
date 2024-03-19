@@ -65,7 +65,12 @@ class ViewController: UIViewController, onResponseDelegate , onEventCallback{
     }
     
     @IBAction func buttonclicked(_ sender: Any) {
-        Otpless.sharedInstance.startwithParams(vc: self, params: nil)
+        var initialParams = [String:Any]()
+        initialParams["cid"] = "c6xp3yle"
+        var params =  [String:Any]()
+        params["method"] = "get"
+        params["params"] = initialParams
+        Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: "YJJREO2Y311RZO20QYD1", vc: self, params: params)
     }
     
 }
