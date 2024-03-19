@@ -1,5 +1,5 @@
 PODS:
-  - OtplessSDK (0.1.0)
+  - OtplessSDK (2.0.3)
 
 DEPENDENCIES:
   - OtplessSDK (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  OtplessSDK: 7bde997f076ac22e986269c8e65f7e300a9bdafe
+  OtplessSDK: 55c03c841b975fafdcdd6f64c8381c75e987ecbf
 
-PODFILE CHECKSUM: a991ac313a336d6170926298b55c436e61bb08fe
+PODFILE CHECKSUM: bc889eb40c84199efc6aaf1dd5e64dd181660a60
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.13.0

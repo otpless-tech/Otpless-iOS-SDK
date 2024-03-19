@@ -65,7 +65,14 @@ class ViewController: UIViewController, onResponseDelegate , onEventCallback{
     }
     
     @IBAction func buttonclicked(_ sender: Any) {
-        Otpless.sharedInstance.startwithParams(vc: self, params: nil)
+//        Otpless.sharedInstance.startwithParams(vc: self, params: nil)
+        
+//        let headlessRequest = HeadlessRequest()
+//        headlessRequest.setChannelType(channelType: HeadlessChannelType.sharedInstance.whatsapp)
+//        print(headlessRequest.getChannel())
+//        Otpless.sharedInstance.startHeadless(vc: self, headlessRequest: headlessRequest, appId: "870OD5RME1UBYVDJPKL3")
+        
+        present(HeadlessDemoVC(), animated: true)
     }
     
 }

@@ -28,6 +28,19 @@ import Foundation
     var loader : OtplessLoader? = nil
     private override init(){}
     
+    @objc public weak var headlessDelegate: onHeadlessResponseDelegate?
+    @objc weak var otplessView: OtplessView?
+    private var otplessViewHeight: CGFloat = 0.1
+    private var appId = ""
+    private var isOneTapEnabled: Bool = true
+    
+    @objc public func startHeadless(vc: UIViewController, headlessRequest: HeadlessRequest, isOneTapEnabled: Bool = true) {
+        merchantVC = vc
+        self.appId = headlessRequest.getAppId()
+        self.isOneTapEnabled = isOneTapEnabled
+        addOtplessViewToVC(headlessRequest: headlessRequest, isOneTapEnabled: isOneTapEnabled)
+    }
+    
     @objc public func initialise(vc : UIViewController){
         merchantVC = vc
     }
@@ -176,8 +189,10 @@ import Foundation
             case "otpless":
                 if otplessVC != nil {
                     otplessVC?.onDeeplinkRecieved(deeplink: url)
-                    OtplessHelper.sendEvent(event: "intent_redirect_in")
+                } else if otplessView != nil {
+                    otplessView?.onDeeplinkRecieved(deeplink: url)
                 }
+                OtplessHelper.sendEvent(event: "intent_redirect_in")
             default:
                 break
             }
@@ -188,6 +203,97 @@ import Foundation
         if fabButton != nil {
             fabButton?.removeFromSuperview()
             fabButton = nil
+        }
+    }
+    
+    // Call this function to start headless request
+    func addOtplessViewToVC(headlessRequest: HeadlessRequest, isOneTapEnabled: Bool) {
+        if (merchantVC != nil && merchantVC?.view != nil) {
+            if otplessView == nil || otplessView?.superview == nil {
+                let vcView = merchantVC?.view
+                DispatchQueue.main.async {
+                    if vcView != nil {
+                        
+                        var headlessView: OtplessView
+                        headlessView = OtplessView(headlessRequest: headlessRequest, isOneTapEnabled: isOneTapEnabled)
+                        self.otplessView = headlessView
+                        
+                        if let view = vcView {
+                            if let lastSubview = view.subviews.last {
+                                view.insertSubview(headlessView, aboveSubview: lastSubview)
+                            } else {
+                                view.addSubview(headlessView)
+                            }
+                        }
+                        
+                        if #available(iOS 11.0, *) {
+                            self.setHeadlessViewConstraints()
+                        }
+                    }
+                }
+            } else {
+                self.otplessView?.sendHeadlessRequestToWeb(request: headlessRequest)
+            }
+        }
+    }
+    
+    func setOtplessViewHeight(heightPercent: Int) {
+        if heightPercent < 0 || heightPercent > 100 {
+            self.otplessViewHeight = UIScreen.main.bounds.height
+        } else {
+            self.otplessViewHeight = (CGFloat(heightPercent) * UIScreen.main.bounds.height) / 100
+        }
+        
+        if otplessView != nil {
+            otplessView!.constraints.forEach { (constraint) in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = self.otplessViewHeight
+                }
+            }
+        }
+    }
+    
+    private func setHeadlessViewConstraints() {
+        if let headlessView = otplessView, let vcView = merchantVC?.view {
+            headlessView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                headlessView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+                headlessView.heightAnchor.constraint(equalToConstant: self.otplessViewHeight),
+                headlessView.centerXAnchor.constraint(equalTo: vcView.centerXAnchor),
+                headlessView.centerYAnchor.constraint(equalTo: vcView.centerYAnchor)
+            ])
+        }
+    }
+    
+    @objc public func verifyOTP(otp: String, headlessRequest: HeadlessRequest?) {
+        guard let request = headlessRequest else {
+            return
+        }
+        
+        request.setOtp(otp: otp)
+        addOtplessViewToVC(headlessRequest: request, isOneTapEnabled: isOneTapEnabled)
+    }
+
+    @objc public func verifyCode(code: String, headlessRequest: HeadlessRequest?) {
+        guard let request = headlessRequest else {
+            return
+        }
+        
+        request.setCode(code: code)
+        addOtplessViewToVC(headlessRequest: request, isOneTapEnabled: isOneTapEnabled)
+    }
+    
+    @objc public func stopHeadless() {
+        self.headlessDelegate = nil
+        self.otplessView?.stopHeadless()
+        self.otplessView = nil
+    }
+    
+    func sendHeadlessResponse(response: HeadlessResponse, closeView: Bool) {
+        self.headlessDelegate?.onHeadlessResponse(response: response)
+        if closeView && self.otplessView != nil {
+            self.otplessView?.removeFromSuperview()
+            self.otplessView = nil
         }
     }
 }
@@ -201,3 +307,6 @@ import Foundation
     @objc func onEvent(eventCallback: OtplessEventResponse?)
 }
 
+@objc public protocol onHeadlessResponseDelegate: AnyObject {
+    @objc func onHeadlessResponse(response: HeadlessResponse?)
+}
