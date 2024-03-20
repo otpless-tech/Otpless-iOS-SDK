@@ -66,11 +66,12 @@ class ViewController: UIViewController, onResponseDelegate , onEventCallback{
     
     @IBAction func buttonclicked(_ sender: Any) {
         var initialParams = [String:Any]()
-        initialParams["cid"] = "c6xp3yle"
+        initialParams["cid"] = "Your_CID"
         var params =  [String:Any]()
         params["method"] = "get"
         params["params"] = initialParams
-        Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: "YJJREO2Y311RZO20QYD1", vc: self, params: params)
+        Otpless.sharedInstance.webviewInspectable = true
+        Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: "YOUR_APPID", vc: self, params: params)
     }
     
 }

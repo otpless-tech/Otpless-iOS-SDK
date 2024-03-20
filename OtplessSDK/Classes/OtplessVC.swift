@@ -129,6 +129,11 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
         if self.mWebView == nil {
             self.mWebView = WKWebView(frame: .zero, configuration: getWKWebViewConfiguration())
             clearWebViewCache()
+            if #available(iOS 16.4, *) {
+                if (Otpless.sharedInstance.webviewInspectable) {
+                    self.mWebView.isInspectable = true
+                }
+            }
             self.mWebView.isHidden = false
             self.mWebView.backgroundColor = UIColor.clear
             self.mWebView.isOpaque = false

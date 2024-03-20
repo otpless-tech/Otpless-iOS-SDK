@@ -14,6 +14,7 @@ import Foundation
     @objc public weak var eventDelegate: onEventCallback?
     @objc public var hideNetworkFailureUserInterface: Bool = false
     @objc public var hideActivityIndicator: Bool = false
+    @objc public var webviewInspectable: Bool = false
     weak var otplessVC: OtplessVC?
     weak var merchantVC: UIViewController?
     var initialParams: [String : Any]?
