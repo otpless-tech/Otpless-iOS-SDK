@@ -14,17 +14,20 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
     let messageName = "webNativeAssist"
     var mWebView: WKWebView! = nil
     var bridge: NativeWebBridge = NativeWebBridge()
-    var startUri = "https://otpless.com/ios/index.html"
+    var startUri = "https://otpless.com/appid/"
     private var loader = OtplessLoader()
     var finalDeeplinkUri: URL?
-    var isLoginPage = false
     var initialParams : [String: Any]?
     var configParams : [String: Any]?
     var networkUIHidden : Bool = false
     var hideActivityIndicator : Bool = false
+    var appId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let appId = appId {
+            startUri += appId
+        }
         self.presentationController?.delegate = self
         bridge.delegate = self
         loader.delegate = self
@@ -55,7 +58,6 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
     
     func loaderCloseButtonTapped() {
         self.loader.hide()
-        Otpless.sharedInstance.addButtonToVC()
         let otplessResponse = OtplessResponse(responseString: "Connection Error User Cancelled", responseData: nil)
         Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
         self.mWebView.isHidden = true
@@ -127,6 +129,11 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
         if self.mWebView == nil {
             self.mWebView = WKWebView(frame: .zero, configuration: getWKWebViewConfiguration())
             clearWebViewCache()
+            if #available(iOS 16.4, *) {
+                if (Otpless.sharedInstance.webviewInspectable) {
+                    self.mWebView.isInspectable = true
+                }
+            }
             self.mWebView.isHidden = false
             self.mWebView.backgroundColor = UIColor.clear
             self.mWebView.isOpaque = false
@@ -186,8 +193,8 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
                 } else {
                     urlComponents.queryItems = [queryItem,queryItemOtpless,queryItemGmail]
                 }
-                let updatedUrlComponentsWithLoginPage = self.manageLoginPage(urlComponents: urlComponents);
-                let updatedUrlComponents =  self.addInitialParams(urlComponents: updatedUrlComponentsWithLoginPage)
+                
+                let updatedUrlComponents =  self.addInitialParams(urlComponents: urlComponents)
                 
                 // Get the updated URL with the appended query parameter
                 if let updatedURL = updatedUrlComponents.url {
@@ -217,16 +224,6 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
         }
     }
     
-    func manageLoginPage(urlComponents: URLComponents) -> URLComponents {
-        var updatedURLComponents = urlComponents // Create a mutable copy of urlComponents
-        if (isLoginPage){
-            let queryItem = URLQueryItem(name: "lp", value: "true");
-            if updatedURLComponents.queryItems != nil {
-                updatedURLComponents.queryItems?.append(queryItem)
-            }
-        }
-        return updatedURLComponents
-    }
     
     public func addInitialParams(urlComponents: URLComponents) -> URLComponents  {
         var updatedURLComponents = urlComponents // Create a mutable copy of urlComponents
@@ -298,7 +295,6 @@ extension OtplessVC: UIScrollViewDelegate {
 extension OtplessVC: UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         // Handle the dismiss event here
-        Otpless.sharedInstance.addButtonToVC()
         let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
         Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
         Otpless.sharedInstance.eventDelegate?.onEvent(
@@ -384,7 +380,6 @@ extension OtplessVC: BridgeDelegate {
         self.loader.hide()
     }
     func dismissVC() {
-        Otpless.sharedInstance.addButtonToVC()
         self.mWebView.isHidden = true
         self.dismiss(animated: true)
         OtplessHelper.sendEvent(event: "sdk_screen_dismissed")

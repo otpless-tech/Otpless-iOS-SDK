@@ -14,12 +14,10 @@ import Foundation
     @objc public weak var eventDelegate: onEventCallback?
     @objc public var hideNetworkFailureUserInterface: Bool = false
     @objc public var hideActivityIndicator: Bool = false
+    @objc public var webviewInspectable: Bool = false
     weak var otplessVC: OtplessVC?
     weak var merchantVC: UIViewController?
-    weak var fabButton: FabButton?
-    var floatingButtonHidden = false
     var initialParams: [String : Any]?
-    var isLoginPage = false
     @objc public static let sharedInstance: Otpless = {
         let instance = Otpless()
         DeviceInfoUtils.shared.initialise()
@@ -27,34 +25,22 @@ import Foundation
     }()
     var loader : OtplessLoader? = nil
     private override init(){}
+    var appId: String = ""
     
     @objc public func initialise(vc : UIViewController){
         merchantVC = vc
     }
     
-    @objc public func start(vc : UIViewController){
-        initiateVC(vc: vc, params: nil, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: false, hideIndicator: hideActivityIndicator)
-    }
-    
-    @objc public func startwithParams(vc: UIViewController,params: [String : Any]?){
+    @objc public func showOtplessLoginPageWithParams(appId: String!, vc: UIViewController,params: [String : Any]?){
         
-        initiateVC(vc: vc, params: params, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: false , hideIndicator: hideActivityIndicator)
+        initiateVC(vc: vc, params: params, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: true , hideIndicator: hideActivityIndicator, appid: appId)
     }
     
-    @objc public func showOtplessLoginPage(vc : UIViewController){
-        initiateVC(vc: vc, params: nil, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: true , hideIndicator: hideActivityIndicator)
-    }
-    
-    @objc public func showOtplessLoginPageWithParams(vc: UIViewController,params: [String : Any]?){
-        
-        initiateVC(vc: vc, params: params, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: true , hideIndicator: hideActivityIndicator)
-    }
-    
-    func initiateVC (vc: UIViewController,params: [String : Any]?,hideNetworkUi : Bool, loginPage : Bool, hideIndicator : Bool){
+    func initiateVC (vc: UIViewController,params: [String : Any]?,hideNetworkUi : Bool, loginPage : Bool, hideIndicator : Bool, appid: String){
+        appId = appid
         merchantVC = vc
-        isLoginPage = loginPage
         let oVC = OtplessVC()
-        oVC.isLoginPage = isLoginPage
+        oVC.appId = appid
         oVC.networkUIHidden = hideNetworkUi
         oVC.hideActivityIndicator = hideIndicator
         initialParams = params
@@ -68,51 +54,6 @@ import Foundation
     
     @objc public func dismissVC(animated : Bool){
         otplessVC?.merchantDismissVc(animated: animated)
-    }
-    
-    @objc public func shouldHideButton(hide: Bool){
-        floatingButtonHidden = hide
-    }
-    
-    public func addButtonToVC(){
-        if floatingButtonHidden {
-            if fabButton != nil {
-                fabButton?.removeFromSuperview()
-                fabButton = nil
-            }
-        } else {
-            if (merchantVC != nil && merchantVC?.view != nil) {
-                if fabButton == nil || fabButton?.superview == nil {
-                    let vcView = merchantVC?.view
-                    DispatchQueue.main.async {
-                        if vcView != nil {
-                            let button = FabButton(frame: CGRectZero)
-                            self.fabButton = button
-                            if let view = vcView {
-                                if let lastSubview = view.subviews.last {
-                                    view.insertSubview(button, aboveSubview: lastSubview)
-                                } else {
-                                    view.addSubview(button)
-                                }
-                            }
-                            if #available(iOS 11.0, *) {
-                                button.translatesAutoresizingMaskIntoConstraints = false
-                                NSLayoutConstraint.activate([
-                                    button.widthAnchor.constraint(equalToConstant: 100),
-                                    button.heightAnchor.constraint(equalToConstant: 40),
-                                    button.trailingAnchor.constraint(equalTo: vcView!.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-                                    button.bottomAnchor.constraint(equalTo: vcView!.safeAreaLayoutGuide.bottomAnchor, constant: -20)
-                                ])
-                            } else {
-                                let button = FabButton(frame: CGRect(x: (vcView!.frame.width - 100 - 20), y: (vcView!.frame.height - 40 - 40), width: 100, height: 40))
-                                self.fabButton = button
-                                vcView!.insertSubview(button, aboveSubview: (vcView?.subviews.last)!)
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
     
     public func onResponse(response : OtplessResponse){
@@ -141,34 +82,6 @@ import Foundation
         return false
     }
     
-    @objc public func start(){
-        if self.merchantVC != nil {
-            let oVC = OtplessVC()
-            oVC.isLoginPage = isLoginPage
-            otplessVC = oVC
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
-                self.merchantVC?.present(oVC, animated: true) {
-                }
-            }
-        }
-    }
-    
-    public func signInButtonClicked(){
-        if initialParams != nil {
-            if self.merchantVC != nil {
-                let oVC = OtplessVC()
-                oVC.isLoginPage = isLoginPage
-                oVC.initialParams = initialParams
-                otplessVC = oVC
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.merchantVC?.present(oVC, animated: true) {
-                    }
-                }
-            }
-        } else {
-            start()
-        }
-    }
     
     @objc public func processOtplessDeeplink(url : URL) {
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host {
@@ -184,12 +97,6 @@ import Foundation
         }
     }
     
-    @objc public func onSignedInComplete(){
-        if fabButton != nil {
-            fabButton?.removeFromSuperview()
-            fabButton = nil
-        }
-    }
 }
 
 

@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "OtplessSDK-Bridging-Header.h"
 
 FOUNDATION_EXPORT double OtplessSDKVersionNumber;
 FOUNDATION_EXPORT const unsigned char OtplessSDKVersionString[];
