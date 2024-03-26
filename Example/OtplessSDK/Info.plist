@@ -33,7 +33,7 @@
 			<string>otpless</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>$(PRODUCT_BUNDLE_IDENTIFIER).otpless</string>
+				<string>SMALLCASEAPPID.otpless</string>
 			</array>
 		</dict>
 	</array>

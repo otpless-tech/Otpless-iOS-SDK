@@ -32,7 +32,7 @@ import Foundation
     }
     
     @objc public func showOtplessLoginPageWithParams(appId: String!, vc: UIViewController,params: [String : Any]?){
-        
+        generateTrackingId()
         initiateVC(vc: vc, params: params, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: true , hideIndicator: hideActivityIndicator, appid: appId)
     }
     
@@ -97,6 +97,9 @@ import Foundation
         }
     }
     
+    private func generateTrackingId() {
+        OtplessHelper.generateTrackingId()
+    }
 }
 
 

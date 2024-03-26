@@ -166,6 +166,8 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
             if let currentUserAgent = result as? String {
                 // Append the custom User-Agent
                 let customUserAgent = "\(currentUserAgent) otplesssdk"
+                let inid = OtplessHelper.getInstallationId()
+                let tsid = OtplessHelper.getTransactionId()
                 
                 // Set the modified User-Agent
                 self.mWebView.customUserAgent = customUserAgent
@@ -174,7 +176,7 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
                 var urlComponents = URLComponents(string: startUrl)!
                 if let bundleIdentifier = Bundle.main.bundleIdentifier {
                     let queryItem = URLQueryItem(name: "package", value: bundleIdentifier)
-                    let queryItemloginuri = URLQueryItem(name: "login_uri", value: bundleIdentifier + ".otpless://otpless")
+                    let queryItemloginuri = URLQueryItem(name: "login_uri", value: Otpless.sharedInstance.appId.lowercased() + ".otpless://otpless")
                     if urlComponents.queryItems != nil {
                         urlComponents.queryItems?.append(queryItem)
                         urlComponents.queryItems?.append(queryItemloginuri)
@@ -192,6 +194,16 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
                     urlComponents.queryItems?.append(queryItemGmail)
                 } else {
                     urlComponents.queryItems = [queryItem,queryItemOtpless,queryItemGmail]
+                }
+                
+                if inid != nil {
+                    let queryItemInid = URLQueryItem(name: "inid", value: inid)
+                    urlComponents.queryItems?.append(queryItemInid)
+                }
+                
+                if tsid != nil {
+                    let queryItemTsid = URLQueryItem(name: "tsid", value: tsid)
+                    urlComponents.queryItems?.append(queryItemTsid)
                 }
                 
                 let updatedUrlComponents =  self.addInitialParams(urlComponents: urlComponents)

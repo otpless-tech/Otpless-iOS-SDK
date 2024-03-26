@@ -7,6 +7,8 @@
 
 import Foundation
 class OtplessHelper {
+    private static var tsid: String?
+    private static var inid: String?
     
   public static func checkValueExists(forKey key: String) -> Bool {
         return UserDefaults.standard.object(forKey: key) != nil
@@ -38,7 +40,14 @@ class OtplessHelper {
         var params = [String: String]()
         params["event_name"]=event
         params["platform"]="iOS"
-        params["sdk_version"]="2.0.4"
+        params["sdk_version"]="2.0.5"
+        
+        if tsid != nil {
+            params["tsid"] = tsid
+        }
+        if inid != nil {
+            params["inid"] = inid
+        }
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: DeviceInfoUtils.shared.getAppInfo(), options: .prettyPrinted)
@@ -51,4 +60,35 @@ class OtplessHelper {
         OtplessNetworkHelper.shared.fetchDataWithGET(apiRoute: "https://mtkikwb8yc.execute-api.ap-south-1.amazonaws.com/prod/appevent",params: params) { (data, response, error) in}
     }
     
+    public static func generateTrackingId() {
+        if checkValueExists(forKey: "inid") {
+            inid = getInstallationId()
+        } else {
+            inid = generateId(withTimeStamp: true)
+            setValue(value: inid, forKey: "inid")
+        }
+        
+        tsid = generateId(withTimeStamp: false)
+    }
+    
+    private static func generateId(withTimeStamp: Bool) -> String {
+        let uuid = UUID().uuidString
+        if !withTimeStamp {
+            return uuid
+        }
+        let timestamp = Int(Date().timeIntervalSince1970)
+        let uniqueString = "\(uuid)-\(timestamp)"
+        return uniqueString
+    }
+    
+    public static func getInstallationId() -> String? {
+        if inid != nil {
+            return inid
+        }
+        return getValue(forKey: "inid")
+    }
+    
+    public static func getTransactionId() -> String? {
+        return tsid
+    }
 }

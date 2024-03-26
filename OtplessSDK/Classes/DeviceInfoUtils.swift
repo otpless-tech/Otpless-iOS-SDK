@@ -75,6 +75,8 @@ class DeviceInfoUtils {
         var appVersion : String!
         var manufacturer : String!
         var model : String!
+        let inid = OtplessHelper.getInstallationId()
+        let tsid = OtplessHelper.getTransactionId()
         var params = [String: String]()
         
         model = UIDevice.modelName
@@ -98,6 +100,12 @@ class DeviceInfoUtils {
         }
         if model != nil {
             params["model"] = model
+        }
+        if inid != nil {
+            params["inid"] = inid
+        }
+        if tsid != nil {
+            params["tsid"] = tsid
         }
         params["osVersion"] = os.majorVersion.description + "." + os.minorVersion.description
         params["hasWhatsapp"] = hasWhatsApp.description
