@@ -166,8 +166,8 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
             if let currentUserAgent = result as? String {
                 // Append the custom User-Agent
                 let customUserAgent = "\(currentUserAgent) otplesssdk"
-                let inid = OtplessHelper.getInstallationId()
-                let tsid = OtplessHelper.getTransactionId()
+                let inid = DeviceInfoUtils.shared.getInstallationId()
+                let tsid = DeviceInfoUtils.shared.getTrackingSessionId()
                 
                 // Set the modified User-Agent
                 self.mWebView.customUserAgent = customUserAgent

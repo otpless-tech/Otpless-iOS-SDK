@@ -98,7 +98,7 @@ import Foundation
     }
     
     private func generateTrackingId() {
-        OtplessHelper.generateTrackingId()
+        DeviceInfoUtils.shared.generateTrackingId()
     }
 }
 
