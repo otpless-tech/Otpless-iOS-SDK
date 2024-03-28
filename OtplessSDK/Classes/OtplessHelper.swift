@@ -38,7 +38,16 @@ class OtplessHelper {
         var params = [String: String]()
         params["event_name"]=event
         params["platform"]="iOS"
-        params["sdk_version"]="2.0.4"
+        params["sdk_version"]="2.0.5"
+        let tsid = DeviceInfoUtils.shared.getTrackingSessionId()
+        let inid = DeviceInfoUtils.shared.getInstallationId()
+        
+        if tsid != nil {
+            params["tsid"] = tsid
+        }
+        if inid != nil {
+            params["inid"] = inid
+        }
         
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: DeviceInfoUtils.shared.getAppInfo(), options: .prettyPrinted)
@@ -50,5 +59,4 @@ class OtplessHelper {
         }
         OtplessNetworkHelper.shared.fetchDataWithGET(apiRoute: "https://mtkikwb8yc.execute-api.ap-south-1.amazonaws.com/prod/appevent",params: params) { (data, response, error) in}
     }
-    
 }

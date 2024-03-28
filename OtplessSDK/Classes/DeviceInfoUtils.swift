@@ -20,6 +20,9 @@ class DeviceInfoUtils {
     public var hasGmailInstalled : Bool = false
     public var hasOTPLESSInstalled : Bool = false
     public var appHash = ""
+    private var inid: String?
+    private var tsid: String?
+    
     func initialise () {
         if (!isIntialised){
             hasWhatsApp = isWhatsappInstalled()
@@ -99,11 +102,51 @@ class DeviceInfoUtils {
         if model != nil {
             params["model"] = model
         }
+        if inid != nil {
+            params["inid"] = inid
+        }
+        if tsid != nil {
+            params["tsid"] = tsid
+        }
         params["osVersion"] = os.majorVersion.description + "." + os.minorVersion.description
         params["hasWhatsapp"] = hasWhatsApp.description
         params["hasOtplessApp"] = hasOTPLESSInstalled.description
         params["hasGmailApp"] = hasGmailInstalled.description
         return params
+    }
+    
+    func generateTrackingId() {
+        if OtplessHelper.checkValueExists(forKey: "inid") {
+            inid = getInstallationId()
+        } else {
+            inid = generateId(withTimeStamp: true)
+            OtplessHelper.setValue(value: inid, forKey: "inid")
+        }
+        
+        if tsid == nil {
+            tsid = generateId(withTimeStamp: true)
+        }
+    }
+    
+    private func generateId(withTimeStamp: Bool) -> String {
+        let uuid = UUID().uuidString
+        if !withTimeStamp {
+            return uuid
+        }
+        let timestamp = Int(Date().timeIntervalSince1970)
+        let uniqueString = "\(uuid)-\(timestamp)"
+        return uniqueString
+    }
+    
+    func getInstallationId() -> String? {
+        if inid != nil {
+            return inid
+        }
+        return OtplessHelper.getValue(forKey: "inid")
+    }
+    
+    func getTrackingSessionId() -> String? {
+        return tsid
     }
 }
 
