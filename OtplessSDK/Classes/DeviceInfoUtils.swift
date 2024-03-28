@@ -123,7 +123,9 @@ class DeviceInfoUtils {
             OtplessHelper.setValue(value: inid, forKey: "inid")
         }
         
-        tsid = generateId(withTimeStamp: false)
+        if tsid == nil {
+            tsid = generateId(withTimeStamp: true)
+        }
     }
     
     private func generateId(withTimeStamp: Bool) -> String {
