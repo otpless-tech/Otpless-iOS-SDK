@@ -176,7 +176,7 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
                 var urlComponents = URLComponents(string: startUrl)!
                 if let bundleIdentifier = Bundle.main.bundleIdentifier {
                     let queryItem = URLQueryItem(name: "package", value: bundleIdentifier)
-                    let queryItemloginuri = URLQueryItem(name: "login_uri", value: Otpless.sharedInstance.appId.lowercased() + ".otpless://otpless")
+                    let queryItemloginuri = URLQueryItem(name: "login_uri", value: "otpless." + Otpless.sharedInstance.appId.lowercased() + "://otpless")
                     if urlComponents.queryItems != nil {
                         urlComponents.queryItems?.append(queryItem)
                         urlComponents.queryItems?.append(queryItemloginuri)
