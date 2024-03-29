@@ -10,6 +10,14 @@ import UIKit
 import OtplessSDK
 
 class ViewController: UIViewController, onResponseDelegate , onEventCallback{
+    let startHeadlessButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Start Headless", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        return button
+    }()
+    
     func onEvent(eventCallback: OtplessSDK.OtplessEventResponse?) {
         guard let eventCodeInstance = eventCallback?.eventCode else {
             print("Event callback or event code is missing.")
@@ -58,6 +66,13 @@ class ViewController: UIViewController, onResponseDelegate , onEventCallback{
         // Do any additional setup after loading the view, typically from a nib.
         Otpless.sharedInstance.delegate = self
         Otpless.sharedInstance.eventDelegate = self
+        
+        view.addSubview(startHeadlessButton)
+        startHeadlessButton.addTarget(self, action: #selector(startHeadlessButtonTapped), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            startHeadlessButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            startHeadlessButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100)
+        ])
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -69,5 +84,8 @@ class ViewController: UIViewController, onResponseDelegate , onEventCallback{
         Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: "YOUR_APPID", vc: self, params: nil)
     }
     
+    @objc func startHeadlessButtonTapped() {
+        present(HeadlessDemoVC(), animated: true)
+    }
 }
 
