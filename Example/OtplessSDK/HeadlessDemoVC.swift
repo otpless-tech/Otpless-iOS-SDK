@@ -11,24 +11,20 @@ import OtplessSDK
 
 class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
     func onHeadlessResponse(response: OtplessSDK.HeadlessResponse?) {
-        if let responseData = response?.responseData,
-           let data = responseData["data"] as? [String: Any],
-           let responseDetails = data["response"] as? [String: Any]
-        {
-            // Check if the response contains a token
-            if (responseDetails["token"] as? String) != nil {
-                // TODO send this token to your backend service to
-                // validate otplessUser details received in the callback
-                // with OTPless backend service (STEP 6)
-                DispatchQueue.main.async {
-                    self.setupNameAndNumberLabel(data)
+        if let errorString = response?.errorString {
+            DispatchQueue.main.async {
+                let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                    // Handle OK button tap
                 }
-            } else {
-                // Handle case where the request was initiated or verified
-                // This block is also called when user details are received to signify
-                // that the user has been verified
-                // You can perform any additional actions here if needed
-                print("Response - \(data)")
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+        } else {
+            if let userDetails = response?.responseData {
+                DispatchQueue.main.async {
+                    self.setupNameAndNumberLabel(userDetails)
+                }
             }
         }
     }
@@ -80,17 +76,11 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
         if let identities = response?["identities"] as? [[String: Any]] {
             
             for identity in identities {
-                if let channel = identity["channel"] as? String,
-                   let identityType = identity["identityType"] as? String,
-                   let identityValue = identity["identityValue"] as? String,
-                   let methods = identity["methods"] as? [String],
-                   let name = identity["name"] as? String,
-                   let verified = identity["verified"] as? Int,
-                   let verifiedAt = identity["verifiedAt"] as? String {
-                    
-                    print("Channel: \(channel), IdentityType: \(identityType), IdentityValue: \(identityValue), Methods: \(methods), Name: \(name), Verified: \(verified), VerifiedAt: \(verifiedAt)")
-                    
+                if let name = identity["name"] as? String {
                     nameLabel.text = name
+                }
+                if let identityValue = identity["identityValue"] as? String,
+                   let identityType = identity["identityType"] as? String {
                     if identityType == "EMAIL" {
                         emailLabel.text = identityValue
                     } else {

@@ -8,12 +8,12 @@
 import Foundation
 
 @objc public class HeadlessResponse: NSObject {
-    @objc public var request: String
+    @objc public var responseType: String
     @objc public var responseData: [String: Any]?
     @objc public var errorString: String?
     
-    @objc public init(request: String, responseData: [String : Any]? = nil, errorString: String? = nil) {
-        self.request = request
+    @objc public init(responseType: String, responseData: [String : Any]? = nil, errorString: String? = nil) {
+        self.responseType = responseType
         self.responseData = responseData
         self.errorString = errorString
     }

@@ -152,14 +152,14 @@
 				28C60736CB58A6F3B21CC1046B1A5917 /* OtplessSDK-Bridging-Header.h */,
 				6CE21B0B0F7EE1B9506D7053A85BA50F /* OtplessVC.swift */,
 				2D769986B4D4BE5C5D2FFD8103D1406E /* Utils.swift */,
-				6AC82192B0A9A086623CFC0B90EF0877 /* Pod */,
-				4084CFC4797EB487FED6150E46F5C8F1 /* Support Files */,
 				540F0F152BB5665800162CCF /* HeadlessRequest.swift */,
 				540F0F172BB5667700162CCF /* HeadlessChannel.swift */,
 				540F0F192BB5669600162CCF /* HeadlessChannelType.swift */,
 				540F0F1B2BB566B800162CCF /* HeadlessResponse.swift */,
 				540F0F1D2BB5679C00162CCF /* OtplessView.swift */,
 				54660C9D2BB59C8F001C7072 /* OtplessViewExtensions.swift */,
+				6AC82192B0A9A086623CFC0B90EF0877 /* Pod */,
+				4084CFC4797EB487FED6150E46F5C8F1 /* Support Files */,
 			);
 			name = OtplessSDK;
 			path = ../..;
