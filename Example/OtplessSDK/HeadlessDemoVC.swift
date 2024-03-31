@@ -11,6 +11,7 @@ import OtplessSDK
 
 class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
     func onHeadlessResponse(response: OtplessSDK.HeadlessResponse?) {
+        print("Response - \(String(describing: response?.responseData))")
         if let errorString = response?.errorString {
             DispatchQueue.main.async {
                 let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
@@ -58,11 +59,6 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
             emailLabel.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 20),
             emailLabel.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -20),
         ])
-        
-        tokenLabel.textColor = .black
-        nameLabel.textColor = .black
-        numberLabel.textColor = .black
-        emailLabel.textColor = .black
         
         tokenLabel.numberOfLines = 0
         nameLabel.numberOfLines = 0
@@ -190,12 +186,17 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            // Fallback on earlier versions
+        }
         configureViews()
         Otpless.sharedInstance.headlessDelegate = self
+        Otpless.sharedInstance.webviewInspectable = true
     }
     
     private func configureViews() {
-        view.backgroundColor = .white
         addViews()
         addConstraints()
         

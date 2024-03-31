@@ -28,7 +28,8 @@ import Foundation
     var appId: String = ""
     @objc public weak var headlessDelegate: onHeadlessResponseDelegate?
     @objc weak var otplessView: OtplessView?
-    private var otplessViewHeight: CGFloat = 0.1
+    private var headlessViewHeight: CGFloat = 0.1
+    private var headlessViewWidth: CGFloat = 0.1
     private var isOneTapEnabled: Bool = true
     
     @objc public func initialise(vc : UIViewController){
@@ -166,15 +167,20 @@ import Foundation
     
     func setOtplessViewHeight(heightPercent: Int) {
         if heightPercent < 0 || heightPercent > 100 {
-            self.otplessViewHeight = UIScreen.main.bounds.height
+            self.headlessViewHeight = UIScreen.main.bounds.height
         } else {
-            self.otplessViewHeight = (CGFloat(heightPercent) * UIScreen.main.bounds.height) / 100
+            self.headlessViewHeight = (CGFloat(heightPercent) * UIScreen.main.bounds.height) / 100
         }
+        
+        self.headlessViewWidth = UIScreen.main.bounds.width
         
         if otplessView != nil {
             otplessView!.constraints.forEach { (constraint) in
                 if constraint.firstAttribute == .height {
-                    constraint.constant = self.otplessViewHeight
+                    constraint.constant = self.headlessViewHeight
+                }
+                if constraint.firstAttribute == .width {
+                    constraint.constant = self.headlessViewWidth
                 }
             }
         }
@@ -184,8 +190,8 @@ import Foundation
         if let headlessView = otplessView, let vcView = merchantVC?.view {
             headlessView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
-                headlessView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
-                headlessView.heightAnchor.constraint(equalToConstant: self.otplessViewHeight),
+                headlessView.widthAnchor.constraint(equalToConstant: self.headlessViewHeight),
+                headlessView.heightAnchor.constraint(equalToConstant: self.headlessViewHeight),
                 headlessView.centerXAnchor.constraint(equalTo: vcView.centerXAnchor),
                 headlessView.centerYAnchor.constraint(equalTo: vcView.centerYAnchor)
             ])
@@ -227,7 +233,7 @@ import Foundation
         }
         
         request.setOtp(otp: otp)
-        addHeadlessViewToMerchantVC(headlessRequest: request, isOneTapEnabled: isOneTapEnabled)
+        otplessView?.sendHeadlessRequestToWeb(request: request)
     }
 
     @objc public func verifyCode(code: String, headlessRequest: HeadlessRequest?) {
@@ -236,7 +242,7 @@ import Foundation
         }
         
         request.setCode(code: code)
-        addHeadlessViewToMerchantVC(headlessRequest: request, isOneTapEnabled: isOneTapEnabled)
+        otplessView?.sendHeadlessRequestToWeb(request: request)
     }
 }
 

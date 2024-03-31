@@ -16,7 +16,6 @@ class NativeWebBridge {
     private var JAVASCRIPT_SCR = "javascript: "
     private var webView: WKWebView! = nil
     private var navController: UINavigationController! = nil
-    private weak var mVC: UIViewController?
     public weak var delegate: BridgeDelegate?
     public weak var headlessRequest: HeadlessRequest? = nil
     
@@ -123,7 +122,7 @@ class NativeWebBridge {
                     responseParams["data"] = response
                     let otplessResponse = OtplessResponse(responseString: nil, responseData: responseParams)
                     Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
-                    delegate?.dismissVC()
+                    delegate?.dismissView()
                     OtplessHelper.sendEvent(event: "auth_completed")
                 }
                 break
@@ -164,25 +163,18 @@ class NativeWebBridge {
             case 14:
                 // close
                 if delegate != nil {
-                    if delegate is OtplessVC {
+                    if headlessRequest != nil {
+                        let headlessResponse = HeadlessResponse(
+                            responseType: "",
+                            responseData: nil,
+                            errorString: "user cancelled."
+                        )
+                        Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: true)
+                    } else {
                         let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
                         Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
-                    } else if delegate is OtplessView {
-                        if headlessRequest != nil {
-                            let headlessResponse = HeadlessResponse(
-                                responseType: "",
-                                responseData: nil,
-                                errorString: "user cancelled."
-                            )
-                            Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: true)
-                        } else {
-                            let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
-                            Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
-                        }
-                        
                     }
-
-                    delegate?.dismissVC()
+                    delegate?.dismissView()
                     OtplessHelper.sendEvent(event: "user_abort")
                 }
                 break
@@ -244,10 +236,7 @@ class NativeWebBridge {
             webview.evaluateJavaScript(script, completionHandler: nil)
         }
     }
-    
-    func setVC(vc:UIViewController){
-        mVC = vc
-    }
+
     
     func setHeadlessRequest(headlessRequest: HeadlessRequest?, webview: WKWebView) {
         self.headlessRequest = headlessRequest
@@ -297,5 +286,5 @@ class NativeWebBridge {
 public protocol BridgeDelegate: AnyObject {
     func showLoader()
     func hideLoader()
-    func dismissVC()
+    func dismissView()
 }

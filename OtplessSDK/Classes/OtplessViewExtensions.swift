@@ -26,7 +26,7 @@ extension OtplessView: BridgeDelegate {
         self.loader.hide()
     }
     
-    func dismissVC() {
+    func dismissView() {
         self.mWebView.isHidden = true
         self.removeFromSuperview()
         OtplessHelper.sendEvent(event: "sdk_screen_dismissed")
