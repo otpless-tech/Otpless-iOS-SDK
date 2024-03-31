@@ -125,7 +125,7 @@ class OtplessVC: UIViewController,OtplessLoaderDelegate {
     }
     
     func initialiseWebView(startUrl: String){
-        bridge.setVC(vc: self)
+//        bridge.setVC(vc: self)
         if self.mWebView == nil {
             self.mWebView = WKWebView(frame: .zero, configuration: getWKWebViewConfiguration())
             clearWebViewCache()
@@ -391,7 +391,7 @@ extension OtplessVC: BridgeDelegate {
     func hideLoader() {
         self.loader.hide()
     }
-    func dismissVC() {
+    func dismissView() {
         self.mWebView.isHidden = true
         self.dismiss(animated: true)
         OtplessHelper.sendEvent(event: "sdk_screen_dismissed")
