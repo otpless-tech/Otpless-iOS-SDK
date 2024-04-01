@@ -15,7 +15,6 @@ import Foundation
     @objc public var hideNetworkFailureUserInterface: Bool = false
     @objc public var hideActivityIndicator: Bool = false
     @objc public var webviewInspectable: Bool = false
-    weak var otplessVC: OtplessVC?
     weak var merchantVC: UIViewController?
     var initialParams: [String : Any]?
     @objc public static let sharedInstance: Otpless = {
@@ -119,9 +118,7 @@ import Foundation
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host {
             switch host {
             case "otpless":
-                if otplessVC != nil {
-                    otplessVC?.onDeeplinkRecieved(deeplink: url)
-                } else if otplessView != nil {
+                if otplessView != nil {
                     otplessView?.onDeeplinkRecieved(deeplink: url)
                 }
                 OtplessHelper.sendEvent(event: "intent_redirect_in")
