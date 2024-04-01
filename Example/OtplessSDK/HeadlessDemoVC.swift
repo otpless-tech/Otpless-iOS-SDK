@@ -361,7 +361,11 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
         case "gitlab":
             channelType = HeadlessChannelType.sharedInstance.GITLAB
         default:
-            print("channelType - nil, Channel - phone/email")
+            if channelText.isEmpty {
+                print("channelType - nil, Channel - phone/email")
+            } else {
+                channelType = channelText.uppercased()
+            }
         }
         
         guard let channelType = channelType else {
