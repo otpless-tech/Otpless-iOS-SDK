@@ -120,8 +120,8 @@ import Foundation
             case "otpless":
                 if otplessView != nil {
                     otplessView?.onDeeplinkRecieved(deeplink: url)
+                    OtplessHelper.sendEvent(event: "intent_redirect_in")
                 }
-                OtplessHelper.sendEvent(event: "intent_redirect_in")
             default:
                 break
             }
