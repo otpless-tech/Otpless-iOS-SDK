@@ -31,7 +31,7 @@ import Foundation
         return instance
     }()
     
-    private var selectedChannelType: String = "WHATSAPP"
+    private var selectedChannelType: String = ""
 
     @objc func getSelectedChannelType() -> String {
         return selectedChannelType

@@ -9,7 +9,7 @@ import Foundation
 
 @objc public class HeadlessRequest: NSObject {
     
-    private var channel: String = HeadlessChannel.PHONE
+    private var channel: String = ""
     private var phoneNumber: String?
     private var email: String?
     private var otp: String?
@@ -39,7 +39,9 @@ import Foundation
     
     @objc public func setChannelType(_ channelType: String) {
         self.channelType = channelType
-        channel = HeadlessChannel.OAUTH
+        if !channelType.isEmpty {
+            channel = HeadlessChannel.OAUTH
+        }
         phoneNumber = nil
         email = nil
     }

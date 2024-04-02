@@ -12,7 +12,7 @@ import Foundation
     @objc static let EMAIL = "EMAIL"
     @objc static let OAUTH = "OAUTH"
     
-    @objc private var selectedChannel: String = "PHONE"
+    @objc private var selectedChannel: String = ""
 
     @objc func getSelectedChannel() -> String {
         return selectedChannel
