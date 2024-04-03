@@ -274,8 +274,8 @@ class NativeWebBridge {
         }
         
         if let responseData = response["response"] as? [String: Any],
-           let _ = responseData["identities"] as? [[String: Any]] {
-            return true
+           let identities = responseData["identities"] as? [[String: Any]] {
+            return !identities.isEmpty
         }
         
         return false

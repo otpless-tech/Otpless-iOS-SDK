@@ -19,11 +19,15 @@ extension OtplessView: WKScriptMessageHandler {
 
 extension OtplessView: BridgeDelegate {
     func showLoader() {
-        self.loader.show()
+        if !isHeadless {
+            self.loader.show()
+        }
     }
     
     func hideLoader() {
-        self.loader.hide()
+        if !isHeadless {
+            self.loader.hide()
+        }
     }
     
     func dismissView() {
@@ -35,7 +39,10 @@ extension OtplessView: BridgeDelegate {
 
 extension OtplessView: OtplessLoaderDelegate {
     func loaderCloseButtonTapped() {
-        self.loader.hide()
+        if !isHeadless {
+            self.loader.hide()
+        }
+        
         let otplessResponse = OtplessResponse(responseString: "Connection Error User Cancelled", responseData: nil)
         Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
         self.mWebView.isHidden = true
@@ -50,7 +57,10 @@ extension OtplessView: OtplessLoaderDelegate {
 
 extension OtplessView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        loader.hide()
+        if !isHeadless {
+            loader.hide()
+        }
+
         guard let urlError = error as? URLError else {
             // Handle other types of errors if needed
             
@@ -72,16 +82,24 @@ extension OtplessView: WKNavigationDelegate {
                     eventCode: .networkFailure
                 )
             )
-            loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
+            
+            if !isHeadless {
+                loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
+            }
         }
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        loader.hide()
+        if !isHeadless {
+            loader.hide()
+        }
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        loader.hide()
+        if !isHeadless {
+            loader.hide()
+        }
+     
         guard let urlError = error as? URLError else {
             // Handle other types of errors if needed
             
@@ -103,7 +121,10 @@ extension OtplessView: WKNavigationDelegate {
                     eventCode: .networkFailure
                 )
             )
-            loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
+            
+            if !isHeadless {
+                loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
+            }
         }
     }
 }

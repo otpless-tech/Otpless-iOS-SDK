@@ -85,7 +85,8 @@ class ViewController: UIViewController, onResponseDelegate , onEventCallback{
     }
     
     @objc func startHeadlessButtonTapped() {
-        present(HeadlessDemoVC(), animated: true)
+        let headlessDemoVC = self.storyboard?.instantiateViewController(withIdentifier: "HeadlessDemoVC") as! HeadlessDemoVC
+        self.navigationController?.pushViewController(headlessDemoVC, animated: true)
     }
 }
 

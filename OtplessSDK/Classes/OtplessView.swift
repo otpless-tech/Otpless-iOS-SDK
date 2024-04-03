@@ -17,27 +17,25 @@ class OtplessView: UIView {
     var finalDeeplinkUri: URL?
     var initialParams: [String: Any]?
     var headlessRequest: HeadlessRequest?
-    var appId = ""
-    var isOneTapEnabledForHeadless: Bool = true
     var networkUIHidden: Bool = false
     var hideActivityIndicator: Bool = false
     var loader = OtplessLoader()
     var configParams: [String: Any]?
     var isHeadless: Bool = false
+    private var headlessViewHeight: CGFloat = 0.1
     
-    init(headlessRequest: HeadlessRequest, isOneTapEnabled: Bool) {
+    init(headlessRequest: HeadlessRequest) {
         super.init(frame: CGRectZero)
+        translatesAutoresizingMaskIntoConstraints = false
         self.headlessRequest = headlessRequest
-        self.appId = headlessRequest.getAppId()
-        startUri += appId
-        self.isOneTapEnabledForHeadless = isOneTapEnabled
+        startUri += Otpless.sharedInstance.getAppId()
         setupHeadlessView()
     }
     
-    init(appId: String, isLoginPage: Bool) {
+    init(isLoginPage: Bool) {
         super.init(frame: CGRectZero)
-        self.appId = appId
-        startUri += appId
+        translatesAutoresizingMaskIntoConstraints = false
+        startUri += Otpless.sharedInstance.getAppId()
         if isLoginPage {
             setupLoginPage()
         }
@@ -174,7 +172,7 @@ class OtplessView: UIView {
                 var urlComponents = URLComponents(string: startUrl)!
                 if let bundleIdentifier = Bundle.main.bundleIdentifier {
                     let queryItem = URLQueryItem(name: "package", value: bundleIdentifier)
-                    let queryItemloginuri = URLQueryItem(name: "login_uri", value: "otpless." + Otpless.sharedInstance.appId.lowercased() + "://otpless")
+                    let queryItemloginuri = URLQueryItem(name: "login_uri", value: "otpless." + Otpless.sharedInstance.getAppId().lowercased() + "://otpless")
                     if urlComponents.queryItems != nil {
                         urlComponents.queryItems?.append(queryItem)
                         urlComponents.queryItems?.append(queryItemloginuri)
@@ -198,13 +196,8 @@ class OtplessView: UIView {
                 }
                 
                 if isHeadless {
-                    if isOneTapEnabledForHeadless {
-                        let plov: String? = OtplessHelper.getValue(forKey: "plov")
-                        if plov != nil && plov!.count > 0 {
-                            let queryItemPlov = URLQueryItem(name: "plov", value: plov)
-                            urlComponents.queryItems?.append(queryItemPlov)
-                        }
-                    }
+                    let queryItemPlov = URLQueryItem(name: "plov", value: "\(Otpless.sharedInstance.isOneTapEnabledForHeadless())")
+                    urlComponents.queryItems?.append(queryItemPlov)
                     
                     let queryItemHeadless = URLQueryItem(name: "isHeadless", value: "true")
                     urlComponents.queryItems?.append(queryItemHeadless)
@@ -313,5 +306,27 @@ class OtplessView: UIView {
         }
         
         return updatedURLComponents
+    }
+    
+    func setConstraints(_ constraints: [NSLayoutConstraint]) {
+        NSLayoutConstraint.activate(constraints)
+    }
+    
+    func setHeight(forHeightPercent heightPercent: Int) {
+        if heightPercent < 0 || heightPercent > 100 {
+            self.headlessViewHeight = UIScreen.main.bounds.height
+        } else {
+            self.headlessViewHeight = (CGFloat(heightPercent) * UIScreen.main.bounds.height) / 100
+        }
+        
+        self.constraints.forEach { (constraint) in
+            if constraint.firstAttribute == .height {
+                constraint.constant = self.headlessViewHeight
+            }
+        }
+    }
+    
+    func getViewHeight() -> CGFloat {
+        return self.headlessViewHeight
     }
 }

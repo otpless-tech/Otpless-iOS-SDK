@@ -24,15 +24,21 @@ import Foundation
     }()
     var loader : OtplessLoader? = nil
     private override init(){}
-    var appId: String = ""
+    private var appId: String = ""
     @objc public weak var headlessDelegate: onHeadlessResponseDelegate?
     @objc weak var otplessView: OtplessView?
-    private var headlessViewHeight: CGFloat = 0.1
-    private var headlessViewWidth: CGFloat = 0.1
     private var isOneTapEnabled: Bool = true
     
-    @objc public func initialise(vc : UIViewController){
+    @objc public func initialise(vc : UIViewController, appId: String!){
+        generateTrackingId()
         merchantVC = vc
+        self.appId = appId
+        
+        if isOneTapEnabled {
+            let oneTapReq = HeadlessRequest()
+            oneTapReq.setChannelType("")
+            addHeadlessViewToMerchantVC(headlessRequest: oneTapReq)
+        }
     }
     
     @objc public func showOtplessLoginPageWithParams(appId: String!, vc: UIViewController,params: [String : Any]?){
@@ -40,12 +46,9 @@ import Foundation
         initiateLoginPageView(vc: vc, params: params, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: true, hideIndicator: hideActivityIndicator, appid: appId)
     }
     
-    @objc public func startHeadless(vc: UIViewController, headlessRequest: HeadlessRequest, isOneTapEnabled: Bool = true) {
+    @objc public func startHeadless(headlessRequest: HeadlessRequest) {
         generateTrackingId()
-        merchantVC = vc
-        self.appId = headlessRequest.getAppId()
-        self.isOneTapEnabled = isOneTapEnabled
-        addHeadlessViewToMerchantVC(headlessRequest: headlessRequest, isOneTapEnabled: isOneTapEnabled)
+        addHeadlessViewToMerchantVC(headlessRequest: headlessRequest)
     }
     
     private func initiateLoginPageView(vc: UIViewController, params: [String : Any]?, hideNetworkUi : Bool, loginPage : Bool, hideIndicator : Bool, appid: String) {
@@ -59,9 +62,9 @@ import Foundation
         if (merchantVC != nil && merchantVC?.view != nil) {
             if otplessView == nil || otplessView?.superview == nil {
                 let vcView = merchantVC?.view
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.async {
                     if vcView != nil {
-                        let loginPage = OtplessView(appId: appId, isLoginPage: true)
+                        let loginPage = OtplessView(isLoginPage: true)
                         loginPage.setLoginPageAttributes(
                             networkUIHidden: hideNetworkUi,
                             hideActivityIndicator: hideIndicator,
@@ -79,7 +82,17 @@ import Foundation
                         }
                         
                         if #available(iOS 11.0, *) {
-                            self.setLoginPageConstraints()
+                            if let loginPage = self.otplessView,
+                               let vcView = self.merchantVC?.view {
+                                
+                                let layoutGuide = vcView.safeAreaLayoutGuide
+                                loginPage.setConstraints([
+                                    loginPage.centerXAnchor.constraint(equalTo: layoutGuide.centerXAnchor),
+                                    loginPage.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height),
+                                    loginPage.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+                                    loginPage.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor)
+                                ])
+                            }
                         }
                     }
                 }
@@ -132,15 +145,15 @@ import Foundation
         DeviceInfoUtils.shared.generateTrackingId()
     }
     
-    func addHeadlessViewToMerchantVC(headlessRequest: HeadlessRequest, isOneTapEnabled: Bool) {
+    func addHeadlessViewToMerchantVC(headlessRequest: HeadlessRequest) {
         if (merchantVC != nil && merchantVC?.view != nil) {
             if otplessView == nil || otplessView?.superview == nil {
                 let vcView = merchantVC?.view
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.async {
                     if vcView != nil {
                         
                         var headlessView: OtplessView
-                        headlessView = OtplessView(headlessRequest: headlessRequest, isOneTapEnabled: isOneTapEnabled)
+                        headlessView = OtplessView(headlessRequest: headlessRequest)
                         self.otplessView = headlessView
                         
                         if let view = vcView {
@@ -152,61 +165,22 @@ import Foundation
                         }
                         
                         if #available(iOS 11.0, *) {
-                            self.setHeadlessViewConstraints()
+                            if let headlessView = self.otplessView,
+                               let vcView = self.merchantVC?.view {
+                                
+                                headlessView.setConstraints([
+                                    headlessView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+                                    headlessView.heightAnchor.constraint(equalToConstant: headlessView.getViewHeight()),
+                                    headlessView.centerXAnchor.constraint(equalTo: vcView.centerXAnchor),
+                                    headlessView.bottomAnchor.constraint(equalTo: vcView.bottomAnchor)
+                                ])
+                            }
                         }
                     }
                 }
             } else {
                 self.otplessView?.sendHeadlessRequestToWeb(request: headlessRequest)
             }
-        }
-    }
-    
-    func setOtplessViewHeight(heightPercent: Int) {
-        if heightPercent < 0 || heightPercent > 100 {
-            self.headlessViewHeight = UIScreen.main.bounds.height
-        } else {
-            self.headlessViewHeight = (CGFloat(heightPercent) * UIScreen.main.bounds.height) / 100
-        }
-        
-        self.headlessViewWidth = UIScreen.main.bounds.width
-        
-        if otplessView != nil {
-            otplessView!.constraints.forEach { (constraint) in
-                if constraint.firstAttribute == .height {
-                    constraint.constant = self.headlessViewHeight
-                }
-                if constraint.firstAttribute == .width {
-                    constraint.constant = self.headlessViewWidth
-                }
-            }
-        }
-    }
-    
-    private func setHeadlessViewConstraints() {
-        if let headlessView = otplessView, let vcView = merchantVC?.view {
-            headlessView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                headlessView.widthAnchor.constraint(equalToConstant: self.headlessViewHeight),
-                headlessView.heightAnchor.constraint(equalToConstant: self.headlessViewHeight),
-                headlessView.centerXAnchor.constraint(equalTo: vcView.centerXAnchor),
-                headlessView.centerYAnchor.constraint(equalTo: vcView.centerYAnchor)
-            ])
-        }
-    }
-    
-    private func setLoginPageConstraints() {
-        if let loginPage = otplessView,
-           let vcView = merchantVC?.view {
-            loginPage.translatesAutoresizingMaskIntoConstraints = false
-            
-            let layoutGuide = vcView.safeAreaLayoutGuide
-            NSLayoutConstraint.activate([
-                loginPage.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
-                loginPage.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
-                loginPage.heightAnchor.constraint(equalToConstant: vcView.bounds.height),
-                loginPage.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor)
-            ])
         }
     }
     
@@ -232,14 +206,21 @@ import Foundation
         request.setOtp(otp: otp)
         otplessView?.sendHeadlessRequestToWeb(request: request)
     }
-
-    @objc public func verifyCode(code: String, headlessRequest: HeadlessRequest?) {
-        guard let request = headlessRequest else {
-            return
-        }
-        
-        request.setCode(code: code)
-        otplessView?.sendHeadlessRequestToWeb(request: request)
+    
+    @objc public func setOneTapEnabled(_ isOneTapEnabled: Bool) {
+        self.isOneTapEnabled = isOneTapEnabled
+    }
+    
+    func isOneTapEnabledForHeadless() -> Bool {
+        return self.isOneTapEnabled
+    }
+    
+    @objc public func getAppId() -> String {
+        return self.appId
+    }
+    
+    func setOtplessViewHeight(heightPercent: Int) {
+        otplessView?.setHeight(forHeightPercent: heightPercent)
     }
 }
 

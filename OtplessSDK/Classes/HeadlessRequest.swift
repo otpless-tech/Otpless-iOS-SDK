@@ -15,12 +15,7 @@ import Foundation
     private var otp: String?
     private var code: String?
     private var channelType: String?
-    private var appId: String?
     private var countryCode: String?
-    
-    @objc public init(appId: String!) {
-        self.appId = appId
-    }
     
     @objc public func setPhoneNumber(number: String, withCountryCode countryCode: String) {
         self.phoneNumber = number
@@ -44,14 +39,6 @@ import Foundation
         }
         phoneNumber = nil
         email = nil
-    }
-    
-    public func getAppId() -> String {
-        guard let appId else {
-            return ""
-        }
-        
-        return appId
     }
     
     func setOtp(otp: String) {
