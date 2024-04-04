@@ -117,11 +117,11 @@ class DeviceInfoUtils {
     }
     
     func generateTrackingId() {
-        if OtplessHelper.checkValueExists(forKey: "inid") {
+        if OtplessHelper.checkValueExists(forKey: "otpless_inid") {
             inid = getInstallationId()
         } else {
             inid = generateId(withTimeStamp: true)
-            OtplessHelper.setValue(value: inid, forKey: "inid")
+            OtplessHelper.setValue(value: inid, forKey: "otpless_inid")
         }
         
         if tsid == nil {
@@ -143,7 +143,7 @@ class DeviceInfoUtils {
         if inid != nil {
             return inid
         }
-        return OtplessHelper.getValue(forKey: "inid")
+        return OtplessHelper.getValue(forKey: "otpless_inid")
     }
     
     func getTrackingSessionId() -> String? {
