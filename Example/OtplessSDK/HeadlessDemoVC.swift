@@ -12,9 +12,9 @@ import OtplessSDK
 class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
     func onHeadlessResponse(response: OtplessSDK.HeadlessResponse?) {
         print("Response - \(String(describing: response?.responseData))")
-        if let errorString = response?.errorString {
+        if response?.statusCode != 200 {
             DispatchQueue.main.async {
-                let alertController = UIAlertController(title: "Error", message: errorString, preferredStyle: .alert)
+                let alertController = UIAlertController(title: "Error", message: "\(response?.responseData as? [String: Any])", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default) { _ in
                     // Handle OK button tap
                 }
@@ -24,7 +24,6 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
         } else {
             if let userDetails = response?.responseData {
                 DispatchQueue.main.async {
-                    let response = userDetails["response"] as? [String: Any]
                     self.view.addSubview(self.tokenLabel)
                     NSLayoutConstraint.activate([
                         self.tokenLabel.topAnchor.constraint(equalTo: self.setChannelButton.bottomAnchor, constant: 20),
@@ -32,9 +31,9 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
                         self.tokenLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
                         self.tokenLabel.bottomAnchor.constraint(equalTo: self.channelPickerSwitch.topAnchor, constant: -20)
                     ])
-                    let token = response?["token"] as? String ?? ""
+                    let token = userDetails["token"] as? String ?? ""
                     if token.isEmpty {
-                        self.tokenLabel.text = "\(response)"
+                        self.tokenLabel.text = "\(userDetails)"
                     } else {
                         self.tokenLabel.text = token
                     }

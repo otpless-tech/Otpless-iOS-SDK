@@ -98,7 +98,7 @@ import Foundation
         return requestJson
     }
     
-    func isEmpty() -> Bool {
+    func isChannelEmpty() -> Bool {
         return channel.isEmpty
     }
     

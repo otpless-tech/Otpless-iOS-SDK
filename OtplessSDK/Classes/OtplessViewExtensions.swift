@@ -85,18 +85,19 @@ extension OtplessView: WKNavigationDelegate {
             
             if isHeadless {
                 if let request = headlessRequest,
-                   !request.isEmpty()
+                   !request.isChannelEmpty()
                 {
                     Otpless.sharedInstance.headlessDelegate?.onHeadlessResponse(
                         response: HeadlessResponse(
                             responseType: "INTERNET_ERR",
                             responseData: [
-                                "statusCode": 5002,
-                                "response": [
-                                    "message": "Internet Error."
+                                "errorMessage": "Internet Error",
+                                "details": [
+                                    "errorCode": urlError.errorCode,
+                                    "description": urlError.localizedDescription.description
                                 ]
                             ],
-                            errorString: urlError.localizedDescription.description
+                            statusCode: 5002
                         )
                     )
                 }
@@ -143,18 +144,19 @@ extension OtplessView: WKNavigationDelegate {
             
             if isHeadless {
                 if let request = headlessRequest,
-                   !request.isEmpty()
+                   !request.isChannelEmpty()
                 {
                     Otpless.sharedInstance.headlessDelegate?.onHeadlessResponse(
                         response: HeadlessResponse(
                             responseType: "INTERNET_ERR",
                             responseData: [
-                                "statusCode": 5002,
-                                "response": [
-                                    "message": "Internet Error."
+                                "errorMessage": "Internet Error",
+                                "details": [
+                                    "errorCode": urlError.errorCode,
+                                    "description": urlError.localizedDescription.description
                                 ]
                             ],
-                            errorString: urlError.localizedDescription.description
+                            statusCode: 5002
                         )
                     )
                 }

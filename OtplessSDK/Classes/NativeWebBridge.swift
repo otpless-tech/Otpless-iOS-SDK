@@ -163,17 +163,8 @@ class NativeWebBridge {
             case 14:
                 // close
                 if delegate != nil {
-                    if headlessRequest != nil {
-                        let headlessResponse = HeadlessResponse(
-                            responseType: "",
-                            responseData: nil,
-                            errorString: "user cancelled."
-                        )
-                        Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: true)
-                    } else {
-                        let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
-                        Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
-                    }
+                    let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
+                    Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
                     delegate?.dismissView()
                     OtplessHelper.sendEvent(event: "user_abort")
                 }
@@ -193,31 +184,23 @@ class NativeWebBridge {
                 }
                 
                 let responseType = dataDict["responseType"] as? String ?? ""
-                let response = dataDict["response"] as? String ?? ""
-                let responseDict = Utils.convertToDictionary(text: response)
-                let errorStr = (responseDict?["response"] as? [String: Any])?["errorMessage"] as? String ?? ""
+                let responseStr = dataDict["response"] as? String ?? ""
+                let responseDict = Utils.convertToDictionary(text: responseStr)
                 let closeView = dataDict["closeView"] as? Int == 1
                 
-                if errorStr.isEmpty {
-                    let headlessResponse = HeadlessResponse(
-                        responseType: responseType,
-                        responseData: responseDict,
-                        errorString: nil
-                    )
-                    
-                    Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView)
-                    
-                    if containsIdentity(responseDict) {
-                        OtplessHelper.sendEvent(event: "auth_completed")
-                    }
-                } else {
-                    let headlessResponse = HeadlessResponse(
-                        responseType: responseType,
-                        responseData: nil,
-                        errorString: errorStr
-                    )
-                    
-                    Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView)
+                let statusCode = responseDict?["statusCode"] as? Int ?? 0
+                let resp = (responseDict?["response"] as? [String: Any])
+                
+                let headlessResponse = HeadlessResponse(
+                    responseType: responseType,
+                    responseData: resp,
+                    statusCode: statusCode
+                )
+                
+                Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView)
+                
+                if containsIdentity(responseDict) {
+                    OtplessHelper.sendEvent(event: "auth_completed")
                 }
                 
                 break

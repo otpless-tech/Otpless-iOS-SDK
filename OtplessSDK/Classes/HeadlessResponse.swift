@@ -10,11 +10,11 @@ import Foundation
 @objc public class HeadlessResponse: NSObject {
     @objc public var responseType: String
     @objc public var responseData: [String: Any]?
-    @objc public var errorString: String?
+    @objc public var statusCode: Int
     
-    @objc public init(responseType: String, responseData: [String : Any]? = nil, errorString: String? = nil) {
+    @objc public init(responseType: String, responseData: [String : Any]? = nil, statusCode: Int = 0) {
         self.responseType = responseType
         self.responseData = responseData
-        self.errorString = errorString
+        self.statusCode = statusCode
     }
 }
