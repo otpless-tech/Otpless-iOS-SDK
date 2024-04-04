@@ -98,4 +98,8 @@ import Foundation
         return requestJson
     }
     
+    func isEmpty() -> Bool {
+        return channel.isEmpty
+    }
+    
 }

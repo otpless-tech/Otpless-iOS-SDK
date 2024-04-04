@@ -83,7 +83,26 @@ extension OtplessView: WKNavigationDelegate {
                 )
             )
             
-            if !isHeadless {
+            if isHeadless {
+                if let request = headlessRequest,
+                   !request.isEmpty()
+                {
+                    Otpless.sharedInstance.headlessDelegate?.onHeadlessResponse(
+                        response: HeadlessResponse(
+                            responseType: "INTERNET_ERR",
+                            responseData: [
+                                "statusCode": 5002,
+                                "response": [
+                                    "message": "Internet Error."
+                                ]
+                            ],
+                            errorString: urlError.localizedDescription.description
+                        )
+                    )
+                }
+                
+                Otpless.sharedInstance.dismissOtplessView(true)
+            } else {
                 loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
             }
         }
@@ -122,7 +141,25 @@ extension OtplessView: WKNavigationDelegate {
                 )
             )
             
-            if !isHeadless {
+            if isHeadless {
+                if let request = headlessRequest,
+                   !request.isEmpty()
+                {
+                    Otpless.sharedInstance.headlessDelegate?.onHeadlessResponse(
+                        response: HeadlessResponse(
+                            responseType: "INTERNET_ERR",
+                            responseData: [
+                                "statusCode": 5002,
+                                "response": [
+                                    "message": "Internet Error."
+                                ]
+                            ],
+                            errorString: urlError.localizedDescription.description
+                        )
+                    )
+                }
+                Otpless.sharedInstance.dismissOtplessView(true)
+            } else {
                 loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
             }
         }

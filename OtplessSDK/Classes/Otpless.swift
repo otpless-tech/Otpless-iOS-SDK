@@ -192,9 +192,8 @@ import Foundation
         }
     }
     
-    @objc public func dismissOtplessView() {
-        self.headlessDelegate = nil
-        self.otplessView?.stopOtpless()
+    @objc public func dismissOtplessView(_ dueToNoInternet: Bool = false) {
+        self.otplessView?.stopOtpless(dueToNoInternet: dueToNoInternet)
         self.otplessView = nil
     }
     

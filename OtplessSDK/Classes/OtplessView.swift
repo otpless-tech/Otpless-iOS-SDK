@@ -73,6 +73,7 @@ class OtplessView: UIView {
         mWebView = WKWebView(frame: bounds, configuration: getWKWebViewConfiguration())
         mWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mWebView.backgroundColor = UIColor.clear
+        mWebView.navigationDelegate = self
         setInspectable()
         addSubview(mWebView)
     }
@@ -258,9 +259,11 @@ class OtplessView: UIView {
         }
     }
     
-    func stopOtpless() {
+    func stopOtpless(dueToNoInternet: Bool) {
         self.loader.hide()
-        OtplessHelper.sendEvent(event: "merchant_abort")
+        if !dueToNoInternet {
+            OtplessHelper.sendEvent(event: "merchant_abort")
+        }
         removeFromSuperview()
     }
     
