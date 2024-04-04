@@ -30,6 +30,7 @@ class DeviceInfoUtils {
             hasOTPLESSInstalled = isOTPLESSInstalled()
             appHash = getAppHash() ?? "noapphash"
             isIntialised = true
+            generateTrackingId()
         }
     }
 

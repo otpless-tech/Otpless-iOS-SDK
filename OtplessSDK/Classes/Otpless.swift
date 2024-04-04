@@ -30,7 +30,6 @@ import Foundation
     private var isOneTapEnabled: Bool = true
     
     @objc public func initialise(vc : UIViewController, appId: String!){
-        generateTrackingId()
         merchantVC = vc
         self.appId = appId
         
@@ -42,12 +41,10 @@ import Foundation
     }
     
     @objc public func showOtplessLoginPageWithParams(appId: String!, vc: UIViewController,params: [String : Any]?){
-        generateTrackingId()
         initiateLoginPageView(vc: vc, params: params, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: true, hideIndicator: hideActivityIndicator, appid: appId)
     }
     
     @objc public func startHeadless(headlessRequest: HeadlessRequest) {
-        generateTrackingId()
         addHeadlessViewToMerchantVC(headlessRequest: headlessRequest)
     }
     
@@ -141,10 +138,6 @@ import Foundation
         }
     }
     
-    private func generateTrackingId() {
-        DeviceInfoUtils.shared.generateTrackingId()
-    }
-    
     func addHeadlessViewToMerchantVC(headlessRequest: HeadlessRequest) {
         if (merchantVC != nil && merchantVC?.view != nil) {
             if otplessView == nil || otplessView?.superview == nil {
@@ -192,8 +185,8 @@ import Foundation
         }
     }
     
-    @objc public func dismissOtplessView(_ dueToNoInternet: Bool = false) {
-        self.otplessView?.stopOtpless(dueToNoInternet: dueToNoInternet)
+    @objc public func dismissOtplessView() {
+        self.otplessView?.stopOtpless(dueToNoInternet: false)
         self.otplessView = nil
     }
     

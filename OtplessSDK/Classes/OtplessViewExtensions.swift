@@ -102,7 +102,7 @@ extension OtplessView: WKNavigationDelegate {
                     )
                 }
                 
-                Otpless.sharedInstance.dismissOtplessView(true)
+                stopOtpless(dueToNoInternet: true)
             } else {
                 loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
             }
@@ -160,7 +160,8 @@ extension OtplessView: WKNavigationDelegate {
                         )
                     )
                 }
-                Otpless.sharedInstance.dismissOtplessView(true)
+                
+                stopOtpless(dueToNoInternet: true)
             } else {
                 loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
             }
