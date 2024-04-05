@@ -16,9 +16,8 @@ class NativeWebBridge {
     private var JAVASCRIPT_SCR = "javascript: "
     private var webView: WKWebView! = nil
     private var navController: UINavigationController! = nil
-    private weak var mVC: UIViewController?
     public weak var delegate: BridgeDelegate?
-    
+    public weak var headlessRequest: HeadlessRequest? = nil
     
     func parseScriptMessage(message: WKScriptMessage,webview : WKWebView){
             webView = webview
@@ -123,28 +122,92 @@ class NativeWebBridge {
                     responseParams["data"] = response
                     let otplessResponse = OtplessResponse(responseString: nil, responseData: responseParams)
                     Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
-                    delegate?.dismissVC()
+                    delegate?.dismissView()
                     OtplessHelper.sendEvent(event: "auth_completed")
                 }
                 break
             case 12:
                 // change the height of web view
+                if let heightPercent = dataDict?["heightPercent"] as? Int {
+                    Otpless.sharedInstance.setOtplessViewHeight(heightPercent: heightPercent)
+                }
                 break
             case 13:
                 // extra params
+                do {
+                    if let headlessRequest = headlessRequest {
+                        let extraParams = headlessRequest.makeJson()
+                        
+                        let jsonData = try JSONSerialization.data(withJSONObject: extraParams, options: .prettyPrinted)
+                        
+                        if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
+                            let tempScript = "onExtraParamResult(" + jsonStr + ")"
+                            let script = tempScript.replacingOccurrences(of: "\n", with: "")
+                            callJs(webview: webView, script: script)
+                        }
+                    } else {
+                        let extraParams = [String: Any]()
+                        
+                        let jsonData = try JSONSerialization.data(withJSONObject: extraParams, options: .prettyPrinted)
+                        
+                        if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
+                            let tempScript = "onExtraParamResult(" + jsonStr + ")"
+                            let script = tempScript.replacingOccurrences(of: "\n", with: "")
+                            callJs(webview: webView, script: script)
+                        }
+                    }
+                }  catch {
+                    
+                }
                 break
             case 14:
                 // close
                 if delegate != nil {
                     let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
                     Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
-                    delegate?.dismissVC()
+                    delegate?.dismissView()
                     OtplessHelper.sendEvent(event: "user_abort")
                 }
                 break
             case 15:
                 // send event
                 break
+
+            case 20:
+                // send headless request to web
+                sendHeadlessRequestToWeb()
+                break
+            case 21:
+                // send headless response
+                guard let dataDict = dataDict else {
+                    return
+                }
+                
+                let responseType = dataDict["responseType"] as? String ?? ""
+                let responseStr = dataDict["response"] as? String ?? ""
+                let responseDict = Utils.convertToDictionary(text: responseStr)
+                let closeView = dataDict["closeView"] as? Int == 1
+                
+                let statusCode = responseDict?["statusCode"] as? Int ?? 0
+                let resp = (responseDict?["response"] as? [String: Any])
+                
+                let headlessResponse = HeadlessResponse(
+                    responseType: responseType,
+                    responseData: resp,
+                    statusCode: statusCode
+                )
+                
+                Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView)
+                
+                if containsIdentity(responseDict) {
+                    OtplessHelper.sendEvent(event: "auth_completed")
+                }
+                
+                break
+            case 42:
+                // perform silent auth using Tru.ID sdk
+                break
+
             default:
                 return
             }
@@ -156,9 +219,49 @@ class NativeWebBridge {
             webview.evaluateJavaScript(script, completionHandler: nil)
         }
     }
+
     
-    func setVC(vc:UIViewController){
-        mVC = vc
+    func setHeadlessRequest(headlessRequest: HeadlessRequest?, webview: WKWebView) {
+        self.headlessRequest = headlessRequest
+        if self.webView == nil {
+            self.webView = webview
+        }
+    }
+    
+    func sendHeadlessRequestToWeb(withCode code: String = "") {
+        do {
+            var requestData: [String: Any] = [:]
+            
+            if !code.isEmpty {
+                // Send only code in request to verify it and get details
+                requestData["code"] = code
+            } else if let request = headlessRequest {
+                requestData = request.makeJson()
+            }
+            
+            let jsonData = try JSONSerialization.data(withJSONObject: requestData, options: .prettyPrinted)
+            if let jsonStr = String(data: jsonData, encoding: .utf8)?.replacingOccurrences(of: "\n", with: "") {
+                let script = "headlessRequest(\(jsonStr))"
+                if let webView = webView {
+                    callJs(webview: webView, script: script)
+                }
+            }
+        } catch {
+            
+        }
+    }
+
+    private func containsIdentity(_ response: [String: Any]?) -> Bool {
+        guard let response = response else {
+            return false
+        }
+        
+        if let responseData = response["response"] as? [String: Any],
+           let identities = responseData["identities"] as? [[String: Any]] {
+            return !identities.isEmpty
+        }
+        
+        return false
     }
 }
 
@@ -166,5 +269,5 @@ class NativeWebBridge {
 public protocol BridgeDelegate: AnyObject {
     func showLoader()
     func hideLoader()
-    func dismissVC()
+    func dismissView()
 }
