@@ -33,9 +33,17 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
                     ])
                     let token = userDetails["token"] as? String ?? ""
                     if token.isEmpty {
-                        self.tokenLabel.text = "\(userDetails)"
+                        self.tokenLabel.text = """
+                        responseType - \(response?.responseType)\n
+                        status code - \(response?.statusCode)\n
+                        response - \(userDetails)
+                    """
                     } else {
-                        self.tokenLabel.text = token
+                        self.tokenLabel.text = """
+                        responseType - \(response?.responseType)\n
+                        status code - \(response?.statusCode)\n
+                        token - \(token)
+                    """
                     }
                 }
             }
