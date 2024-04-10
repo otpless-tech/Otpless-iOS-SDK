@@ -183,10 +183,10 @@ class NativeWebBridge {
                     return
                 }
                 
-                let responseType = dataDict["responseType"] as? String ?? ""
                 let responseStr = dataDict["response"] as? String ?? ""
                 let responseDict = Utils.convertToDictionary(text: responseStr)
                 let closeView = dataDict["closeView"] as? Int == 1
+                let responseType = responseDict?["responseType"] as? String ?? ""
                 
                 let statusCode = responseDict?["statusCode"] as? Int ?? 0
                 let resp = (responseDict?["response"] as? [String: Any])
