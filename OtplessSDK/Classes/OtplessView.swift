@@ -163,6 +163,7 @@ class OtplessView: UIView {
             if let currentUserAgent = result as? String {
                 // Append the custom User-Agent
                 let customUserAgent = "\(currentUserAgent) otplesssdk"
+                Otpless.sharedInstance.setUserAgent(customUserAgent)
                 
                 // Set the modified User-Agent
                 mWebView.customUserAgent = customUserAgent
@@ -186,14 +187,16 @@ class OtplessView: UIView {
                 let queryItem = URLQueryItem(name: "hasWhatsapp", value: DeviceInfoUtils.shared.hasWhatsApp ? "true" : "false" )
                 let queryItemOtpless = URLQueryItem(name: "hasOtplessApp", value: DeviceInfoUtils.shared.hasOTPLESSInstalled ? "true" : "false" )
                 let queryItemGmail = URLQueryItem(name: "hasGmailApp", value: DeviceInfoUtils.shared.hasGmailInstalled ? "true" : "false" )
+                let querySilentAuth = URLQueryItem(name: "isSilentAuthSupported", value: "true")
                 
                 if urlComponents.queryItems != nil {
                     urlComponents.queryItems?.append(queryItem)
                     urlComponents.queryItems?.append(queryItemOtpless)
                     urlComponents.queryItems?.append(queryItemGmail)
+                    urlComponents.queryItems?.append(querySilentAuth)
                     
                 } else {
-                    urlComponents.queryItems = [queryItem, queryItemOtpless, queryItemGmail]
+                    urlComponents.queryItems = [queryItem, queryItemOtpless, queryItemGmail, querySilentAuth]
                 }
                 
                 if isHeadless {

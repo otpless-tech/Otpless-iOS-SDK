@@ -28,6 +28,7 @@ import Foundation
     @objc public weak var headlessDelegate: onHeadlessResponseDelegate?
     @objc weak var otplessView: OtplessView?
     private var isOneTapEnabled: Bool = true
+    private var userAgent = "otplesssdk"
     
     @objc public func initialise(vc : UIViewController, appId: String!){
         merchantVC = vc
@@ -213,6 +214,15 @@ import Foundation
     
     func setOtplessViewHeight(heightPercent: Int) {
         otplessView?.setHeight(forHeightPercent: heightPercent)
+    }
+    
+    // Added to provide user agent when forcefully making request over mobile data instead of wifi.
+    func getUserAgent() -> String {
+        return self.userAgent
+    } 
+    
+    func setUserAgent(_ agent: String) {
+        self.userAgent = agent
     }
 }
 

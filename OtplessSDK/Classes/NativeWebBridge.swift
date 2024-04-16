@@ -205,7 +205,31 @@ class NativeWebBridge {
                 
                 break
             case 42:
-                // perform silent auth using Tru.ID sdk
+                // perform silent auth
+                let url = dataDict?["url"] as? String ?? ""
+                
+                let connectionUrl = URL(string: url)
+                
+                if connectionUrl != nil {
+                    forceOpenURLOverMobileNetwork(
+                        url: connectionUrl!,
+                        completion: { silentAuthResponse in
+                            do {
+                                let jsonData = try JSONSerialization.data(withJSONObject: silentAuthResponse, options: .prettyPrinted)
+                                if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
+                                    let tempScript = "onCellularNetworkResult(" + jsonStr + ")"
+                                    let script = tempScript.replacingOccurrences(of: "\n", with: "")
+                                    self.callJs(webview: self.webView, script: script)
+                                }
+                            } catch {
+                                
+                            }
+                        }
+                    )
+                } else {
+                    // handle case when unable to create URL from string
+                }
+                
                 break
 
             default:
@@ -270,4 +294,13 @@ public protocol BridgeDelegate: AnyObject {
     func showLoader()
     func hideLoader()
     func dismissView()
+}
+
+extension NativeWebBridge {
+    func forceOpenURLOverMobileNetwork(url: URL, completion: @escaping ([String: Any]) -> Void) {
+        if #available(iOS 12.0, *) {
+            let cellularConnectionManager = CellularConnectionManager()
+            cellularConnectionManager.open(url: url, operators: nil, completion: completion)
+        }
+    }
 }
