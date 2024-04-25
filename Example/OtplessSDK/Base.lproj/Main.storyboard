@@ -41,6 +41,24 @@
             </objects>
             <point key="canvasLocation" x="1044" y="-0.44977511244377816"/>
         </scene>
+        <!--SwiftUIContainerVC-->
+        <scene sceneID="rbc-Ez-2SD">
+            <objects>
+                <viewController storyboardIdentifier="SwiftUIContainerVC" title="SwiftUIContainerVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aRg-Fp-jbJ" customClass="SwiftUIContainerVC" customModule="OtplessSDK_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bmf-Ll-wmy"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qs5-eK-ov5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="b7I-NQ-dXN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OiZ-oq-etA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1410" y="833"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="fLZ-0W-yGm">
             <objects>

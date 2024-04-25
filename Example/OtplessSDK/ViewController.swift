@@ -10,10 +10,10 @@ import UIKit
 import OtplessSDK
 
 class ViewController: UIViewController, onResponseDelegate , onEventCallback{
-    let startHeadlessButton: UIButton = {
+    let testSwiftUI: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Start Headless", for: .normal)
+        button.setTitle("Test SwiftUI", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
         return button
     }()
@@ -67,11 +67,11 @@ class ViewController: UIViewController, onResponseDelegate , onEventCallback{
         Otpless.sharedInstance.delegate = self
         Otpless.sharedInstance.eventDelegate = self
         
-        view.addSubview(startHeadlessButton)
-        startHeadlessButton.addTarget(self, action: #selector(startHeadlessButtonTapped), for: .touchUpInside)
+        view.addSubview(testSwiftUI)
+        testSwiftUI.addTarget(self, action: #selector(testSwiftUIButtonTapped), for: .touchUpInside)
         NSLayoutConstraint.activate([
-            startHeadlessButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            startHeadlessButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100)
+            testSwiftUI.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            testSwiftUI.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100)
         ])
     }
     override func didReceiveMemoryWarning() {
@@ -79,14 +79,28 @@ class ViewController: UIViewController, onResponseDelegate , onEventCallback{
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if #available(iOS 13.0.0, *) {
+            let swiftUIContainerVC = self.storyboard?.instantiateViewController(withIdentifier: "SwiftUIContainerVC") as! SwiftUIContainerVC
+            self.navigationController?.pushViewController(swiftUIContainerVC, animated: true)
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
     @IBAction func buttonclicked(_ sender: Any) {
         Otpless.sharedInstance.webviewInspectable = true
         Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: "YOUR_APPID", vc: self, params: nil)
     }
     
-    @objc func startHeadlessButtonTapped() {
-        let headlessDemoVC = self.storyboard?.instantiateViewController(withIdentifier: "HeadlessDemoVC") as! HeadlessDemoVC
-        self.navigationController?.pushViewController(headlessDemoVC, animated: true)
+    @objc func testSwiftUIButtonTapped() {
+        if #available(iOS 15.0.0, *) {
+            let swiftUIContainerVC = self.storyboard?.instantiateViewController(withIdentifier: "SwiftUIContainerVC") as! SwiftUIContainerVC
+            self.navigationController?.pushViewController(swiftUIContainerVC, animated: true)
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }
 

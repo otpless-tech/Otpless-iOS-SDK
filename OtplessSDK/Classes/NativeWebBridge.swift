@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import WebKit
 
-
 class NativeWebBridge {
     
     private  var deeplink = ""
@@ -121,7 +120,9 @@ class NativeWebBridge {
                     var responseParams =  [String : Any]()
                     responseParams["data"] = response
                     let otplessResponse = OtplessResponse(responseString: nil, responseData: responseParams)
-                    Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
+                    
+                    Otpless.sharedInstance.onResponse(response: otplessResponse)
+                  
                     delegate?.dismissView()
                     OtplessHelper.sendEvent(event: "auth_completed")
                 }
@@ -164,7 +165,7 @@ class NativeWebBridge {
                 // close
                 if delegate != nil {
                     let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
-                    Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
+                    Otpless.sharedInstance.onResponse(response: otplessResponse)
                     delegate?.dismissView()
                     OtplessHelper.sendEvent(event: "user_abort")
                 }

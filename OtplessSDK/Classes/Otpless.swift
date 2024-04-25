@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 @objc final public class Otpless:NSObject {
     
@@ -24,10 +24,13 @@ import Foundation
     }()
     var loader : OtplessLoader? = nil
     private override init(){}
-    private var appId: String = ""
+    public var appId: String = ""
     @objc public weak var headlessDelegate: onHeadlessResponseDelegate?
     @objc weak var otplessView: OtplessView?
     private var isOneTapEnabled: Bool = true
+    var responseCallback: ((OtplessResponse?) -> Void)?
+    var isSwiftUI = false
+    var headlessResponseCallback: ((HeadlessResponse?) -> Void)?
     
     @objc public func initialise(vc : UIViewController, appId: String!){
         merchantVC = vc
@@ -98,8 +101,14 @@ import Foundation
     }
     
     public func onResponse(response : OtplessResponse){
-        if((Otpless.sharedInstance.delegate) != nil){
-            Otpless.sharedInstance.delegate?.onResponse(response: response)
+        if isSwiftUI {
+            if #available(iOS 13.0, *) {
+                SwiftUISupport.sharedInstance.setResponseInCallback(response)
+            }
+        } else {
+            if((Otpless.sharedInstance.delegate) != nil){
+                Otpless.sharedInstance.delegate?.onResponse(response: response)
+            }
         }
     }
     
@@ -178,7 +187,14 @@ import Foundation
     }
     
     func sendHeadlessResponse(response: HeadlessResponse, closeView: Bool) {
-        self.headlessDelegate?.onHeadlessResponse(response: response)
+        if isSwiftUI {
+            if #available(iOS 13.0, *) {
+                SwiftUISupport.sharedInstance.setHeadlessResponseInCallback(response)
+            }
+        } else {
+            self.headlessDelegate?.onHeadlessResponse(response: response)
+        }
+      
         if closeView && self.otplessView != nil {
             self.otplessView?.removeFromSuperview()
             self.otplessView = nil
@@ -213,6 +229,35 @@ import Foundation
     
     func setOtplessViewHeight(heightPercent: Int) {
         otplessView?.setHeight(forHeightPercent: heightPercent)
+    }
+    
+    private func getHeightFromHeightPercent(_ heightPercent: Int) -> Double {
+        if heightPercent < 0 || heightPercent > 100 {
+            return UIScreen.main.bounds.height
+        } else {
+            return ((CGFloat(heightPercent) * UIScreen.main.bounds.height) / 100 )
+        }
+    }
+    
+    @available(iOS 13.0, *)
+    public func swiftUILoginPage(
+        appId: String!,
+        onResponse: @escaping (OtplessResponse?) -> Void
+    ) -> some View {
+        self.appId = appId
+        self.isSwiftUI = true
+        return SwiftUISupport.sharedInstance.initializeLoginPage(data: onResponse)
+    }
+    
+    @available(iOS 13.0, *)
+    public func swiftUIHeadlessView(
+        appId: String!,
+        headlessRequest: HeadlessRequest,
+        onResponse: @escaping (HeadlessResponse?) -> Void
+    ) -> some View {
+        self.appId = appId
+        self.isSwiftUI = true
+        return SwiftUISupport.sharedInstance.startHeadlessSwiftUI(headlessRequest: headlessRequest, data: onResponse)
     }
 }
 

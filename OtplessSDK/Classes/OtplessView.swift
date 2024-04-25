@@ -22,7 +22,7 @@ class OtplessView: UIView {
     var loader = OtplessLoader()
     var configParams: [String: Any]?
     var isHeadless: Bool = false
-    private var headlessViewHeight: CGFloat = 0.1
+    private var headlessViewHeight: CGFloat = 0.0
     
     init(headlessRequest: HeadlessRequest) {
         super.init(frame: CGRectZero)
