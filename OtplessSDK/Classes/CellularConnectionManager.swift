@@ -20,7 +20,6 @@ class CellularConnectionManager {
     //Mitigation for tcp timeout not triggering any events.
     private var timer: Timer?
     private var CONNECTION_TIME_OUT = 5.0
-    private let MAX_REDIRECTS = 10
     private var pathMonitor: NWPathMonitor?
     private var checkResponseHandler: ResultHandler!
     
@@ -35,7 +34,6 @@ class CellularConnectionManager {
             return
         }
         
-        var redirectCount = 0
         // This closure will be called on main thread
         checkResponseHandler = { [weak self] (response) -> Void in
             guard let self = self else {
@@ -49,14 +47,8 @@ class CellularConnectionManager {
             switch response {
             case .follow(let redirectResult):
                 if let url = redirectResult.url {
-                    redirectCount += 1
-                    if redirectCount <= self.MAX_REDIRECTS {
-                        self.createTimer()
-                        self.activateConnectionForDataFetch(url: url, operators: nil, cookies: redirectResult.cookies, requestId: nil, completion: self.checkResponseHandler)
-                    } else {
-                        self.cleanUp()
-                        completion(self.convertNetworkErrorToDictionary(err: NetworkError.tooManyRedirects))
-                    }
+                    self.createTimer()
+                    self.activateConnectionForDataFetch(url: url, operators: nil, cookies: redirectResult.cookies, requestId: nil, completion: self.checkResponseHandler)
                 } else {
                     self.cleanUp()
                 }
@@ -248,7 +240,7 @@ class CellularConnectionManager {
         return response
     }
     
-    func parseRedirect(requestUrl: URL, response: String, cookies: [HTTPCookie]?) -> RedirectResult? {
+    func parseRedirect(requestUrl: URL, response: String) -> RedirectResult? {
         guard let _ = requestUrl.host else {
             return nil
         }
@@ -259,7 +251,7 @@ class CellularConnectionManager {
             // some location header are not properly encoded
             let cleanRedirect = redirect.replacingOccurrences(of: " ", with: "+")
             if let redirectURL =  URL(string: String(cleanRedirect)) {
-                return RedirectResult(url: redirectURL.host == nil ? URL(string: redirectURL.description, relativeTo: requestUrl)! : redirectURL, cookies: self.parseCookies(url:requestUrl, response: response, existingCookies: cookies))
+                return RedirectResult(url: redirectURL.host == nil ? URL(string: redirectURL.description, relativeTo: requestUrl)! : redirectURL, cookies: nil)
             } else {
                 return nil
             }
@@ -267,29 +259,29 @@ class CellularConnectionManager {
         return nil
     }
     
-    func parseCookies(url: URL, response: String, existingCookies: [HTTPCookie]?) -> [HTTPCookie]? {
-        var cookies = [HTTPCookie]()
-        if let existing = existingCookies {
-            for i in 0..<existing.count {
-                cookies.append(existing[i])
-            }
-        }
-        var position = response.startIndex
-        while let range = response.range(of: #"ookie: (.*)\r\n"#, options: .regularExpression, range: position..<response.endIndex) {
-            let line = response[range]
-            let optCookieString: Substring? = line[line.index(line.startIndex, offsetBy: 7)..<line.index(line.endIndex, offsetBy: -1)]
-            if let cookieString = optCookieString {
-                let optCs: [HTTPCookie]? = HTTPCookie.cookies(withResponseHeaderFields: ["Set-Cookie" : String(cookieString)], for: url)
-                if let cs = optCs  {
-                    if (!cs.isEmpty) {
-                        cookies.append((cs.first)!)
-                    }
-                }
-            }
-            position = range.upperBound
-        }
-        return (!cookies.isEmpty) ? cookies : nil
-    }
+//    func parseCookies(url: URL, response: String, existingCookies: [HTTPCookie]?) -> [HTTPCookie]? {
+//        var cookies = [HTTPCookie]()
+//        if let existing = existingCookies {
+//            for i in 0..<existing.count {
+//                cookies.append(existing[i])
+//            }
+//        }
+//        var position = response.startIndex
+//        while let range = response.range(of: #"ookie: (.*)\r\n"#, options: .regularExpression, range: position..<response.endIndex) {
+//            let line = response[range]
+//            let optCookieString: Substring? = line[line.index(line.startIndex, offsetBy: 7)..<line.index(line.endIndex, offsetBy: -1)]
+//            if let cookieString = optCookieString {
+//                let optCs: [HTTPCookie]? = HTTPCookie.cookies(withResponseHeaderFields: ["Set-Cookie" : String(cookieString)], for: url)
+//                if let cs = optCs  {
+//                    if (!cs.isEmpty) {
+//                        cookies.append((cs.first)!)
+//                    }
+//                }
+//            }
+//            position = range.upperBound
+//        }
+//        return (!cookies.isEmpty) ? cookies : nil
+//    }
     
     func createTimer() {
         
@@ -369,7 +361,7 @@ class CellularConnectionManager {
         connection = createConnection(scheme: scheme, host: host, port: url.port)
         if let connection = connection {
             connection.stateUpdateHandler = createConnectionUpdateHandler(completion: completion, readyStateHandler: { [weak self] in
-                self?.sendAndReceiveWithBody(requestUrl: url, data: data, cookies: cookies, completion: completion)
+                self?.sendAndReceiveWithBody(requestUrl: url, data: data, completion: completion)
             })
             // All connection events will be delivered on the main thread.
             connection.start(queue: .main)
@@ -379,7 +371,7 @@ class CellularConnectionManager {
         }
     }
     
-    func sendAndReceiveWithBody(requestUrl: URL, data: Data, cookies: [HTTPCookie]?, completion: @escaping ResultHandler) {
+    func sendAndReceiveWithBody(requestUrl: URL, data: Data, completion: @escaping ResultHandler) {
         connection?.send(content: data, completion: NWConnection.SendCompletion.contentProcessed({ (error) in
             if let err = error {
                 os_log("Sending error %s", type: .error, err.localizedDescription)
@@ -416,7 +408,7 @@ class CellularConnectionManager {
                 case 204:
                     completion(.dataOK(ConnectionResponse(status: status, body: nil)))
                 case 301...303, 307...308:
-                    guard let ru = self.parseRedirect(requestUrl: requestUrl, response: response, cookies: cookies) else {
+                    guard let ru = self.parseRedirect(requestUrl: requestUrl, response: response) else {
                         completion(.err(NetworkError.invalidRedirectURL("Invalid URL - unable to parseRecirect")))
                         return
                     }
@@ -479,62 +471,6 @@ class CellularConnectionManager {
             }
         }
         return nil
-    }
-    
-    func sendAndReceiveWithBody(requestUrl: URL, data: Data, completion: @escaping ResultHandler) {
-        connection?.send(content: data, completion: NWConnection.SendCompletion.contentProcessed({ (error) in
-            if let err = error {
-                os_log("Sending error %s", type: .error, err.localizedDescription)
-                completion(.err(NetworkError.other(err.localizedDescription)))
-                
-            }
-        }))
-        
-        timer?.invalidate()
-
-        //Read the entire response body
-        connection?.receiveMessage { data, context, isComplete, error in
-
-            if let err = error {
-                completion(.err(NetworkError.other(err.localizedDescription)))
-                return
-            }
-            
-            if let d = data, !d.isEmpty, let response = self.decodeResponse(data: d) {
-                
-                let status = self.parseHttpStatusCode(response: response)
-                os_log("\n----\nHTTP status: %s", String(status))
-                
-                switch status {
-                case 200...202:
-                    if let r = self.getResponseBody(response: response) {
-                        completion(.dataOK(ConnectionResponse(status: status, body: r)))
-                    } else {
-                        completion(.dataOK(ConnectionResponse(status: status, body: nil)))
-                    }
-                case 204:
-                    completion(.dataOK(ConnectionResponse(status: status, body: nil)))
-                case 301...399:
-                    completion(.err(NetworkError.other("Unexpected HTTP Status \(status)")))
-                case 400...451:
-                    if let r = self.getResponseBody(response: response) {
-                        completion(.dataErr(ConnectionResponse(status: status, body: r)))
-                    } else {
-                        completion(.err(NetworkError.other("Unexpected HTTP Status \(status)")))
-                    }
-                case 500...511:
-                    if let r = self.getResponseBody(response: response) {
-                        completion(.dataErr(ConnectionResponse(status: status, body: r)))
-                    } else {
-                        completion(.err(NetworkError.other("Unexpected HTTP Status \(status)")))
-                    }
-                default:
-                    completion(.err(NetworkError.other("Unexpected HTTP Status \(status)")))
-                }
-            } else {
-                completion(.err(NetworkError.other("Response has no data or corrupt")))
-            }
-        }
     }
 }
 
