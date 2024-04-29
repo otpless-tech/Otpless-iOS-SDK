@@ -73,6 +73,7 @@ class OtplessView: UIView {
         mWebView = WKWebView(frame: bounds, configuration: getWKWebViewConfiguration())
         mWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mWebView.backgroundColor = UIColor.clear
+        mWebView.isOpaque = false
         mWebView.navigationDelegate = self
         setInspectable()
         addSubview(mWebView)
@@ -84,6 +85,7 @@ class OtplessView: UIView {
         mWebView.backgroundColor = UIColor.clear
         mWebView.scrollView.delegate = self
         mWebView.navigationDelegate = self
+        mWebView.isOpaque = false
         mWebView.scrollView.minimumZoomScale = 0.0
         mWebView.scrollView.maximumZoomScale = 0.0
         setInspectable()

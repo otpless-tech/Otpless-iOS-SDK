@@ -48,7 +48,7 @@ class CellularConnectionManager {
             case .follow(let redirectResult):
                 if let url = redirectResult.url {
                     self.createTimer()
-                    self.activateConnectionForDataFetch(url: url, operators: nil, cookies: redirectResult.cookies, requestId: nil, completion: self.checkResponseHandler)
+                    self.activateConnectionForDataFetch(url: url, completion: self.checkResponseHandler)
                 } else {
                     self.cleanUp()
                 }
@@ -68,27 +68,20 @@ class CellularConnectionManager {
         DispatchQueue.main.async {
             self.startMonitoring()
             self.createTimer()
-            self.activateConnectionForDataFetch(url: url, operators: operators, cookies: nil, requestId: nil, completion: self.checkResponseHandler)
+            self.activateConnectionForDataFetch(url: url, completion: self.checkResponseHandler)
         }
     }
     
     func convertConnectionResponseToDictionary(resp: ConnectionResponse)  -> [String : Any] {
-        var json: [String : Any] = [:]
-        json["http_status"] = resp.status
-
+        let json = ["":""]
         do {
             // load JSON response into a dictionary
             if let body = resp.body, let dictionary = try JSONSerialization.jsonObject(with: body, options: .mutableContainers) as? [String : Any] {
-                json["response_body"] = dictionary
+                return dictionary
             }
         } catch {
-            if let body = resp.body {
-                json["response_raw_body"] = body
-            } else {
                 return convertNetworkErrorToDictionary(err: NetworkError.other("JSON deserializarion"))
-            }
         }
-        
         return json
     }
     
@@ -143,7 +136,7 @@ class CellularConnectionManager {
         }
     }
     
-    func createHttpCommand(url: URL, operators: String?, cookies: [HTTPCookie]?, requestId: String?) -> String? {
+    func createHttpCommand(url: URL) -> String? {
         guard let host = url.host, let scheme = url.scheme  else {
             return nil
         }
@@ -170,23 +163,23 @@ class CellularConnectionManager {
             cmd += String(format:":%d", url.port!)
         }
 
-        if let cookies = cookies {
-            var cookieCount = 0
-            var cookieString = String()
-            for i in 0..<cookies.count {
-                if (((cookies[i].isSecure && scheme == "https") || (!cookies[i].isSecure)) && (cookies[i].domain == "" || (cookies[i].domain != "" && host.contains(cookies[i].domain))) && (cookies[i].path == "" ||  path.starts(with: cookies[i].path))) {
-                    if (cookieCount > 0) {
-                        cookieString += "; "
-                    }
-                    cookieString += String(format:"%@=%@", cookies[i].name, cookies[i].value)
-                    cookieCount += 1
-                }
-            }
-            if (cookieString.count > 0) {
-                cmd += "\r\nCookie: \(String(describing: cookieString))"
-            }
-        }
-        cmd += "\r\nUser-Agent: \(Otpless.sharedInstance.getUserAgent())"
+//        if let cookies = cookies {
+//            var cookieCount = 0
+//            var cookieString = String()
+//            for i in 0..<cookies.count {
+//                if (((cookies[i].isSecure && scheme == "https") || (!cookies[i].isSecure)) && (cookies[i].domain == "" || (cookies[i].domain != "" && host.contains(cookies[i].domain))) && (cookies[i].path == "" ||  path.starts(with: cookies[i].path))) {
+//                    if (cookieCount > 0) {
+//                        cookieString += "; "
+//                    }
+//                    cookieString += String(format:"%@=%@", cookies[i].name, cookies[i].value)
+//                    cookieCount += 1
+//                }
+//            }
+//            if (cookieString.count > 0) {
+//                cmd += "\r\nCookie: \(String(describing: cookieString))"
+//            }
+//        }
+//        cmd += "\r\nUser-Agent: \(Otpless.sharedInstance.getUserAgent())"
         cmd += "\r\nAccept: text/html,application/xhtml+xml,application/xml,*/*"
         cmd += "\r\nConnection: close\r\n\r\n"
         return cmd
@@ -344,7 +337,7 @@ class CellularConnectionManager {
         self.cancelExistingConnection()
     }
     
-    func activateConnectionForDataFetch(url: URL, operators: String?, cookies: [HTTPCookie]?, requestId: String?, completion: @escaping ResultHandler) {
+    func activateConnectionForDataFetch(url: URL, completion: @escaping ResultHandler) {
         self.cancelExistingConnection()
         guard let scheme = url.scheme,
               let host = url.host else {
@@ -352,7 +345,7 @@ class CellularConnectionManager {
             return
         }
         
-        guard let command = createHttpCommand(url: url, operators: operators, cookies: cookies, requestId: requestId),
+        guard let command = createHttpCommand(url: url),
               let data = command.data(using: .utf8) else {
             completion(.err(NetworkError.other("Unable to create HTTP Request command")))
             return
@@ -435,6 +428,7 @@ class CellularConnectionManager {
     }
     
     func getResponseBody(response: String) -> Data? {
+        
         if let rangeContentType = response.range(of: #"Content-Type: (.*)\r\n"#, options: .regularExpression) {
             // retrieve content type
             let contentType = response[rangeContentType]
