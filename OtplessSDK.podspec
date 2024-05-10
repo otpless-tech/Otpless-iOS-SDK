@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'OtplessSDK'
-  s.version          = '2.1.1'
+  s.version          = '2.1.2'
   s.summary          = 'Sign-up/ Sign-in engineered by OTPLESS.'
 
   s.description      = <<-DESC
@@ -17,6 +17,9 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
 
   s.source_files = 'OtplessSDK/Classes/**/*'
+  s.resource_bundles = {
+      'OtplessSDK' => ['OtplessSDK/PrivacyInfo.xcprivacy']
+  }
   
   s.swift_versions = ['4.0', '4.1', '4.2', '5.0', '5.1', '5.2', '5.3', '5.4', '5.5']
 

@@ -75,6 +75,7 @@ class OtplessView: UIView {
         mWebView.backgroundColor = UIColor.clear
         mWebView.isOpaque = false
         mWebView.navigationDelegate = self
+        mWebView.isOpaque = false
         setInspectable()
         addSubview(mWebView)
     }
@@ -88,6 +89,7 @@ class OtplessView: UIView {
         mWebView.isOpaque = false
         mWebView.scrollView.minimumZoomScale = 0.0
         mWebView.scrollView.maximumZoomScale = 0.0
+        mWebView.isOpaque = false
         setInspectable()
         addSubview(mWebView)
     }
