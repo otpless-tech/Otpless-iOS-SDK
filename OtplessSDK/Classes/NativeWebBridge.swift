@@ -209,12 +209,10 @@ class NativeWebBridge {
                 let url = dataDict?["url"] as? String ?? ""
                 
                 let connectionUrl = URL(string: url)
-                print("Connection url - \(connectionUrl)")
                 if connectionUrl != nil {
                     forceOpenURLOverMobileNetwork(
                         url: connectionUrl!,
                         completion: { silentAuthResponse in
-                            print("Silent auth response - \(silentAuthResponse)")
                             do {
                                 let jsonData = try JSONSerialization.data(withJSONObject: silentAuthResponse, options: .prettyPrinted)
                                 if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
