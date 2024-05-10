@@ -87,13 +87,13 @@
 		8BC387AF794D777A23A2648E567CE0B4 /* OtplessSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "OtplessSDK-dummy.m"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A55B1083787A3303E6078D76FB4F2376 /* OtplessSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = OtplessSDK.modulemap; sourceTree = "<group>"; };
-		A6312D56623416115C72702D1C97E10B /* Pods-OtplessSDK_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-OtplessSDK_Tests"; path = Pods_OtplessSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6312D56623416115C72702D1C97E10B /* Pods_OtplessSDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OtplessSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8FBC36DAE3B78586EDEEE5BCF54273B /* Pods-OtplessSDK_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OtplessSDK_Example-umbrella.h"; sourceTree = "<group>"; };
 		BFE8CD6DC8F73AC6D442F486C30E3914 /* NativeWebBridge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NativeWebBridge.swift; path = OtplessSDK/Classes/NativeWebBridge.swift; sourceTree = "<group>"; };
 		C4F064B4DD2C67CD6F92D7EEAA3650EC /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C886CC3F6266C36ADA780C03B2660DAF /* OtplessSDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OtplessSDK-prefix.pch"; sourceTree = "<group>"; };
-		D14361EC80603708839B6A80EE20FFEB /* OtplessSDK */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = OtplessSDK; path = OtplessSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods-OtplessSDK_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-OtplessSDK_Example"; path = Pods_OtplessSDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D14361EC80603708839B6A80EE20FFEB /* OtplessSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OtplessSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods_OtplessSDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OtplessSDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D803D00F91C2347AB32C1E6A57FE63D5 /* Pods-OtplessSDK_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OtplessSDK_Example-dummy.m"; sourceTree = "<group>"; };
 		DB77FCF894D1424C5F901D0EC2338F9B /* OtplessLib.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OtplessLib.m; path = OtplessSDK/Classes/OtplessLib.m; sourceTree = "<group>"; };
 		DEB73C2AC2BE0886A2359F0231724F6D /* OtplessSDK.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = OtplessSDK.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -199,9 +199,9 @@
 		53E18135799E92548017F8B04D1DE6C7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D14361EC80603708839B6A80EE20FFEB /* OtplessSDK */,
-				D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods-OtplessSDK_Example */,
-				A6312D56623416115C72702D1C97E10B /* Pods-OtplessSDK_Tests */,
+				D14361EC80603708839B6A80EE20FFEB /* OtplessSDK.framework */,
+				D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods_OtplessSDK_Example.framework */,
+				A6312D56623416115C72702D1C97E10B /* Pods_OtplessSDK_Tests.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -324,7 +324,7 @@
 			);
 			name = "Pods-OtplessSDK_Example";
 			productName = Pods_OtplessSDK_Example;
-			productReference = D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods-OtplessSDK_Example */;
+			productReference = D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods_OtplessSDK_Example.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		7DB828B44E21B7E7CED13C9FCE68354D /* Pods-OtplessSDK_Tests */ = {
@@ -343,7 +343,7 @@
 			);
 			name = "Pods-OtplessSDK_Tests";
 			productName = Pods_OtplessSDK_Tests;
-			productReference = A6312D56623416115C72702D1C97E10B /* Pods-OtplessSDK_Tests */;
+			productReference = A6312D56623416115C72702D1C97E10B /* Pods_OtplessSDK_Tests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E877AEBC824B1294DC171F10FDF1A09A /* OtplessSDK */ = {
@@ -361,7 +361,7 @@
 			);
 			name = OtplessSDK;
 			productName = OtplessSDK;
-			productReference = D14361EC80603708839B6A80EE20FFEB /* OtplessSDK */;
+			productReference = D14361EC80603708839B6A80EE20FFEB /* OtplessSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -494,7 +494,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example.modulemap";
@@ -527,7 +527,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/OtplessSDK/OtplessSDK-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/OtplessSDK/OtplessSDK-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/OtplessSDK/OtplessSDK.modulemap";
 				PRODUCT_MODULE_NAME = OtplessSDK;
@@ -620,7 +620,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example.modulemap";
@@ -654,7 +654,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests.modulemap";
@@ -687,7 +687,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests.modulemap";
@@ -787,7 +787,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/OtplessSDK/OtplessSDK-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/OtplessSDK/OtplessSDK-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/OtplessSDK/OtplessSDK.modulemap";
 				PRODUCT_MODULE_NAME = OtplessSDK;

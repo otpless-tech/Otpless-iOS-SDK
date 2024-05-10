@@ -136,11 +136,34 @@ class CellularConnectionManager {
         }
     }
     
+    // As url.path property truncates the / if present in the last that is why string splitted 
+    func extractPathFromURL(urlString: String?) -> String? {
+        guard let urlString = urlString,
+              let hostRange = urlString.range(of: "//"),
+              let pathStart = urlString[hostRange.upperBound...].range(of: "/") else {
+            return nil
+        }
+        
+        var path = urlString[pathStart.lowerBound...]
+        
+        if let queryStart = path.range(of: "?") {
+            path = path[..<queryStart.lowerBound]
+        }
+        
+        return String(path)
+    }
+    
     func createHttpCommand(url: URL) -> String? {
         guard let host = url.host, let scheme = url.scheme  else {
             return nil
         }
-        var path = url.path
+        var path = ""
+        if #available(iOS 16.0, *) {
+             path = url.path(percentEncoded: false)
+        } else {
+            // Fallback on earlier versions
+            path = extractPathFromURL(urlString: url.absoluteString) ?? ""
+        }
         // the path method is stripping ending / so adding it back
         if (url.absoluteString.hasSuffix("/") && !url.path.hasSuffix("/")) {
             path += "/"
@@ -163,24 +186,7 @@ class CellularConnectionManager {
             cmd += String(format:":%d", url.port!)
         }
 
-//        if let cookies = cookies {
-//            var cookieCount = 0
-//            var cookieString = String()
-//            for i in 0..<cookies.count {
-//                if (((cookies[i].isSecure && scheme == "https") || (!cookies[i].isSecure)) && (cookies[i].domain == "" || (cookies[i].domain != "" && host.contains(cookies[i].domain))) && (cookies[i].path == "" ||  path.starts(with: cookies[i].path))) {
-//                    if (cookieCount > 0) {
-//                        cookieString += "; "
-//                    }
-//                    cookieString += String(format:"%@=%@", cookies[i].name, cookies[i].value)
-//                    cookieCount += 1
-//                }
-//            }
-//            if (cookieString.count > 0) {
-//                cmd += "\r\nCookie: \(String(describing: cookieString))"
-//            }
-//        }
-//        cmd += "\r\nUser-Agent: \(Otpless.sharedInstance.getUserAgent())"
-        cmd += "\r\nAccept: text/html,application/xhtml+xml,application/xml,*/*"
+        cmd += "\r\nAccept: text/html,application/json,application/xhtml+xml,application/xml,*/*"
         cmd += "\r\nConnection: close\r\n\r\n"
         return cmd
     }
