@@ -11,8 +11,6 @@ import os
 typealias ResultHandler = (ConnectionResult) -> Void
 
 /// Force connectivity to cellular only
-
-@available(iOS 12.0, *)
 class CellularConnectionManager {
     
     private var connection: NWConnection?
@@ -257,30 +255,6 @@ class CellularConnectionManager {
         }
         return nil
     }
-    
-//    func parseCookies(url: URL, response: String, existingCookies: [HTTPCookie]?) -> [HTTPCookie]? {
-//        var cookies = [HTTPCookie]()
-//        if let existing = existingCookies {
-//            for i in 0..<existing.count {
-//                cookies.append(existing[i])
-//            }
-//        }
-//        var position = response.startIndex
-//        while let range = response.range(of: #"ookie: (.*)\r\n"#, options: .regularExpression, range: position..<response.endIndex) {
-//            let line = response[range]
-//            let optCookieString: Substring? = line[line.index(line.startIndex, offsetBy: 7)..<line.index(line.endIndex, offsetBy: -1)]
-//            if let cookieString = optCookieString {
-//                let optCs: [HTTPCookie]? = HTTPCookie.cookies(withResponseHeaderFields: ["Set-Cookie" : String(cookieString)], for: url)
-//                if let cs = optCs  {
-//                    if (!cs.isEmpty) {
-//                        cookies.append((cs.first)!)
-//                    }
-//                }
-//            }
-//            position = range.upperBound
-//        }
-//        return (!cookies.isEmpty) ? cookies : nil
-//    }
     
     func createTimer() {
         

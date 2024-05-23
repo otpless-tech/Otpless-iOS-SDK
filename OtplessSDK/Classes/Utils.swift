@@ -63,4 +63,11 @@ class Utils {
         let javascriptRegex = try! NSRegularExpression(pattern: "<script\\b[^>]*>(.*?)</script>", options: .caseInsensitive)
         return javascriptRegex.matches(in: value, options: [], range: NSRange(location: 0, length: value.utf16.count)).count > 0
     }
+    
+    class func createErrorDictionary(error: String, errorDescription: String) -> [String: String] {
+        return [
+            "error": error,
+            "error_description": errorDescription
+        ]
+    }
 }

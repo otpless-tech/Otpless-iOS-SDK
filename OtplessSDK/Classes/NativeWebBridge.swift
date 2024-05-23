@@ -221,12 +221,19 @@ class NativeWebBridge {
                                     self.callJs(webview: self.webView, script: script)
                                 }
                             } catch {
-                                
+                                let jsonStr = Utils.createErrorDictionary(error: "json_serialization", errorDescription: "Unable to serialize json from response").description
+                                let tempScript = "onCellularNetworkResult(" + jsonStr + ")"
+                                let script = tempScript.replacingOccurrences(of: "\n", with: "")
+                                self.callJs(webview: self.webView, script: script)
                             }
                         }
                     )
                 } else {
                     // handle case when unable to create URL from string
+                    let jsonStr = Utils.createErrorDictionary(error: "url_parsing_fail", errorDescription: "Unable to parse url from string.").description
+                    let tempScript = "onCellularNetworkResult(" + jsonStr + ")"
+                    let script = tempScript.replacingOccurrences(of: "\n", with: "")
+                    self.callJs(webview: self.webView, script: script)
                 }
                 
                 break
@@ -297,9 +304,7 @@ public protocol BridgeDelegate: AnyObject {
 
 extension NativeWebBridge {
     func forceOpenURLOverMobileNetwork(url: URL, completion: @escaping ([String: Any]) -> Void) {
-        if #available(iOS 12.0, *) {
-            let cellularConnectionManager = CellularConnectionManager()
-            cellularConnectionManager.open(url: url, operators: nil, completion: completion)
-        }
+        let cellularConnectionManager = CellularConnectionManager()
+        cellularConnectionManager.open(url: url, operators: nil, completion: completion)
     }
 }
