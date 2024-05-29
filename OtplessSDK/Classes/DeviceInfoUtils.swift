@@ -113,7 +113,13 @@ class DeviceInfoUtils {
         params["hasWhatsapp"] = hasWhatsApp.description
         params["hasOtplessApp"] = hasOTPLESSInstalled.description
         params["hasGmailApp"] = hasGmailInstalled.description
-        params["isSilentAuthSupported"] = "true"
+        
+        if #available(iOS 12.0, *) {
+            params["isSilentAuthSupported"] = "true"
+        } else {
+            params["isSilentAuthSupported"] = "false"
+        }
+        
         return params
     }
     

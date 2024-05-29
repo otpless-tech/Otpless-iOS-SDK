@@ -11,6 +11,7 @@ import os
 typealias ResultHandler = (ConnectionResult) -> Void
 
 /// Force connectivity to cellular only
+@available(iOS 12.0, *)
 class CellularConnectionManager {
     
     private var connection: NWConnection?
