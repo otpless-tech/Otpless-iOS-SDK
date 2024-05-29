@@ -304,7 +304,12 @@ public protocol BridgeDelegate: AnyObject {
 
 extension NativeWebBridge {
     func forceOpenURLOverMobileNetwork(url: URL, completion: @escaping ([String: Any]) -> Void) {
-        let cellularConnectionManager = CellularConnectionManager()
-        cellularConnectionManager.open(url: url, operators: nil, completion: completion)
+        if #available(iOS 12.0, *) {
+            let cellularConnectionManager = CellularConnectionManager()
+            cellularConnectionManager.open(url: url, operators: nil, completion: completion)
+        } else {
+            let errorJson = Utils.createErrorDictionary(error: "silent_auth_not_supported", errorDescription: "Silent Auth is supported for iOS 12 and above.")
+            completion(errorJson)
+        }
     }
 }
