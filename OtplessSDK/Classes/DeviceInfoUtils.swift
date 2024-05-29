@@ -116,9 +116,7 @@ class DeviceInfoUtils {
         
         if #available(iOS 12.0, *) {
             params["isSilentAuthSupported"] = "true"
-        } else {
-            params["isSilentAuthSupported"] = "false"
-        }
+        } 
         
         return params
     }
