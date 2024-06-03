@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 class OtplessHelper {
     
   public static func checkValueExists(forKey key: String) -> Bool {

@@ -70,4 +70,17 @@ class Utils {
             "error_description": errorDescription
         ]
     }
+    
+    class func convertDictionaryToString(_ dictionary: [String: Any], options: JSONSerialization.WritingOptions) -> String {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: options)
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                return jsonString
+            }
+        } catch {
+            return ("Error converting dictionary to JSON string: \(error)")
+        }
+        
+        return ""
+    }
 }

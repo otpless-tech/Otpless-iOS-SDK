@@ -60,34 +60,16 @@ class NativeWebBridge {
                 // get string
                 if let key = dataDict?["infoKey"] as? String{
                     let value : String? = OtplessHelper.getValue(forKey: key)
+                    var params = [String: String]()
+                    
                     if value != nil {
-                        var params = [String: String]()
                         params[key] = value
-                        do {
-                            let jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-                            if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                                let tempScript = "onStorageValueSuccess(" + jsonStr + ")"
-                                let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                                callJs(webview: webView, script: script)
-                            }
-                        } catch {
-
-                        }
                     } else {
-                        do {
-                            var params = [String: String]()
-                            params[key] = ""
-                            let jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-                            if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                                let tempScript = "onStorageValueSuccess(" + jsonStr + ")"
-                                let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                                callJs(webview: webView, script: script)
-                            }
-                        } catch {
-                        
-                        }
+                        params[key] = ""
                     }
                     //onStorageValueSuccess
+                    let jsonStr = Utils.convertDictionaryToString(params, options: .prettyPrinted)
+                    loadScript(function: "onStorageValueSuccess", message: jsonStr)
                 }
                 break
             case 7:
@@ -102,18 +84,10 @@ class NativeWebBridge {
                 break
             case 8:
                 // get app info
-                do {
-                    var parametersToSend =  DeviceInfoUtils.shared.getAppInfo()
-                    parametersToSend["appSignature"] = DeviceInfoUtils.shared.appHash
-                    let jsonData = try JSONSerialization.data(withJSONObject: parametersToSend, options: .prettyPrinted)
-                    if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                        let tempScript = "onAppInfoResult(" + jsonStr + ")"
-                        let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                        callJs(webview: webView, script: script)
-                    }
-                } catch {
-                    
-                }
+                var parametersToSend =  DeviceInfoUtils.shared.getAppInfo()
+                parametersToSend["appSignature"] = DeviceInfoUtils.shared.appHash
+                let jsonStr = Utils.convertDictionaryToString(parametersToSend, options: .prettyPrinted)
+                loadScript(function: "onAppInfoResult", message: jsonStr)
                 break
             case 11:
                 // verification status call key 11
@@ -134,31 +108,12 @@ class NativeWebBridge {
                 break
             case 13:
                 // extra params
-                do {
-                    if let headlessRequest = headlessRequest {
-                        let extraParams = headlessRequest.makeJson()
-                        
-                        let jsonData = try JSONSerialization.data(withJSONObject: extraParams, options: .prettyPrinted)
-                        
-                        if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                            let tempScript = "onExtraParamResult(" + jsonStr + ")"
-                            let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                            callJs(webview: webView, script: script)
-                        }
-                    } else {
-                        let extraParams = [String: Any]()
-                        
-                        let jsonData = try JSONSerialization.data(withJSONObject: extraParams, options: .prettyPrinted)
-                        
-                        if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                            let tempScript = "onExtraParamResult(" + jsonStr + ")"
-                            let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                            callJs(webview: webView, script: script)
-                        }
-                    }
-                }  catch {
-                    
+                var extraParams = [String: Any]()
+                if let headlessRequest = headlessRequest {
+                    extraParams = headlessRequest.makeJson()
                 }
+                let jsonStr = Utils.convertDictionaryToString(extraParams, options: .prettyPrinted)
+                loadScript(function: "onExtraParamResult", message: jsonStr)
                 break
             case 14:
                 // close
@@ -213,27 +168,14 @@ class NativeWebBridge {
                     forceOpenURLOverMobileNetwork(
                         url: connectionUrl!,
                         completion: { silentAuthResponse in
-                            do {
-                                let jsonData = try JSONSerialization.data(withJSONObject: silentAuthResponse, options: .prettyPrinted)
-                                if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                                    let tempScript = "onCellularNetworkResult(" + jsonStr + ")"
-                                    let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                                    self.callJs(webview: self.webView, script: script)
-                                }
-                            } catch {
-                                let jsonStr = Utils.createErrorDictionary(error: "json_serialization", errorDescription: "Unable to serialize json from response").description
-                                let tempScript = "onCellularNetworkResult(" + jsonStr + ")"
-                                let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                                self.callJs(webview: self.webView, script: script)
-                            }
+                            let jsonStr = Utils.convertDictionaryToString(silentAuthResponse, options: .prettyPrinted)
+                            self.loadScript(function: "onCellularNetworkResult", message: jsonStr)
                         }
                     )
                 } else {
                     // handle case when unable to create URL from string
                     let jsonStr = Utils.createErrorDictionary(error: "url_parsing_fail", errorDescription: "Unable to parse url from string.").description
-                    let tempScript = "onCellularNetworkResult(" + jsonStr + ")"
-                    let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                    self.callJs(webview: self.webView, script: script)
+                    self.loadScript(function: "onCellularNetworkResult", message: jsonStr)
                 }
                 
                 break
@@ -259,26 +201,17 @@ class NativeWebBridge {
     }
     
     func sendHeadlessRequestToWeb(withCode code: String = "") {
-        do {
-            var requestData: [String: Any] = [:]
-            
-            if !code.isEmpty {
-                // Send only code in request to verify it and get details
-                requestData["code"] = code
-            } else if let request = headlessRequest {
-                requestData = request.makeJson()
-            }
-            
-            let jsonData = try JSONSerialization.data(withJSONObject: requestData, options: .prettyPrinted)
-            if let jsonStr = String(data: jsonData, encoding: .utf8)?.replacingOccurrences(of: "\n", with: "") {
-                let script = "headlessRequest(\(jsonStr))"
-                if let webView = webView {
-                    callJs(webview: webView, script: script)
-                }
-            }
-        } catch {
-            
+        var requestData: [String: Any] = [:]
+        
+        if !code.isEmpty {
+            // Send only code in request to verify it and get details
+            requestData["code"] = code
+        } else if let request = headlessRequest {
+            requestData = request.makeJson()
         }
+        
+        let jsonStr = Utils.convertDictionaryToString(requestData, options: .prettyPrinted)
+        loadScript(function: "headlessRequest", message: jsonStr)
     }
 
     private func containsIdentity(_ response: [String: Any]?) -> Bool {
@@ -311,5 +244,11 @@ extension NativeWebBridge {
             let errorJson = Utils.createErrorDictionary(error: "silent_auth_not_supported", errorDescription: "Silent Auth is supported for iOS 12 and above.")
             completion(errorJson)
         }
+    }
+    
+    func loadScript(function: String, message: String) {
+        let tempScript = function + "(" + message + ")"
+        let script = tempScript.replacingOccurrences(of: "\n", with: "")
+        callJs(webview: webView, script: script)
     }
 }
