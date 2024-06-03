@@ -7,6 +7,7 @@
 
 import Network
 import os
+import Foundation
 
 typealias ResultHandler = (ConnectionResult) -> Void
 

@@ -29,70 +29,67 @@ class OtplessView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         self.headlessRequest = headlessRequest
         startUri += Otpless.sharedInstance.getAppId()
-        setupHeadlessView()
+        setupWebView(isHeadless: true)
     }
     
     init(isLoginPage: Bool) {
         super.init(frame: CGRectZero)
         translatesAutoresizingMaskIntoConstraints = false
         startUri += Otpless.sharedInstance.getAppId()
-        if isLoginPage {
-            setupLoginPage()
-        }
+        setupWebView(isHeadless: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupLoginPage()
+        setupWebView(isHeadless: false)
     }
     
-    private func setupHeadlessView() {
-        self.isHeadless = true
-        initializeWebViewForHeadless()
+    private func setupWebView(isHeadless: Bool) {
+        self.isHeadless = isHeadless
+        
+        if isHeadless {
+            initializeWebViewForHeadless()
+        } else {
+            initializeWebViewForLoginPage()
+            loader.delegate = self
+            loader.networkFailureUiHidden = networkUIHidden
+            loader.loaderHidden = hideActivityIndicator
+            getConfigParams()
+        }
+        
         bridge.delegate = self
-        bridge.setHeadlessRequest(headlessRequest: headlessRequest, webview: mWebView)
         clearWebViewCache()
-        prepareUrlLoadWebview(startUrl: startUri, isHeadless: true)
+        prepareUrlLoadWebview(startUrl: startUri, isHeadless: isHeadless)
         OtplessHelper.sendEvent(event: "sdk_screen_loaded")
     }
-    
-    private func setupLoginPage() {
-        self.isHeadless = false
-        initializeWebViewForLoginPage()
-        bridge.delegate = self
-        loader.delegate = self
-        loader.networkFailureUiHidden = networkUIHidden
-        loader.loaderHidden = hideActivityIndicator
-        getConfigParams()
-        clearWebViewCache()
-        prepareUrlLoadWebview(startUrl: startUri, isHeadless: false)
-        OtplessHelper.sendEvent(event: "sdk_screen_loaded")
-    }
+
     
     private func initializeWebViewForHeadless() {
         mWebView = WKWebView(frame: bounds, configuration: getWKWebViewConfiguration())
-        mWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mWebView.backgroundColor = UIColor.clear
-        mWebView.isOpaque = false
-        mWebView.navigationDelegate = self
-        mWebView.isOpaque = false
-        setInspectable()
+        configureWebView(mWebView, isForLoginPage: false)
+        addSubview(mWebView)
+    }
+
+    private func initializeWebViewForLoginPage() {
+        mWebView = WKWebView(frame: bounds, configuration: getWKWebViewConfiguration())
+        configureWebView(mWebView, isForLoginPage: true)
         addSubview(mWebView)
     }
     
-    private func initializeWebViewForLoginPage(){
-        mWebView = WKWebView(frame: bounds, configuration: getWKWebViewConfiguration())
-        mWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        mWebView.backgroundColor = UIColor.clear
-        mWebView.scrollView.delegate = self
-        mWebView.navigationDelegate = self
-        mWebView.isOpaque = false
-        mWebView.scrollView.minimumZoomScale = 0.0
-        mWebView.scrollView.maximumZoomScale = 0.0
-        mWebView.isOpaque = false
+    private func configureWebView(_ webView: WKWebView, isForLoginPage: Bool) {
+        webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        webView.backgroundColor = UIColor.clear
+        webView.isOpaque = false
+        webView.navigationDelegate = self
         setInspectable()
-        addSubview(mWebView)
+        
+        if isForLoginPage {
+            webView.scrollView.delegate = self
+            webView.scrollView.minimumZoomScale = 0.0
+            webView.scrollView.maximumZoomScale = 0.0
+        }
     }
+
     
     private func setInspectable() {
         if #available(iOS 16.4, *) {
