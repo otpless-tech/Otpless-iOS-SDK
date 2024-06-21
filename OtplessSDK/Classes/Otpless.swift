@@ -224,6 +224,10 @@ import Foundation
     func setUserAgent(_ agent: String) {
         self.userAgent = agent
     }
+    
+    @objc public func isDeviceSimulator() -> Bool {
+        return DeviceInfoUtils.shared.isDeviceSimulator()
+    }
 }
 
 
