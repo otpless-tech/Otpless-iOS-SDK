@@ -83,4 +83,11 @@ class Utils {
         
         return ""
     }
+    
+    class func createUnsupportedIOSVersionError(supportedFrom: String, forFeature feature: String) -> [String: String] {
+        return [
+            "error": "\(feature.replacingOccurrences(of: " ", with: "_").lowercased()) not supported",
+            "error_description": "\(feature) requires iOS version \(supportedFrom) and above."
+        ]
+    }
 }

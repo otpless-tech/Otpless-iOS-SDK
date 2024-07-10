@@ -216,6 +216,11 @@ class OtplessView: UIView {
                     urlComponents.queryItems?.append(queryItemTsid)
                 }
                 
+                if #available(iOS 16, *) {
+                    let queryWebAuthn = URLQueryItem(name: "isWebAuthnSupported", value: "true")
+                    urlComponents.queryItems?.append(queryWebAuthn)
+                }
+                
                 let updatedUrlComponents = addInitialParams(urlComponents: urlComponents)
 
                 if let updatedURL = updatedUrlComponents.url {

@@ -225,6 +225,9 @@ import Foundation
         self.userAgent = agent
     }
     
+    /// Determines whether the device is simulator.
+    ///
+    /// - returns: Boolean indicating whether device is simulator or not. Returns true if the device is simulator, else false.
     @objc public func isDeviceSimulator() -> Bool {
         return DeviceInfoUtils.shared.isDeviceSimulator()
     }
