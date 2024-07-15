@@ -182,6 +182,7 @@ class OtplessWebListenerImpl: OtplessWebListener {
         webAuthnManger?.initiateSignIn(withRequest: requestJson, onResponse: { response in
             let response = Utils.convertDictionaryToString(response, options: .prettyPrinted)
             print("webauthn sign in response - \(response)")
+            self.loadScript(function: "onWebAuthnSigninSuccess", message: response)
         })
     }
     

@@ -90,4 +90,20 @@ class Utils {
             "error_description": "\(feature) requires iOS version \(supportedFrom) and above."
         ]
     }
+    
+    /// Converts String to base64Url
+    ///
+    /// - parameter string: Base64 String that is converted into base64Url.
+    /// - returns: A string that is base64Url encoded.
+    class func base64UrlEncode(base64String: String) -> String {
+        // Replace characters to make it URL-safe
+        var base64UrlString = base64String
+            .replacingOccurrences(of: "+", with: "-")
+            .replacingOccurrences(of: "/", with: "_")
+        
+        // Remove padding characters
+        base64UrlString = base64UrlString.trimmingCharacters(in: CharacterSet(charactersIn: "="))
+        
+        return base64UrlString
+    }
 }

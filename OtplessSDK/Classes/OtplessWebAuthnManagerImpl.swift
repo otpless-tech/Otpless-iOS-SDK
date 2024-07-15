@@ -206,16 +206,15 @@ extension OtplessWebAuthnManagerImpl {
     /// - parameter credential: The credential used for registration.
     /// - returns: A dictionary containing the registration response.
     private func createRegistrationResponse(from credential: ASAuthorizationPlatformPublicKeyCredentialRegistration) -> [String: Any] {
-        print("Credential- \(credential.debugDescription)")
-        var attestationData: [String: Any] = [:]
+        var attestationJson: [String: Any] = [:]
         
-        attestationData["clientDataJSON"] = credential.rawClientDataJSON.base64EncodedString()
-        attestationData["attestationObject"] = credential.rawAttestationObject?.base64EncodedString()
+        attestationJson["clientDataJSON"] = Utils.base64UrlEncode(base64String:  credential.rawClientDataJSON.base64EncodedString())
+        attestationJson["attestationObject"] = Utils.base64UrlEncode(base64String: credential.rawAttestationObject?.base64EncodedString() ?? "")
         
         var responseJson: [String: Any] = [:]
-        responseJson["response"] = attestationData
-        responseJson["id"] = credential.credentialID.base64EncodedString()
-        responseJson["rawId"] = credential.credentialID.base64EncodedString()
+        responseJson["response"] = attestationJson
+        responseJson["id"] = Utils.base64UrlEncode(base64String: credential.credentialID.base64EncodedString())
+        responseJson["rawId"] = Utils.base64UrlEncode(base64String: credential.credentialID.base64EncodedString())
         responseJson["type"] = "public-key"
         
         return responseJson
@@ -227,15 +226,16 @@ extension OtplessWebAuthnManagerImpl {
     /// - parameter credential: The credential used for sign-in.
     /// - returns: A dictionary containing the sign-in response.
     private func createSignInResponse(from credential: ASAuthorizationPlatformPublicKeyCredentialAssertion) -> [String: Any] {
-        print("Credential- \(credential.debugDescription)")
         var attestationJson: [String: Any] = [:]
-        attestationJson["clientDataJSON"] = credential.rawClientDataJSON.base64EncodedString()
-        attestationJson["authenticatorData"] = credential.rawAuthenticatorData.base64EncodedString()
-        attestationJson["signature"] = credential.signature.base64EncodedString()
+        
+        attestationJson["clientDataJSON"] = Utils.base64UrlEncode(base64String:  credential.rawClientDataJSON.base64EncodedString())
+        
+        attestationJson["authenticatorData"] = Utils.base64UrlEncode(base64String:  credential.rawAuthenticatorData.base64EncodedString())
+        attestationJson["signature"] = Utils.base64UrlEncode(base64String: credential.signature.base64EncodedString())
         
         var responseJson: [String: Any] = [:]
-        responseJson["id"] = credential.userID.base64EncodedString()
-        responseJson["rawId"] = credential.credentialID.base64EncodedString()
+        responseJson["id"] = Utils.base64UrlEncode(base64String: credential.credentialID.base64EncodedString())
+        responseJson["rawId"] = Utils.base64UrlEncode(base64String: credential.credentialID.base64EncodedString())
         responseJson["type"] = "public-key"
         responseJson["response"] = attestationJson
         
