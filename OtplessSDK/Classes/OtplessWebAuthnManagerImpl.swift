@@ -13,7 +13,7 @@ import AuthenticationServices
 class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
     var windowScene: UIWindowScene?
-    private var callback: (([String: Any]) -> Void)?
+    private var responseCallback: ((WebAuthnResult) -> Void)?
     
     /// Initializes OtplessWebAuthnManager with UIWindowScene.
     ///
@@ -30,26 +30,29 @@ class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizat
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         let authorizationError = error as? ASAuthorizationError
         let errorJson: [String: Any] = createError(fromAuthorizationError: authorizationError)
-        callback?(errorJson)
+        responseCallback?(.failure(errorJson))
     }
     
     
     /// Initiates Passkey registration.
     ///
     /// - parameter request: The request dictionary containing registration parameters.
-    /// - parameter callback: The callback to handle the registration response.
-    func initiateRegistration(withRequest request: [String : Any], onResponse callback: @escaping ([String: Any]) -> Void) {
-        self.callback = callback
+    /// - parameter onResponse: The callback to handle the registration response.
+    func initiateRegistration(
+        withRequest request: [String : Any],
+        onResponse responseCallback: @escaping (WebAuthnResult) -> Void
+    ) {
+        self.responseCallback = responseCallback
         
         if !isWindowValid() {
             let errorJson = Utils.createErrorDictionary(error: "window_nil", errorDescription: "The view was not in the app's view hierarchy.")
-            callback(errorJson)
+            responseCallback(.failure(errorJson))
             return
         }
         
         createRegistrationRequest(
             from: request,
-            onErrorCallback: callback,
+            onErrorCallback: responseCallback,
             onRegistrationRequestCreation: { platformKeyRequest in
                 let authController = ASAuthorizationController(authorizationRequests: [ platformKeyRequest ])
                 authController.delegate = self
@@ -63,19 +66,22 @@ class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizat
     /// Initiates sign in via Passkey.
     ///
     /// - parameter request: The request dictionary containing registration parameters.
-    /// - parameter callback: The callback to handle the sign in response.
-    func initiateSignIn(withRequest request: [String : Any], onResponse callback: @escaping ([String : Any]) -> Void) {
-        self.callback = callback
+    /// - parameter onResponse: The callback to handle the sign in response.
+    func initiateSignIn(
+        withRequest request: [String : Any],
+        onResponse responseCallback: @escaping (WebAuthnResult) -> Void
+    ){
+        self.responseCallback = responseCallback
         
         if !isWindowValid() {
             let errorJson = Utils.createErrorDictionary(error: "window_nil", errorDescription: "The view was not in the app's view hierarchy.")
-            callback(errorJson)
+            responseCallback(.failure(errorJson))
             return
         }
         
         createSignInRequest(
             from: request,
-            onErrorCallback: callback,
+            onErrorCallback: responseCallback,
             onSignInRequestCreation: { platformKeyRequest in
                 let authController = ASAuthorizationController(authorizationRequests: [ platformKeyRequest ])
                 authController.delegate = self
@@ -137,15 +143,15 @@ class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizat
         if let credential = authorization.credential as? ASAuthorizationPlatformPublicKeyCredentialRegistration {
             // A new passkey was registered
             let registrationResponse = createRegistrationResponse(from: credential)
-            callback?(registrationResponse)
+            responseCallback?(.success(registrationResponse))
         } else if let credential = authorization.credential as? ASAuthorizationPlatformPublicKeyCredentialAssertion {
             // A passkey was used to sign in
             let signInResponse = createSignInResponse(from: credential)
-            callback?(signInResponse)
+            responseCallback?(.success(signInResponse))
         } else {
             // Some other authorization type was used like passwords.
             let errorJson = Utils.createErrorDictionary(error: "unexpected_credential_type", errorDescription: "Unexpected credential type \(authorization.credential.description)")
-            callback?(errorJson)
+            responseCallback?(.failure(errorJson))
         }
     }
 }
@@ -193,11 +199,11 @@ extension OtplessWebAuthnManagerImpl {
     /// - parameter callback: The callback to return the error dictionary.
     private func createParsingError(
         errorIdentifier: String,
-        callback: @escaping ([String: Any]) -> Void
+        callback: @escaping (WebAuthnResult) -> Void
     ) {
-        callback(
+        callback(.failure(
             Utils.createErrorDictionary(error: "parsing_error", errorDescription: "Unable to parse \(errorIdentifier)")
-        )
+        ))
     }
     
     
@@ -250,7 +256,7 @@ extension OtplessWebAuthnManagerImpl {
     /// - parameter onRegistrationRequestCreation: Returns registration request for passkey (an instance of ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest).
     func createRegistrationRequest(
         from request: [String: Any],
-        onErrorCallback: @escaping ([String: Any]) -> Void,
+        onErrorCallback: @escaping (WebAuthnResult) -> Void,
         onRegistrationRequestCreation: (ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest) -> Void
     ) {
         guard let user = request["user"] as? [String: Any] else {
@@ -278,7 +284,10 @@ extension OtplessWebAuthnManagerImpl {
         
         var platformKeyRequest: ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest?
         
-        if let challenge = challenge.data(using: .utf8),
+        // Since the challenge received from backend is in format base64Url, it must be converted into base64.
+        let backendCompatibleChallenge = Data(base64Encoded: Utils.convertBase64UrlToBase64(base64Url: challenge))
+        
+        if let challenge = backendCompatibleChallenge,
            let userId = (user["id"] as? String)?.data(using: .utf8),
            let name = (user["name"] as? String)
         {
@@ -301,7 +310,7 @@ extension OtplessWebAuthnManagerImpl {
     /// - parameter onSignInRequestCreation: Returns registration request for passkey (an instance of ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest).
     func createSignInRequest(
         from request: [String: Any],
-        onErrorCallback: @escaping ([String: Any]) -> Void,
+        onErrorCallback: @escaping (WebAuthnResult) -> Void,
         onSignInRequestCreation: (ASAuthorizationPlatformPublicKeyCredentialAssertionRequest) -> Void
     ) {
         guard let challenge = request["challenge"] as? String else {
@@ -319,7 +328,10 @@ extension OtplessWebAuthnManagerImpl {
         
         var platformKeyRequest: ASAuthorizationPlatformPublicKeyCredentialAssertionRequest?
         
-        if let challenge = challenge.data(using: .utf8) {
+        // Since the challenge received from backend is in format base64Url, it must be converted into base64.
+        let backendCompatibleChallenge = Data(base64Encoded: Utils.convertBase64UrlToBase64(base64Url: challenge))
+        
+        if let challenge = backendCompatibleChallenge {
             platformKeyRequest = platformProvider?.createCredentialAssertionRequest(challenge: challenge)
         }
         

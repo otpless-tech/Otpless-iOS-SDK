@@ -71,7 +71,7 @@ class Utils {
         ]
     }
     
-    class func convertDictionaryToString(_ dictionary: [String: Any], options: JSONSerialization.WritingOptions) -> String {
+    class func convertDictionaryToString(_ dictionary: [String: Any], options: JSONSerialization.WritingOptions = .prettyPrinted) -> String {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: options)
             if let jsonString = String(data: jsonData, encoding: .utf8) {
@@ -93,7 +93,7 @@ class Utils {
     
     /// Converts String to base64Url
     ///
-    /// - parameter string: Base64 String that is converted into base64Url.
+    /// - parameter string: Base64 String that has to be converted into base64Url.
     /// - returns: A string that is base64Url encoded.
     class func base64UrlEncode(base64String: String) -> String {
         // Replace characters to make it URL-safe
@@ -105,5 +105,22 @@ class Utils {
         base64UrlString = base64UrlString.trimmingCharacters(in: CharacterSet(charactersIn: "="))
         
         return base64UrlString
+    }
+    
+    
+    /// Convert base64Url to base64.
+    ///
+    /// - parameter string: Base64Url String that has to be converted into base64.
+    /// - returns: A string that is base64 encoded.
+    class func convertBase64UrlToBase64(base64Url: String) -> String {
+        var base64 = base64Url
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        
+        if base64.count % 4 != 0 {
+            base64.append(String(repeating: "=", count: 4 - base64.count % 4))
+        }
+        
+        return base64
     }
 }

@@ -132,7 +132,10 @@ class NativeWebBridge {
             }
         }
     }
-    
+}
+
+
+extension NativeWebBridge {
     func setHeadlessRequest(headlessRequest: HeadlessRequest?, webview: WKWebView) {
         self.headlessRequest = headlessRequest
         if self.webView == nil {
