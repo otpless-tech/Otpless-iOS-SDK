@@ -225,6 +225,7 @@ class OtplessView: UIView {
 
                 if let updatedURL = updatedUrlComponents.url {
                     let request = URLRequest(url: updatedURL)
+                    OtplessLogger.log(string: request.url?.absoluteString ?? "Unable to get URL", type: "WebView URL")
                     mWebView.load(request)
                 }
             }
@@ -233,6 +234,8 @@ class OtplessView: UIView {
     
     public func onDeeplinkRecieved(deeplink: URL){
         let deepLinkURI = deeplink.absoluteString
+        
+        OtplessLogger.log(string: deepLinkURI, type: "Deeplink")
         
         // Parse existing URL
         if (self.mWebView.url != nil) {

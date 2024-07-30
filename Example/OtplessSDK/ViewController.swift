@@ -9,13 +9,33 @@
 import UIKit
 import OtplessSDK
 
-class ViewController: UIViewController, onResponseDelegate , onEventCallback{
-    let startHeadlessButton: UIButton = {
+class ViewController: UIViewController, onResponseDelegate, onEventCallback {
+    static var logs: [CustomLog] = []
+    
+    @IBOutlet var showLoginPageButton: UIButton!
+    
+    private let startHeadlessButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Start Headless", for: .normal)
         button.setTitleColor(.systemBlue, for: .normal)
         return button
+    }()
+    
+    private let navigateToLoggingVCButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Show Logs", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        return button
+    }()
+    
+    private let responseLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        label.numberOfLines = 0
+        return label
     }()
     
     func onEvent(eventCallback: OtplessSDK.OtplessEventResponse?) {
@@ -46,41 +66,46 @@ class ViewController: UIViewController, onResponseDelegate , onEventCallback{
     }
 
     func onResponse(response: OtplessSDK.OtplessResponse?) {
-        if (response?.errorString != nil) {
-            print(response?.errorString ?? "no value in erro")
-        } else {
-            if (response != nil && response?.responseData != nil
-                && response?.responseData?["data"] != nil){
-                if let data = response?.responseData?["data"] as? [String: Any] {
-                    let token = data["token"]
-                    print(token ?? "no token")
-                }
+        if let errorString = response?.errorString {
+            DispatchQueue.main.async {
+                self.responseLabel.text = errorString
             }
-            
+        } else if let responseData = response?.responseData {
+            DispatchQueue.main.async {
+                self.responseLabel.text = "\(responseData)"
+            }
         }
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        Otpless.sharedInstance.delegate = self
-        Otpless.sharedInstance.eventDelegate = self
         
-        view.addSubview(startHeadlessButton)
-        startHeadlessButton.addTarget(self, action: #selector(startHeadlessButtonTapped), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            startHeadlessButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            startHeadlessButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100)
-        ])
+        setDelegates()
+        setupUI()
+        addTargets()
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+}
+
+
+extension ViewController: OtplessLoggerDelegate {
+    
+    private func setDelegates() {
+        Otpless.sharedInstance.delegate = self
+        Otpless.sharedInstance.eventDelegate = self
+        Otpless.sharedInstance.setLoggerDelegate(delegate: self)
+        Otpless.sharedInstance.webviewInspectable = true
+    }
+    
+    private func addTargets() {
+        navigateToLoggingVCButton.addTarget(self, action: #selector(navigateToLoggerVCButtonTapped), for: .touchUpInside)
+    }
     
     @IBAction func buttonclicked(_ sender: Any) {
-        Otpless.sharedInstance.webviewInspectable = true
         Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: "Y5QD4JEB7AMLZ3F5JR7U", vc: self, params: nil)
     }
     
@@ -88,5 +113,70 @@ class ViewController: UIViewController, onResponseDelegate , onEventCallback{
         let headlessDemoVC = self.storyboard?.instantiateViewController(withIdentifier: "HeadlessDemoVC") as! HeadlessDemoVC
         self.navigationController?.pushViewController(headlessDemoVC, animated: true)
     }
+    
+    @objc func navigateToLoggerVCButtonTapped() {
+        let vc = LoggerVC()
+        present(vc, animated: true)
+    }
+    
+    private func setupUI() {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 16
+        
+        scrollView.addSubview(stackView)
+        
+        // Add buttons and label to stackView
+        stackView.addArrangedSubview(showLoginPageButton)
+        stackView.addArrangedSubview(startHeadlessButton)
+        stackView.addArrangedSubview(navigateToLoggingVCButton)
+        stackView.addArrangedSubview(responseLabel)
+        
+        // Set constraints for scrollView
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        // Set constraints for stackView
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+        
+        showLoginPageButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        startHeadlessButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
 }
 
+
+extension ViewController {
+    
+    func otplessLog(string: String, type: String) {
+        ViewController.logs.append(CustomLog(type: type, message: string, time: getCurrentTime()))
+    }
+
+    private func getCurrentTime() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        return dateFormatter.string(from: Date())
+    }
+}
+
+struct CustomLog {
+    let type: String
+    let message: String
+    let time: String
+}

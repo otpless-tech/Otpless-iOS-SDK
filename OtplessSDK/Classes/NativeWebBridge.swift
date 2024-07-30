@@ -35,6 +35,8 @@ class NativeWebBridge {
                 return
             }
             
+            OtplessLogger.log(dictionary: dataDict ?? [:], type: "Data from web")
+            
             switch nativeKey {
             case 1:
                 //show loader

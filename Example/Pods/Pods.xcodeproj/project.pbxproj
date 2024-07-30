@@ -19,6 +19,7 @@
 		540F0F1E2BB5679C00162CCF /* OtplessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540F0F1D2BB5679C00162CCF /* OtplessView.swift */; };
 		54660C9E2BB59C8F001C7072 /* OtplessViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54660C9D2BB59C8F001C7072 /* OtplessViewExtensions.swift */; };
 		546B77A92BC715D50074735A /* CellularConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546B77A82BC715D50074735A /* CellularConnectionManager.swift */; };
+		54A67CFD2C53C9DD004343AD /* OtplessLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A67CFC2C53C9DC004343AD /* OtplessLogger.swift */; };
 		54F4A7902C2AC051006B215E /* OtplessWebListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F4A78F2C2AC051006B215E /* OtplessWebListener.swift */; };
 		54F4A7922C2AC063006B215E /* OtplessWebListenerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F4A7912C2AC063006B215E /* OtplessWebListenerImpl.swift */; };
 		54F4A7962C2D7F33006B215E /* OtplessWebAuthnManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F4A7952C2D7F33006B215E /* OtplessWebAuthnManager.swift */; };
@@ -83,6 +84,7 @@
 		540F0F1D2BB5679C00162CCF /* OtplessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessView.swift; path = OtplessSDK/Classes/OtplessView.swift; sourceTree = "<group>"; };
 		54660C9D2BB59C8F001C7072 /* OtplessViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessViewExtensions.swift; path = OtplessSDK/Classes/OtplessViewExtensions.swift; sourceTree = "<group>"; };
 		546B77A82BC715D50074735A /* CellularConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CellularConnectionManager.swift; path = OtplessSDK/Classes/CellularConnectionManager.swift; sourceTree = "<group>"; };
+		54A67CFC2C53C9DC004343AD /* OtplessLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessLogger.swift; path = OtplessSDK/Classes/OtplessLogger.swift; sourceTree = "<group>"; };
 		54F4A78F2C2AC051006B215E /* OtplessWebListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessWebListener.swift; path = OtplessSDK/Classes/OtplessWebListener.swift; sourceTree = "<group>"; };
 		54F4A7912C2AC063006B215E /* OtplessWebListenerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessWebListenerImpl.swift; path = OtplessSDK/Classes/OtplessWebListenerImpl.swift; sourceTree = "<group>"; };
 		54F4A7952C2D7F33006B215E /* OtplessWebAuthnManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessWebAuthnManager.swift; path = OtplessSDK/Classes/OtplessWebAuthnManager.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				54F4A7912C2AC063006B215E /* OtplessWebListenerImpl.swift */,
 				54F4A7952C2D7F33006B215E /* OtplessWebAuthnManager.swift */,
 				54F4A7972C2D845F006B215E /* OtplessWebAuthnManagerImpl.swift */,
+				54A67CFC2C53C9DC004343AD /* OtplessLogger.swift */,
 				6AC82192B0A9A086623CFC0B90EF0877 /* Pod */,
 				4084CFC4797EB487FED6150E46F5C8F1 /* Support Files */,
 			);
@@ -454,6 +457,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54A67CFD2C53C9DD004343AD /* OtplessLogger.swift in Sources */,
 				540F0F182BB5667700162CCF /* HeadlessChannel.swift in Sources */,
 				54F4A7902C2AC051006B215E /* OtplessWebListener.swift in Sources */,
 				54660C9E2BB59C8F001C7072 /* OtplessViewExtensions.swift in Sources */,

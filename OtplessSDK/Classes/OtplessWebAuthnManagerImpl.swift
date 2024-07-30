@@ -110,16 +110,16 @@ class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizat
             if let laError = error as? LAError {
                 switch laError.code {
                 case .biometryNotAvailable:
-                    print("Biometric authentication is not available on this device.")
+                    OtplessLogger.log(string: "Biometrics not available on device", type: "isWebAuthnSupported")
                 case .biometryNotEnrolled:
-                    print("No biometric enrollment is present.")
+                    OtplessLogger.log(string: "Biometrics not available on device", type: "isWebAuthnSupported")
                 case .passcodeNotSet:
-                    print("No passcode is set on this device.")
+                    OtplessLogger.log(string: "No passcode set on device", type: "isWebAuthnSupported")
                 default:
-                    print("Authentication error: \(laError.localizedDescription)")
+                    OtplessLogger.log(string: "Authentication error \(error?.localizedDescription ?? "")", type: "isWebAuthnSupported")
                 }
             } else {
-                print("Unknown error: \(String(describing: error?.localizedDescription))")
+                OtplessLogger.log(string: "Unknown error \(error?.localizedDescription ?? "")", type: "isWebAuthnSupported")
             }
             callback(false)
         }
@@ -170,17 +170,17 @@ extension OtplessWebAuthnManagerImpl {
         case .canceled:
             errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: "User cancelled authorization attempt.")
         case .failed:
-            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: "Authorization attempt failed.")
+            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: error?.localizedDescription ?? "Authorization attempt failed.")
         case .invalidResponse:
-            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: "Authorization request received invalid response.")
+            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: error?.localizedDescription ?? "Authorization request received invalid response.")
         case .notHandled:
-            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: "Authorization request was not handled.")
+            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: error?.localizedDescription ?? "Authorization request was not handled.")
         case .notInteractive:
-            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: "Authorization request does not involve user interaction.")
+            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: error?.localizedDescription ?? "Authorization request does not involve user interaction.")
         case .unknown:
-            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: "Authorization request failed due to unknown reasons.")
+            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: error?.localizedDescription ?? "Authorization request failed due to unknown reasons.")
         default:
-            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: "Unable to authorize via passkey.")
+            errorJson = Utils.createErrorDictionary(error: "authorization_error", errorDescription: error?.localizedDescription ?? "Unable to authorize via passkey.")
         }
         
         return errorJson

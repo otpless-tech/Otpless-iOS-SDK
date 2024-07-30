@@ -249,6 +249,7 @@ extension OtplessWebListenerImpl {
     }
     
     private func callJs(webview: WKWebView, script: String) {
+        OtplessLogger.log(string: script, type: "JS Script")
         DispatchQueue.main.async {
             webview.evaluateJavaScript(script, completionHandler: nil)
         }
