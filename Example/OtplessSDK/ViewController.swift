@@ -104,7 +104,7 @@ extension ViewController: OtplessLoggerDelegate {
     private func addTargets() {
         navigateToLoggingVCButton.addTarget(self, action: #selector(navigateToLoggerVCButtonTapped), for: .touchUpInside)
         
-        startHeadlessButton.addTarget(self, action: #selector(startHeadlessButtonTapped), for: <#T##UIControlEvents#>)
+        startHeadlessButton.addTarget(self, action: #selector(startHeadlessButtonTapped), for: .touchUpInside)
     }
     
     @IBAction func buttonclicked(_ sender: Any) {
