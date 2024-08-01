@@ -12,7 +12,7 @@ import AuthenticationServices
 @available(iOS 16.0, *)
 class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
-    var windowScene: UIWindowScene?
+    private weak var windowScene: UIWindowScene?
     private var responseCallback: ((WebAuthnResult) -> Void)?
     
     /// Initializes OtplessWebAuthnManager with UIWindowScene.
