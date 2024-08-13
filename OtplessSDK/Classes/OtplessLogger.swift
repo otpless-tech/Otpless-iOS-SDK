@@ -13,7 +13,9 @@ import Foundation
 
 class OtplessLogger {
     static func log(string: String, type: String) {
-        Otpless.sharedInstance.getLoggerDelegate()?.otplessLog(string: string, type: type)
+        #if DEBUG
+            Otpless.sharedInstance.getLoggerDelegate()?.otplessLog(string: string, type: type)
+        #endif
     }
     
     static func log(dictionary: [String: Any], type: String) {

@@ -11,13 +11,12 @@ import WebKit
 
 
 class NativeWebBridge {
-    private var webView: WKWebView! = nil
+    internal var webView: WKWebView! = nil
     public weak var delegate: BridgeDelegate?
     public weak var headlessRequest: HeadlessRequest? = nil
-    private var otplessWebManager: OtplessWebListener?
+    var otplessWebAuthn: OtplessWebAuthn?
     
     func parseScriptMessage(message: WKScriptMessage, webview : WKWebView){
-        otplessWebManager = OtplessWebListenerImpl(webView: webview)
         webView = webview
         
         if let jsonStringFromWeb = message.body as? String {
@@ -31,20 +30,16 @@ class NativeWebBridge {
                 }
             }
             
-            guard let otplessWebManager = otplessWebManager else {
-                return
-            }
-            
             OtplessLogger.log(dictionary: dataDict ?? [:], type: "Data from web")
             
             switch nativeKey {
             case 1:
                 //show loader
-                otplessWebManager.showLoader(usingDelegate: delegate)
+                self.showLoader(usingDelegate: delegate)
                 break
             case 2:
                 // hide loader
-                otplessWebManager.hideLoader(usingDelegate: delegate)
+                self.hideLoader(usingDelegate: delegate)
                 break
             case 3:
                 // back button subscribe
@@ -53,45 +48,45 @@ class NativeWebBridge {
                 // save string
                 if let key = dataDict?["infoKey"] as? String{
                     if let value =  dataDict?["infoValue"] as? String{
-                        otplessWebManager.saveString(forKey: key, value: value)
+                        self.saveString(forKey: key, value: value)
                     }
                 }
                 break
             case 5:
                 // get string
                 if let key = dataDict?["infoKey"] as? String{
-                    otplessWebManager.getString(forKey: key)
+                    self.getString(forKey: key)
                 }
                 break
             case 7:
                 // open deeplink
                 if let url = dataDict?["deeplink"] as? String {
-                    otplessWebManager.openDeepLink(url)
+                    self.openDeepLink(url)
                 }
                 break
             case 8:
                 // get app info
-                otplessWebManager.getAppInfo()
+                self.getAppInfo()
                 break
             case 11:
                 // verification status call key 11
                 if let response = dataDict?["response"] as? [String: Any] {
-                    otplessWebManager.responseVerificationStatus(forResponse: response, delegate: delegate)
+                    self.responseVerificationStatus(forResponse: response, delegate: delegate)
                 }
                 break
             case 12:
                 // change the height of web view
                 if let heightPercent = dataDict?["heightPercent"] as? Int {
-                    otplessWebManager.changeWebViewHeight(withHeightPercent: heightPercent)
+                    self.changeWebViewHeight(withHeightPercent: heightPercent)
                 }
                 break
             case 13:
                 // extra params
-                otplessWebManager.getExtraParams(fromHeadlessRequest: self.headlessRequest)
+                self.getExtraParams(from: self.headlessRequest)
                 break
             case 14:
                 // close
-                otplessWebManager.onCloseWebView(delegate: delegate)
+                self.onCloseWebView()
                 break
             case 15:
                 // send event
@@ -99,34 +94,34 @@ class NativeWebBridge {
 
             case 20:
                 // send headless request to web
-                otplessWebManager.sendHeadlessRequestToWeb(self.headlessRequest, withCode: "")
+                self.sendHeadlessRequestToWeb(self.headlessRequest, withCode: "")
                 break
             case 21:
                 // send headless response
                 guard let dataDict = dataDict else {
                     return
                 }
-                otplessWebManager.sendHeadlessResponse(dataDict)
+                self.sendHeadlessResponse(dataDict)
                 break
             case 26:
                 // initialize WebAuthn registration
                 let webAuthnRequest = dataDict?["request"] as? [String: Any]
-                otplessWebManager.initiateWebAuthnRegistration(withRequest: webAuthnRequest)
+                self.initiateWebAuthnRegistration(withRequest: webAuthnRequest)
                 break
             case 27:
                 // initialize WebAuthn sign in
                 let webAuthnRequest = dataDict?["request"] as? [String: Any]
-                otplessWebManager.initiateWebAuthnSignIn(withRequest: webAuthnRequest)
+                self.initiateWebAuthnSignIn(withRequest: webAuthnRequest)
                 break
             case 28:
                 // check WebAuthn availability
-                otplessWebManager.checkWebAuthnAvailability()
+                self.checkWebAuthnAvailability()
                 break
             case 42:
                 // perform silent auth
                 let url = dataDict?["url"] as? String ?? ""
                 let connectionUrl = URL(string: url)
-                otplessWebManager.performSilentAuth(withConnectionUrl: connectionUrl)
+                self.performSilentAuth(withConnectionUrl: connectionUrl)
                 break
 
             default:
@@ -148,9 +143,9 @@ extension NativeWebBridge {
     func sendHeadlessRequestToWeb(withCode code: String = "") {
         if !code.isEmpty {
             // Send only code in request to verify it and get details
-            self.otplessWebManager?.sendHeadlessRequestToWeb(nil, withCode: code)
+            self.sendHeadlessRequestToWeb(nil, withCode: code)
         } else if let request = headlessRequest {
-            self.otplessWebManager?.sendHeadlessRequestToWeb(request, withCode: "")
+            self.sendHeadlessRequestToWeb(request, withCode: "")
         }
     }
 }

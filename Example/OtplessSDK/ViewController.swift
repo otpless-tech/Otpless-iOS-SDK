@@ -30,6 +30,14 @@ class ViewController: UIViewController, onResponseDelegate, onEventCallback {
         return button
     }()
     
+    private let copyResponseButton: UIButton = {
+       let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Copy Response", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        return button
+    }()
+    
     private let responseLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -105,6 +113,8 @@ extension ViewController: OtplessLoggerDelegate {
         navigateToLoggingVCButton.addTarget(self, action: #selector(navigateToLoggerVCButtonTapped), for: .touchUpInside)
         
         startHeadlessButton.addTarget(self, action: #selector(startHeadlessButtonTapped), for: .touchUpInside)
+        
+        copyResponseButton.addTarget(self, action: #selector(copyResponseButtonTapped), for: .touchUpInside)
     }
     
     @IBAction func buttonclicked(_ sender: Any) {
@@ -119,6 +129,12 @@ extension ViewController: OtplessLoggerDelegate {
     @objc func navigateToLoggerVCButtonTapped() {
         let vc = LoggerVC()
         present(vc, animated: true)
+    }
+    
+    @objc func copyResponseButtonTapped() {
+        if let response = responseLabel.text, !response.trimmingCharacters(in: .whitespaces).isEmpty {
+            UIPasteboard.general.string = response
+        }
     }
     
     private func setupUI() {
@@ -139,6 +155,7 @@ extension ViewController: OtplessLoggerDelegate {
         stackView.addArrangedSubview(showLoginPageButton)
         stackView.addArrangedSubview(startHeadlessButton)
         stackView.addArrangedSubview(navigateToLoggingVCButton)
+        stackView.addArrangedSubview(copyResponseButton)
         stackView.addArrangedSubview(responseLabel)
         
         // Set constraints for scrollView
@@ -160,6 +177,7 @@ extension ViewController: OtplessLoggerDelegate {
         
         showLoginPageButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         startHeadlessButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        copyResponseButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 }
 

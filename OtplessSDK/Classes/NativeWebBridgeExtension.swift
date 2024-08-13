@@ -1,21 +1,14 @@
 //
-//  OtplessWebManagerImpl.swift
+//  NativeWebManagerExtension.swift
 //  OtplessSDK
 //
-//  Created by Sparsh on 25/06/24.
+//  Created by Sparsh on 12/08/24.
 //
 
 import Foundation
 import WebKit
 
-class OtplessWebListenerImpl: OtplessWebListener {
-    
-    var mWebView: WKWebView!
-    var webAuthnManger: OtplessWebAuthnManager? = nil
-    
-    internal init(webView: WKWebView) {
-        self.mWebView = webView
-    }
+extension NativeWebBridge {
     
     
     /// Key 1 - Show loader
@@ -88,7 +81,7 @@ class OtplessWebListenerImpl: OtplessWebListener {
     
     
     /// Key 13 - Get extra params
-    func getExtraParams(fromHeadlessRequest request: HeadlessRequest?) {
+    func getExtraParams(from request: HeadlessRequest?) {
         var extraParams = [String: Any]()
         if let headlessRequest = request {
             extraParams = headlessRequest.makeJson()
@@ -99,7 +92,7 @@ class OtplessWebListenerImpl: OtplessWebListener {
     
     
     /// Key 14 - WebView closed by user
-    func onCloseWebView(delegate: BridgeDelegate?) {
+    func onCloseWebView() {
         let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
         Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
         delegate?.dismissView()
@@ -138,32 +131,32 @@ class OtplessWebListenerImpl: OtplessWebListener {
     /// Key 26 - Initiate WebAuthn registration
     func initiateWebAuthnRegistration(withRequest requestJson: [String : Any]?) {
         guard let requestJson = requestJson else {
-            self.loadErrorInScript(function: "onWebAuthnSigninError", error: "json_parsing_error", errorDescription: "Unable to parse request json")
+            self.loadErrorInScript(function: "onWebAuthnRegistrationError", error: "json_parsing_error", errorDescription: "Unable to parse request json")
             return
         }
         
-        if webAuthnManger == nil {
-            if #available(iOS 16, *) {
-                guard let windowScene = getWindowScene() else {
-                    self.loadErrorInScript(function: "onWebAuthnRegistrationError", error: "window_nil", errorDescription: "Window scene is nil, can't show Passkey bottom sheet.")
-                    return
-                }
-                
-                webAuthnManger = OtplessWebAuthnManagerImpl(windowScene: windowScene)
-            } else {
-                self.loadUnsupportedIOSVersionErrorInScript(function: "onWebAuthnRegistrationError", supportedFrom: "iOS 16", feature: "Passkeys")
+        if #available(iOS 16, *) {
+            guard let _ = Otpless.sharedInstance.getWindowScene() else {
+                self.loadErrorInScript(function: "onWebAuthnRegistrationError", error: "window_nil", errorDescription: "Window scene is nil, can't show Passkey bottom sheet.")
                 return
             }
-        }
-        
-        webAuthnManger?.initiateRegistration(withRequest: requestJson, onResponse: { response in
-            switch response {
-            case .success(let dictionary):
-                self.loadScript(function: "onWebAuthnRegistrationSuccess", message: Utils.convertDictionaryToString(dictionary))
-            case .failure(let dictionary):
-                self.loadScript(function: "onWebAuthnRegistrationError", message: Utils.convertDictionaryToString(dictionary))
+            
+            if otplessWebAuthn == nil {
+                otplessWebAuthn = OtplessWebAuthn()
             }
-        })
+            
+            otplessWebAuthn?.initiateRegistration(withRequest: requestJson, onResponse: { response in
+                switch response {
+                case .success(let dictionary):
+                    self.loadScript(function: "onWebAuthnRegistrationSuccess", message: Utils.convertDictionaryToString(dictionary))
+                case .failure(let dictionary):
+                    self.loadScript(function: "onWebAuthnRegistrationError", message: Utils.convertDictionaryToString(dictionary))
+                }
+            })
+        } else {
+            self.loadUnsupportedIOSVersionErrorInScript(function: "onWebAuthnRegistrationError", supportedFrom: "iOS 16", feature: "Passkeys")
+            return
+        }
     }
     
     
@@ -174,46 +167,43 @@ class OtplessWebListenerImpl: OtplessWebListener {
             return
         }
         
-        if webAuthnManger == nil {
-            if #available(iOS 16, *) {
-                if let windowScene = getWindowScene() {
-                    webAuthnManger = OtplessWebAuthnManagerImpl(windowScene: windowScene)
-                } else {
-                    self.loadErrorInScript(function: "onWebAuthnSigninError", error: "window_nil", errorDescription: "Window is nil, cannot present Passkey bottom sheet.")
-                }
-            } else {
-                self.loadUnsupportedIOSVersionErrorInScript(function: "onWebAuthnSigninError", supportedFrom:  "iOS 16", feature: "Passkeys")
+        if #available(iOS 16, *) {
+            guard let _ = Otpless.sharedInstance.getWindowScene() else {
+                self.loadErrorInScript(function: "onWebAuthnSigninError", error: "window_nil", errorDescription: "Window scene is nil, can't show Passkey bottom sheet.")
+                return
             }
-        }
         
-        webAuthnManger?.initiateSignIn(withRequest: requestJson, onResponse: { response in
-            switch response {
-            case .success(let dictionary):
-                self.loadScript(function: "onWebAuthnSigninSuccess", message: Utils.convertDictionaryToString(dictionary))
-            case .failure(let dictionary):
-                self.loadScript(function: "onWebAuthnSigninError", message: Utils.convertDictionaryToString(dictionary))
+            if otplessWebAuthn == nil {
+                otplessWebAuthn = OtplessWebAuthn()
             }
-        })
+            
+            otplessWebAuthn?.initiateSignIn(withRequest: requestJson, onResponse: { response in
+                switch response {
+                case .success(let dictionary):
+                    self.loadScript(function: "onWebAuthnSigninSuccess", message: Utils.convertDictionaryToString(dictionary))
+                case .failure(let dictionary):
+                    self.loadScript(function: "onWebAuthnSigninError", message: Utils.convertDictionaryToString(dictionary))
+                }
+            })
+        } else {
+            self.loadUnsupportedIOSVersionErrorInScript(function: "onWebAuthnSigninError", supportedFrom:  "iOS 16", feature: "Passkeys")
+            return
+        }
     }
     
     
     /// Key 28 - Check WebAuthn availability
     func checkWebAuthnAvailability() {
         if #available(iOS 16, *) {
-            guard let windowScene = getWindowScene() else {
-                loadScript(function: "onCheckWebAuthnAuthenticatorResult", message: "false")
-                return
+            if otplessWebAuthn == nil {
+                otplessWebAuthn = OtplessWebAuthn()
             }
             
-            if webAuthnManger == nil {
-                webAuthnManger = OtplessWebAuthnManagerImpl(windowScene: windowScene)
-            }
-            
-            webAuthnManger?.isWebAuthnsupportedOnDevice(onResponse: { isSupported in
+            otplessWebAuthn?.isWebAuthnsupportedOnDevice(onResponse: { isSupported in
                 var webAuthnAvailabilityResponse: [String: Any] = [:]
                 webAuthnAvailabilityResponse["isAvailable"] = "\(isSupported)"
                 let responseStr = Utils.convertDictionaryToString(webAuthnAvailabilityResponse)
-                loadScript(function: "onCheckWebAuthnAuthenticatorResult", message: responseStr)
+                self.loadScript(function: "onCheckWebAuthnAuthenticatorResult", message: responseStr)
             })
         } else {
             var webAuthnAvailabilityResponse: [String: Any] = [:]
@@ -241,11 +231,11 @@ class OtplessWebListenerImpl: OtplessWebListener {
 }
 
 
-extension OtplessWebListenerImpl {
+extension NativeWebBridge {
     private func loadScript(function: String, message: String) {
         let tempScript = function + "(" + message + ")"
         let script = tempScript.replacingOccurrences(of: "\n", with: "")
-        callJs(webview: mWebView, script: script)
+        callJs(webview: webView, script: script)
     }
     
     private func callJs(webview: WKWebView, script: String) {
@@ -302,12 +292,12 @@ extension OtplessWebListenerImpl {
     
     @available(iOS 13, *)
     private func getWindowScene() -> UIWindowScene? {
-        return mWebView.window?.windowScene
+        return webView.window?.windowScene
     }
 }
 
 /// Handles exceptions and errors and send them to web
-extension OtplessWebListenerImpl {
+extension NativeWebBridge {
     
     private func loadErrorInScript(function: String, error: String, errorDescription: String) {
         let error = Utils.createErrorDictionary(error: error, errorDescription: errorDescription)

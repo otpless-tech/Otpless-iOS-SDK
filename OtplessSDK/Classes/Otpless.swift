@@ -232,6 +232,28 @@ import Foundation
     @objc public func isDeviceSimulator() -> Bool {
         return DeviceInfoUtils.shared.isDeviceSimulator()
     }
+    
+    /// Return's the application's WindowScene.
+    ///
+    /// - returns: An instance of `UIWindowScene?`.
+    @available(iOS 15, *)
+    func getWindowScene() -> UIWindowScene? {
+        let window = UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .last
+        
+        var windowScene = window?.windowScene
+        
+        if windowScene != nil {
+            return windowScene
+        }
+        
+        windowScene = merchantVC?.view.window?.windowScene
+        
+        return windowScene
+    }
 }
 
 

@@ -1,45 +1,32 @@
 //
-//  OtplessWebAuthnManagerImpl.swift
+//  OtplessWebAuthn.swift
 //  OtplessSDK
 //
 //  Created by Sparsh on 27/06/24.
 //
 
 import Foundation
-import LocalAuthentication
 import AuthenticationServices
+import LocalAuthentication
 
-@available(iOS 16.0, *)
-class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
-    
-    private weak var windowScene: UIWindowScene?
+/// `OtplessWebAuthn` is used to manage sign in and registration via WebAuthn.
+///
+/// We haven't annotated the class with `@available(iOS 16, *)` so that it's class level instance can be created in common classes thay may
+/// supporting previous versions of iOS. Instead, we have annotated it's extension and other all the functions with `@available(iOS 16, *)`.
+class OtplessWebAuthn: NSObject {
     private var responseCallback: ((WebAuthnResult) -> Void)?
     
-    /// Initializes OtplessWebAuthnManager with UIWindowScene.
-    ///
-    /// - parameter windowScene: windowScene is needed to inflate Passkey UI.
-    init(windowScene: UIWindowScene) {
-        self.windowScene = windowScene
+    override init() {
+        super.init()
     }
-    
-    
-    /// Handles the error of an authorization request.
-    ///
-    /// - parameter controller: The authorization controller handling the authorization.
-    /// - parameter error: The error that occurred during authorization.
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        let authorizationError = error as? ASAuthorizationError
-        let errorJson: [String: Any] = createError(fromAuthorizationError: authorizationError)
-        responseCallback?(.failure(errorJson))
-    }
-    
     
     /// Initiates Passkey registration.
     ///
     /// - parameter request: The request dictionary containing registration parameters.
     /// - parameter onResponse: The callback to handle the registration response.
+    @available(iOS 16, *)
     func initiateRegistration(
-        withRequest request: [String : Any],
+        withRequest requestJson: [String: Any],
         onResponse responseCallback: @escaping (WebAuthnResult) -> Void
     ) {
         self.responseCallback = responseCallback
@@ -51,7 +38,7 @@ class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizat
         }
         
         createRegistrationRequest(
-            from: request,
+            from: requestJson,
             onErrorCallback: responseCallback,
             onRegistrationRequestCreation: { platformKeyRequest in
                 let authController = ASAuthorizationController(authorizationRequests: [ platformKeyRequest ])
@@ -62,15 +49,15 @@ class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizat
         )
     }
     
-    
     /// Initiates sign in via Passkey.
     ///
     /// - parameter request: The request dictionary containing registration parameters.
     /// - parameter onResponse: The callback to handle the sign in response.
+    @available(iOS 16, *)
     func initiateSignIn(
-        withRequest request: [String : Any],
+        withRequest requestJson: [String: Any],
         onResponse responseCallback: @escaping (WebAuthnResult) -> Void
-    ){
+    ) {
         self.responseCallback = responseCallback
         
         if !isWindowValid() {
@@ -80,7 +67,7 @@ class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizat
         }
         
         createSignInRequest(
-            from: request,
+            from: requestJson,
             onErrorCallback: responseCallback,
             onSignInRequestCreation: { platformKeyRequest in
                 let authController = ASAuthorizationController(authorizationRequests: [ platformKeyRequest ])
@@ -91,10 +78,10 @@ class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizat
         )
     }
     
-    
     /// Checks whether device supports WebAuthN.
     ///
     /// - parameter callback: The callback to return the result of check.
+    @available(iOS 16, *)
     func isWebAuthnsupportedOnDevice(onResponse callback: (Bool) -> Void) {
         if DeviceInfoUtils.shared.isDeviceSimulator() {
             callback(false)
@@ -124,14 +111,28 @@ class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizat
             callback(false)
         }
     }
+}
+
+@available(iOS 16.0, *)
+extension OtplessWebAuthn: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    
+    /// Handles the error of an authorization request.
+    ///
+    /// - parameter controller: The authorization controller handling the authorization.
+    /// - parameter error: The error that occurred during authorization.
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        let authorizationError = error as? ASAuthorizationError
+        let errorJson: [String: Any] = createError(fromAuthorizationError: authorizationError)
+        responseCallback?(.failure(errorJson))
+    }
     
     
-    /// Provides the presentation anchor for the ASAuthorizationController.
+    /// Provides the presentation anchor for the `ASAuthorizationController`.
     ///
     /// - parameter controller: The authorization controller requesting the presentation anchor.
     /// - returns: The presentation anchor for the authorization controller.
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return ASPresentationAnchor(windowScene: windowScene!)
+        return ASPresentationAnchor(windowScene: Otpless.sharedInstance.getWindowScene()!)
     }
     
     
@@ -157,7 +158,7 @@ class OtplessWebAuthnManagerImpl: NSObject, OtplessWebAuthnManager, ASAuthorizat
 }
 
 @available(iOS 16, *)
-extension OtplessWebAuthnManagerImpl {
+extension OtplessWebAuthn {
     
     /// Create authorization error dictionary.
     ///
@@ -189,8 +190,8 @@ extension OtplessWebAuthnManagerImpl {
 
     /// Checks if window can be referenced.
     /// - returns: A boolean indicating whether window is valid or not.
-    private func isWindowValid() -> Bool{
-        return windowScene != nil
+    private func isWindowValid() -> Bool {
+        return Otpless.sharedInstance.getWindowScene() != nil
     }
     
     /// Creates a parsing error and calls the callback with the error dictionary.
@@ -253,7 +254,7 @@ extension OtplessWebAuthnManagerImpl {
     ///
     /// - parameter request: Dictionary sent from backend containing necessary details for creating a request
     /// - parameter onErrorCallback: Returns an error in the callback
-    /// - parameter onRegistrationRequestCreation: Returns registration request for passkey (an instance of ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest).
+    /// - parameter onRegistrationRequestCreation: Returns registration request for passkey (an instance of `ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest`).
     func createRegistrationRequest(
         from request: [String: Any],
         onErrorCallback: @escaping (WebAuthnResult) -> Void,
@@ -307,7 +308,7 @@ extension OtplessWebAuthnManagerImpl {
     ///
     /// - parameter request: Dictionary sent from backend containing necessary details for creating a request
     /// - parameter onErrorCallback: Returns an error in the callback
-    /// - parameter onSignInRequestCreation: Returns registration request for passkey (an instance of ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest).
+    /// - parameter onSignInRequestCreation: Returns registration request for passkey (an instance of `ASAuthorizationPlatformPublicKeyCredentialRegistrationRequest`).
     func createSignInRequest(
         from request: [String: Any],
         onErrorCallback: @escaping (WebAuthnResult) -> Void,
@@ -342,4 +343,9 @@ extension OtplessWebAuthnManagerImpl {
         
         onSignInRequestCreation(platformKeyRequest)
     }
+}
+
+enum WebAuthnResult {
+    case success([String: Any])
+    case failure([String: Any])
 }
