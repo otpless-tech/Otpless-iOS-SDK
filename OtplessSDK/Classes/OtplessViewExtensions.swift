@@ -106,6 +106,8 @@ extension OtplessView: WKNavigationDelegate {
             } else {
                 loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
             }
+            
+            OtplessLogger.log(string: "No internet connection", type: "No internet connection.")
         }
     }
     
@@ -165,6 +167,8 @@ extension OtplessView: WKNavigationDelegate {
             } else {
                 loader.showWithErrorAndRetry(errorText: "Connection error" + " : " + error.localizedDescription.description)
             }
+            
+            OtplessLogger.log(string: "No internet connection", type: "No internet connection.")
         }
     }
 }

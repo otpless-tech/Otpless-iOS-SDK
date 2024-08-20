@@ -11,16 +11,14 @@ import WebKit
 
 
 class NativeWebBridge {
-    
-    private  var deeplink = ""
-    private var JAVASCRIPT_SCR = "javascript: "
-    private var webView: WKWebView! = nil
-    private var navController: UINavigationController! = nil
+    internal var webView: WKWebView! = nil
     public weak var delegate: BridgeDelegate?
     public weak var headlessRequest: HeadlessRequest? = nil
+    var otplessWebAuthn: OtplessWebAuthn?
     
-    func parseScriptMessage(message: WKScriptMessage,webview : WKWebView){
-            webView = webview
+    func parseScriptMessage(message: WKScriptMessage, webview : WKWebView){
+        webView = webview
+        
         if let jsonStringFromWeb = message.body as? String {
             let dataDict = Utils.convertToDictionary(text: jsonStringFromWeb)
             var nativeKey = 0
@@ -32,18 +30,16 @@ class NativeWebBridge {
                 }
             }
             
+            OtplessLogger.log(dictionary: dataDict ?? [:], type: "Data from web")
+            
             switch nativeKey {
             case 1:
                 //show loader
-                if delegate != nil {
-                    delegate?.showLoader()
-                }
+                self.showLoader(usingDelegate: delegate)
                 break
             case 2:
                 // hide loader
-                if delegate != nil {
-                    delegate?.hideLoader()
-                }
+                self.hideLoader(usingDelegate: delegate)
                 break
             case 3:
                 // back button subscribe
@@ -52,122 +48,45 @@ class NativeWebBridge {
                 // save string
                 if let key = dataDict?["infoKey"] as? String{
                     if let value =  dataDict?["infoValue"] as? String{
-                        OtplessHelper.setValue(value: key, forKey: value)
+                        self.saveString(forKey: key, value: value)
                     }
                 }
                 break
             case 5:
                 // get string
                 if let key = dataDict?["infoKey"] as? String{
-                    let value : String? = OtplessHelper.getValue(forKey: key)
-                    if value != nil {
-                        var params = [String: String]()
-                        params[key] = value
-                        do {
-                            let jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-                            if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                                let tempScript = "onStorageValueSuccess(" + jsonStr + ")"
-                                let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                                callJs(webview: webView, script: script)
-                            }
-                        } catch {
-
-                        }
-                    } else {
-                        do {
-                            var params = [String: String]()
-                            params[key] = ""
-                            let jsonData = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-                            if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                                let tempScript = "onStorageValueSuccess(" + jsonStr + ")"
-                                let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                                callJs(webview: webView, script: script)
-                            }
-                        } catch {
-                        
-                        }
-                    }
-                    //onStorageValueSuccess
+                    self.getString(forKey: key)
                 }
                 break
             case 7:
                 // open deeplink
                 if let url = dataDict?["deeplink"] as? String {
-                    OtplessHelper.sendEvent(event: "intent_redirect_out")
-                    let urlWithOutDecoding = url.removingPercentEncoding
-                    if let link = URL(string: (urlWithOutDecoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))!) {
-                        UIApplication.shared.open(link, options: [:], completionHandler: nil)
-                    }
+                    self.openDeepLink(url)
                 }
                 break
             case 8:
                 // get app info
-                do {
-                    var parametersToSend =  DeviceInfoUtils.shared.getAppInfo()
-                    parametersToSend["appSignature"] = DeviceInfoUtils.shared.appHash
-                    let jsonData = try JSONSerialization.data(withJSONObject: parametersToSend, options: .prettyPrinted)
-                    if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                        let tempScript = "onAppInfoResult(" + jsonStr + ")"
-                        let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                        callJs(webview: webView, script: script)
-                    }
-                } catch {
-                    
-                }
+                self.getAppInfo()
                 break
             case 11:
                 // verification status call key 11
                 if let response = dataDict?["response"] as? [String: Any] {
-                    var responseParams =  [String : Any]()
-                    responseParams["data"] = response
-                    let otplessResponse = OtplessResponse(responseString: nil, responseData: responseParams)
-                    Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
-                    delegate?.dismissView()
-                    OtplessHelper.sendEvent(event: "auth_completed")
+                    self.responseVerificationStatus(forResponse: response, delegate: delegate)
                 }
                 break
             case 12:
                 // change the height of web view
                 if let heightPercent = dataDict?["heightPercent"] as? Int {
-                    Otpless.sharedInstance.setOtplessViewHeight(heightPercent: heightPercent)
+                    self.changeWebViewHeight(withHeightPercent: heightPercent)
                 }
                 break
             case 13:
                 // extra params
-                do {
-                    if let headlessRequest = headlessRequest {
-                        let extraParams = headlessRequest.makeJson()
-                        
-                        let jsonData = try JSONSerialization.data(withJSONObject: extraParams, options: .prettyPrinted)
-                        
-                        if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                            let tempScript = "onExtraParamResult(" + jsonStr + ")"
-                            let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                            callJs(webview: webView, script: script)
-                        }
-                    } else {
-                        let extraParams = [String: Any]()
-                        
-                        let jsonData = try JSONSerialization.data(withJSONObject: extraParams, options: .prettyPrinted)
-                        
-                        if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                            let tempScript = "onExtraParamResult(" + jsonStr + ")"
-                            let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                            callJs(webview: webView, script: script)
-                        }
-                    }
-                }  catch {
-                    
-                }
+                self.getExtraParams(from: self.headlessRequest)
                 break
             case 14:
                 // close
-                if delegate != nil {
-                    let otplessResponse = OtplessResponse(responseString: "user cancelled.", responseData: nil)
-                    Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
-                    delegate?.dismissView()
-                    OtplessHelper.sendEvent(event: "user_abort")
-                }
+                self.onCloseWebView()
                 break
             case 15:
                 // send event
@@ -175,67 +94,34 @@ class NativeWebBridge {
 
             case 20:
                 // send headless request to web
-                sendHeadlessRequestToWeb()
+                self.sendHeadlessRequestToWeb(self.headlessRequest, withCode: "")
                 break
             case 21:
                 // send headless response
                 guard let dataDict = dataDict else {
                     return
                 }
-                
-                let responseStr = dataDict["response"] as? String ?? ""
-                let responseDict = Utils.convertToDictionary(text: responseStr)
-                let closeView = dataDict["closeView"] as? Int == 1
-                let responseType = responseDict?["responseType"] as? String ?? ""
-                
-                let statusCode = responseDict?["statusCode"] as? Int ?? 0
-                let resp = (responseDict?["response"] as? [String: Any])
-                
-                let headlessResponse = HeadlessResponse(
-                    responseType: responseType,
-                    responseData: resp,
-                    statusCode: statusCode
-                )
-                
-                Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView)
-                
-                if containsIdentity(responseDict) {
-                    OtplessHelper.sendEvent(event: "auth_completed")
-                }
-                
+                self.sendHeadlessResponse(dataDict)
+                break
+            case 26:
+                // initialize WebAuthn registration
+                let webAuthnRequest = dataDict?["request"] as? [String: Any]
+                self.initiateWebAuthnRegistration(withRequest: webAuthnRequest)
+                break
+            case 27:
+                // initialize WebAuthn sign in
+                let webAuthnRequest = dataDict?["request"] as? [String: Any]
+                self.initiateWebAuthnSignIn(withRequest: webAuthnRequest)
+                break
+            case 28:
+                // check WebAuthn availability
+                self.checkWebAuthnAvailability()
                 break
             case 42:
                 // perform silent auth
                 let url = dataDict?["url"] as? String ?? ""
-                
                 let connectionUrl = URL(string: url)
-                if connectionUrl != nil {
-                    forceOpenURLOverMobileNetwork(
-                        url: connectionUrl!,
-                        completion: { silentAuthResponse in
-                            do {
-                                let jsonData = try JSONSerialization.data(withJSONObject: silentAuthResponse, options: .prettyPrinted)
-                                if let jsonStr = String(data: jsonData, encoding: .utf8) as String? {
-                                    let tempScript = "onCellularNetworkResult(" + jsonStr + ")"
-                                    let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                                    self.callJs(webview: self.webView, script: script)
-                                }
-                            } catch {
-                                let jsonStr = Utils.createErrorDictionary(error: "json_serialization", errorDescription: "Unable to serialize json from response").description
-                                let tempScript = "onCellularNetworkResult(" + jsonStr + ")"
-                                let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                                self.callJs(webview: self.webView, script: script)
-                            }
-                        }
-                    )
-                } else {
-                    // handle case when unable to create URL from string
-                    let jsonStr = Utils.createErrorDictionary(error: "url_parsing_fail", errorDescription: "Unable to parse url from string.").description
-                    let tempScript = "onCellularNetworkResult(" + jsonStr + ")"
-                    let script = tempScript.replacingOccurrences(of: "\n", with: "")
-                    self.callJs(webview: self.webView, script: script)
-                }
-                
+                self.performSilentAuth(withConnectionUrl: connectionUrl)
                 break
 
             default:
@@ -243,14 +129,10 @@ class NativeWebBridge {
             }
         }
     }
-    
-    func callJs(webview: WKWebView, script: String) {
-        DispatchQueue.main.async {
-            webview.evaluateJavaScript(script, completionHandler: nil)
-        }
-    }
+}
 
-    
+
+extension NativeWebBridge {
     func setHeadlessRequest(headlessRequest: HeadlessRequest?, webview: WKWebView) {
         self.headlessRequest = headlessRequest
         if self.webView == nil {
@@ -259,39 +141,12 @@ class NativeWebBridge {
     }
     
     func sendHeadlessRequestToWeb(withCode code: String = "") {
-        do {
-            var requestData: [String: Any] = [:]
-            
-            if !code.isEmpty {
-                // Send only code in request to verify it and get details
-                requestData["code"] = code
-            } else if let request = headlessRequest {
-                requestData = request.makeJson()
-            }
-            
-            let jsonData = try JSONSerialization.data(withJSONObject: requestData, options: .prettyPrinted)
-            if let jsonStr = String(data: jsonData, encoding: .utf8)?.replacingOccurrences(of: "\n", with: "") {
-                let script = "headlessRequest(\(jsonStr))"
-                if let webView = webView {
-                    callJs(webview: webView, script: script)
-                }
-            }
-        } catch {
-            
+        if !code.isEmpty {
+            // Send only code in request to verify it and get details
+            self.sendHeadlessRequestToWeb(nil, withCode: code)
+        } else if let request = headlessRequest {
+            self.sendHeadlessRequestToWeb(request, withCode: "")
         }
-    }
-
-    private func containsIdentity(_ response: [String: Any]?) -> Bool {
-        guard let response = response else {
-            return false
-        }
-        
-        if let responseData = response["response"] as? [String: Any],
-           let identities = responseData["identities"] as? [[String: Any]] {
-            return !identities.isEmpty
-        }
-        
-        return false
     }
 }
 
@@ -300,16 +155,4 @@ public protocol BridgeDelegate: AnyObject {
     func showLoader()
     func hideLoader()
     func dismissView()
-}
-
-extension NativeWebBridge {
-    func forceOpenURLOverMobileNetwork(url: URL, completion: @escaping ([String: Any]) -> Void) {
-        if #available(iOS 12.0, *) {
-            let cellularConnectionManager = CellularConnectionManager()
-            cellularConnectionManager.open(url: url, operators: nil, completion: completion)
-        } else {
-            let errorJson = Utils.createErrorDictionary(error: "silent_auth_not_supported", errorDescription: "Silent Auth is supported for iOS 12 and above.")
-            completion(errorJson)
-        }
-    }
 }

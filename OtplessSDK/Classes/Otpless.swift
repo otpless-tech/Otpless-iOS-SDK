@@ -29,6 +29,7 @@ import Foundation
     @objc weak var otplessView: OtplessView?
     private var isOneTapEnabled: Bool = true
     private var userAgent = "otplesssdk"
+    private weak var loggerDelegate: OtplessLoggerDelegate?
     
     @objc public func initialise(vc : UIViewController, appId: String!){
         merchantVC = vc
@@ -223,6 +224,47 @@ import Foundation
     
     func setUserAgent(_ agent: String) {
         self.userAgent = agent
+    }
+    
+    /// Determines whether the device is simulator.
+    ///
+    /// - returns: Boolean indicating whether device is simulator or not. Returns true if the device is simulator, else false.
+    @objc public func isDeviceSimulator() -> Bool {
+        return DeviceInfoUtils.shared.isDeviceSimulator()
+    }
+    
+    /// Return's the application's WindowScene.
+    ///
+    /// - returns: An instance of `UIWindowScene?`.
+    @available(iOS 15, *)
+    func getWindowScene() -> UIWindowScene? {
+        let window = UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .last
+        
+        var windowScene = window?.windowScene
+        
+        if windowScene != nil {
+            return windowScene
+        }
+        
+        windowScene = merchantVC?.view.window?.windowScene
+        
+        return windowScene
+    }
+}
+
+
+extension Otpless {
+    
+    @objc public func setLoggerDelegate(delegate: OtplessLoggerDelegate) {
+        self.loggerDelegate = delegate
+    }
+    
+    @objc public func getLoggerDelegate() -> OtplessLoggerDelegate? {
+        return self.loggerDelegate
     }
 }
 

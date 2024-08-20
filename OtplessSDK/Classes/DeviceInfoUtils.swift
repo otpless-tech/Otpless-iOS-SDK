@@ -118,6 +118,12 @@ class DeviceInfoUtils {
             params["isSilentAuthSupported"] = "true"
         } 
         
+        if #available(iOS 16.0, *) {
+            params["isWebAuthnSupported"] = "true"
+        }
+        
+        params["isDeviceSimulator"] = "\(isDeviceSimulator())"
+        
         return params
     }
     
@@ -153,6 +159,26 @@ class DeviceInfoUtils {
     
     func getTrackingSessionId() -> String? {
         return tsid
+    }
+    
+    
+    /// Determines whether the device is simulator.
+    ///
+    /// - returns: Boolean indicating whether device is simulator or not. Returns true if the device is simulator, else false.
+    func isDeviceSimulator() -> Bool {
+        #if swift(>=4.1)
+            #if targetEnvironment(simulator)
+                return true
+            #else
+                return false
+            #endif
+        #else
+            #if (arch(i386) || arch(x86_64)) && os(iOS)
+                return true
+            #else
+                return false
+            #endif
+        #endif
     }
 }
 

@@ -35,6 +35,7 @@ class OtplessLoader: UIView {
         loader.startAnimating()
         loader.color = loaderColor
         setupView()
+        self.backgroundColor = .white
     }
     
     private func getColorFromParams(){
