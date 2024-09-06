@@ -35,11 +35,9 @@ import Foundation
         merchantVC = vc
         self.appId = appId
         
-        if isOneTapEnabled {
-            let oneTapReq = HeadlessRequest()
-            oneTapReq.setChannelType("")
-            addHeadlessViewToMerchantVC(headlessRequest: oneTapReq)
-        }
+        let initHeadlessRequest = HeadlessRequest()
+        initHeadlessRequest.setChannelType("")
+        addHeadlessViewToMerchantVC(headlessRequest: initHeadlessRequest)
     }
     
     @objc public func showOtplessLoginPageWithParams(appId: String!, vc: UIViewController,params: [String : Any]?){
@@ -201,6 +199,7 @@ import Foundation
         otplessView?.sendHeadlessRequestToWeb(request: request)
     }
     
+    @available(*, deprecated, message: "To toggle the floater, visit https://otpless.com/dashboard/customer/customization/floater")
     @objc public func setOneTapEnabled(_ isOneTapEnabled: Bool) {
         self.isOneTapEnabled = isOneTapEnabled
     }

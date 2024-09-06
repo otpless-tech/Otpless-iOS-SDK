@@ -187,21 +187,20 @@ class OtplessView: UIView {
                 let queryItemOtpless = URLQueryItem(name: "hasOtplessApp", value: DeviceInfoUtils.shared.hasOTPLESSInstalled ? "true" : "false" )
                 let queryItemGmail = URLQueryItem(name: "hasGmailApp", value: DeviceInfoUtils.shared.hasGmailInstalled ? "true" : "false" )
                 let querySilentAuth = URLQueryItem(name: "isSilentAuthSupported", value: "true")
+                let queryWebSDKVersion = URLQueryItem(name: "v", value: "3")
                 
                 if urlComponents.queryItems != nil {
                     urlComponents.queryItems?.append(queryItem)
                     urlComponents.queryItems?.append(queryItemOtpless)
                     urlComponents.queryItems?.append(queryItemGmail)
                     urlComponents.queryItems?.append(querySilentAuth)
+                    urlComponents.queryItems?.append(queryWebSDKVersion)
                     
                 } else {
-                    urlComponents.queryItems = [queryItem, queryItemOtpless, queryItemGmail, querySilentAuth]
+                    urlComponents.queryItems = [queryItem, queryItemOtpless, queryItemGmail, querySilentAuth, queryWebSDKVersion]
                 }
                 
                 if isHeadless {
-                    let queryItemPlov = URLQueryItem(name: "plov", value: "\(Otpless.sharedInstance.isOneTapEnabledForHeadless())")
-                    urlComponents.queryItems?.append(queryItemPlov)
-                    
                     let queryItemHeadless = URLQueryItem(name: "isHeadless", value: "true")
                     urlComponents.queryItems?.append(queryItemHeadless)
                 }
