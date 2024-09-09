@@ -102,4 +102,11 @@ import Foundation
         return channel.isEmpty
     }
     
+    /// Returns an empty `HeadlessRequest` object to pre load SDK.
+    /// - Note: `initRequest` must not be used externally, it's use is only limited for internal working to initialize the `OtplessView`
+    internal class func getInitHeadlessRequest() -> HeadlessRequest {
+        let initRequest = HeadlessRequest()
+        initRequest.setChannelType("")
+        return initRequest
+    }
 }

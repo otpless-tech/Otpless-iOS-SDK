@@ -31,23 +31,118 @@ import Foundation
     private var userAgent = "otplesssdk"
     private weak var loggerDelegate: OtplessLoggerDelegate?
     
-    @objc public func initialise(vc : UIViewController, appId: String!){
-        merchantVC = vc
+    
+    /// Initializes the Otpless SDK with the specified app identifier provided by Otpless.
+    /// This method must be called from `application(_:didFinishLaunchingWithOptions:)` in the AppDelegate or `scene(_:willConnectTo:options:)` in the SceneDelegate, depending on the app's configuration.
+    ///
+    /// - Parameter appId: The unique application identifier provided by Otpless.
+    ///  Get your appId from https://otpless.com/dashboard/customer/dev-settings/apiKeys
+    ///
+    /// - Important: This method should be called as early as possible in the app lifecycle to ensure all SDK functionalities are ready when needed.
+    @objc public func initialise(appId: String!) {
         self.appId = appId
         
-        if isOneTapEnabled {
-            let oneTapReq = HeadlessRequest()
-            oneTapReq.setChannelType("")
-            addHeadlessViewToMerchantVC(headlessRequest: oneTapReq)
+        if #available(iOS 12, *) {
+            OtplessSimStateAnalyzer.shared.performAnalysis()
         }
     }
     
-    @objc public func showOtplessLoginPageWithParams(appId: String!, vc: UIViewController,params: [String : Any]?){
+    @available(*, deprecated, renamed: "initialiseHeadless(vc:)")
+    @objc public func initialise(vc: UIViewController, appId: String) {
+        initialiseHeadless(vc: vc)
+    }
+    
+    /// Initializes `OtplessView` with an initializing `HeadlessRequest`.
+    /// - Parameter vc: Your `UIViewController` in which you will be implementing Otpless' Headless SDK.
+    /// - Important: This function must be called in `viewDidLoad()` of your ViewController for optimized and seamless login experience.
+    @objc public func initialiseHeadless(vc: UIViewController) {
+        merchantVC = vc
+        addHeadlessViewToMerchantVC(headlessRequest: HeadlessRequest.getInitHeadlessRequest())
+    }
+    
+    @available(*, deprecated, renamed: "showOtplessLoginPageWithParams(vc:params:)")
+    @objc public func showOtplessLoginPageWithParams(appId: String, vc: UIViewController, params: [String : Any]?){
+        showOtplessLoginPageWithParams(vc: vc, params: params)
+    }
+    
+    /// Displays the Otpless' Login Page. To configure your authentication channels or customize Login page, checkout https://otpless.com/dashboard
+    /// - Parameters:
+    ///   - vc: Your `UIViewController` in which you will be implementing Otpless' Login Page.
+    ///   - params: A dictionary containing any additional parameters required for the login process.
+    /// - Important: This function requires you to call the `initialize(appId:)` function beforehand to display Login Page correctly.
+    @objc public func showOtplessLoginPageWithParams(vc: UIViewController, params: [String : Any]?){
+        merchantVC = vc
         initiateLoginPageView(vc: vc, params: params, hideNetworkUi: hideNetworkFailureUserInterface, loginPage: true, hideIndicator: hideActivityIndicator, appid: appId)
     }
     
+    /// Starts the Otpless Headless authentication process. To configure your authentication channels, checkout https://otpless.com/dashboard/customer/channels
+    /// - Parameter headlessRequest: An object containing the necessary data to initiate the headless authentication.
+    /// - Important: This function requires you to call the `initialize(appId:)` and `initializeHeadless(vc:)` beforehand for seamless authentication.
     @objc public func startHeadless(headlessRequest: HeadlessRequest) {
         addHeadlessViewToMerchantVC(headlessRequest: headlessRequest)
+    }
+    
+    @objc public func isWhatsappInstalled() -> Bool{
+        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://")! as URL) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    @objc public func isOtplessDeeplink(url : URL) -> Bool{
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host {
+            switch host {
+            case "otpless":
+                return true
+            default:
+                break
+            }
+        }
+        return false
+    }
+    
+    @objc public func processOtplessDeeplink(url : URL) {
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host {
+            switch host {
+            case "otpless":
+                if otplessView != nil {
+                    otplessView?.onDeeplinkRecieved(deeplink: url)
+                    OtplessHelper.sendEvent(event: "intent_redirect_in")
+                }
+            default:
+                break
+            }
+        }
+    }
+    
+    @objc public func dismissOtplessView() {
+        self.otplessView?.stopOtpless(dueToNoInternet: false)
+        self.otplessView = nil
+    }
+    
+    @objc public func verifyOTP(otp: String, headlessRequest: HeadlessRequest?) {
+        guard let request = headlessRequest else {
+            return
+        }
+        
+        request.setOtp(otp: otp)
+        otplessView?.sendHeadlessRequestToWeb(request: request)
+    }
+    
+    @objc public func setOneTapEnabled(_ isOneTapEnabled: Bool) {
+        self.isOneTapEnabled = isOneTapEnabled
+    }
+    
+    @objc public func getAppId() -> String {
+        return self.appId
+    }
+    
+    /// Determines whether the device is simulator.
+    ///
+    /// - returns: Boolean indicating whether device is simulator or not. Returns true if the device is simulator, else false.
+    @objc public func isDeviceSimulator() -> Bool {
+        return DeviceInfoUtils.shared.isDeviceSimulator()
     }
     
     private func initiateLoginPageView(vc: UIViewController, params: [String : Any]?, hideNetworkUi : Bool, loginPage : Bool, hideIndicator : Bool, appid: String) {
@@ -99,47 +194,6 @@ import Foundation
         }
     }
     
-    public func onResponse(response : OtplessResponse){
-        if((Otpless.sharedInstance.delegate) != nil){
-            Otpless.sharedInstance.delegate?.onResponse(response: response)
-        }
-    }
-    
-    @objc public func isWhatsappInstalled() -> Bool{
-        if UIApplication.shared.canOpenURL(URL(string: "whatsapp://")! as URL) {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    @objc public func isOtplessDeeplink(url : URL) -> Bool{
-        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host {
-            switch host {
-            case "otpless":
-                return true
-            default:
-                break
-            }
-        }
-        return false
-    }
-    
-    
-    @objc public func processOtplessDeeplink(url : URL) {
-        if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host {
-            switch host {
-            case "otpless":
-                if otplessView != nil {
-                    otplessView?.onDeeplinkRecieved(deeplink: url)
-                    OtplessHelper.sendEvent(event: "intent_redirect_in")
-                }
-            default:
-                break
-            }
-        }
-    }
-    
     func addHeadlessViewToMerchantVC(headlessRequest: HeadlessRequest) {
         if (merchantVC != nil && merchantVC?.view != nil) {
             if otplessView == nil || otplessView?.superview == nil {
@@ -179,42 +233,18 @@ import Foundation
         }
     }
     
+    public func onResponse(response : OtplessResponse){
+        if((Otpless.sharedInstance.delegate) != nil){
+            Otpless.sharedInstance.delegate?.onResponse(response: response)
+        }
+    }
+    
     func sendHeadlessResponse(response: HeadlessResponse, closeView: Bool) {
         self.headlessDelegate?.onHeadlessResponse(response: response)
         if closeView && self.otplessView != nil {
             self.otplessView?.removeFromSuperview()
             self.otplessView = nil
         }
-    }
-    
-    @objc public func dismissOtplessView() {
-        self.otplessView?.stopOtpless(dueToNoInternet: false)
-        self.otplessView = nil
-    }
-    
-    @objc public func verifyOTP(otp: String, headlessRequest: HeadlessRequest?) {
-        guard let request = headlessRequest else {
-            return
-        }
-        
-        request.setOtp(otp: otp)
-        otplessView?.sendHeadlessRequestToWeb(request: request)
-    }
-    
-    @objc public func setOneTapEnabled(_ isOneTapEnabled: Bool) {
-        self.isOneTapEnabled = isOneTapEnabled
-    }
-    
-    func isOneTapEnabledForHeadless() -> Bool {
-        return self.isOneTapEnabled
-    }
-    
-    @objc public func getAppId() -> String {
-        return self.appId
-    }
-    
-    func setOtplessViewHeight(heightPercent: Int) {
-        otplessView?.setHeight(forHeightPercent: heightPercent)
     }
     
     // Added to provide user agent when forcefully making request over mobile data instead of wifi.
@@ -226,11 +256,12 @@ import Foundation
         self.userAgent = agent
     }
     
-    /// Determines whether the device is simulator.
-    ///
-    /// - returns: Boolean indicating whether device is simulator or not. Returns true if the device is simulator, else false.
-    @objc public func isDeviceSimulator() -> Bool {
-        return DeviceInfoUtils.shared.isDeviceSimulator()
+    internal func isOneTapEnabledForHeadless() -> Bool {
+        return self.isOneTapEnabled
+    }
+    
+    func setOtplessViewHeight(heightPercent: Int) {
+        otplessView?.setHeight(forHeightPercent: heightPercent)
     }
     
     /// Return's the application's WindowScene.

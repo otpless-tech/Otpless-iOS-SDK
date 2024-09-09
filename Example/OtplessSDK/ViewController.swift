@@ -118,7 +118,7 @@ extension ViewController: OtplessLoggerDelegate {
     }
     
     @IBAction func buttonclicked(_ sender: Any) {
-        Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: "YOUR_APPID", vc: self, params: nil)
+        Otpless.sharedInstance.showOtplessLoginPageWithParams(vc: self, params: nil)
     }
     
     @objc func startHeadlessButtonTapped() {

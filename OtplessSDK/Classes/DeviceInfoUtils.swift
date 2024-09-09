@@ -124,6 +124,10 @@ class DeviceInfoUtils {
         
         params["isDeviceSimulator"] = "\(isDeviceSimulator())"
         
+        if #available(iOS 12, *) {
+            params["simDetail"] = Utils.convertDictionaryToString(OtplessSimStateAnalyzer.shared.getAnalysisJson())
+        }
+        
         return params
     }
     
