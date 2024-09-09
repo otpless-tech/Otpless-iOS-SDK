@@ -118,7 +118,6 @@ extension ViewController: OtplessLoggerDelegate {
     }
     
     @IBAction func buttonclicked(_ sender: Any) {
-        Otpless.sharedInstance.webviewInspectable = true
         Otpless.sharedInstance.showOtplessLoginPageWithParams(vc: self, params: nil)
     }
     
