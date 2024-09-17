@@ -96,7 +96,6 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
         channelTextField.delegate = self
         otpTextField.delegate = self
         phoneOrEmailTextField.delegate = self
-        Otpless.sharedInstance.setOneTapEnabled(true)
         Otpless.sharedInstance.initialise(vc: self, appId: "YOUR_APPID")
         Otpless.sharedInstance.headlessDelegate = self
         

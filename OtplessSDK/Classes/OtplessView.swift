@@ -13,7 +13,7 @@ class OtplessView: UIView {
     let messageName = "webNativeAssist"
     var mWebView: WKWebView! = nil
     var bridge: NativeWebBridge = NativeWebBridge()
-    var startUri = "https://otpless.com/appid/"
+    var startUri = "https://otpless.com/rc3/appid/"
     var finalDeeplinkUri: URL?
     var initialParams: [String: Any]?
     var headlessRequest: HeadlessRequest?
@@ -199,9 +199,6 @@ class OtplessView: UIView {
                 }
                 
                 if isHeadless {
-                    let queryItemPlov = URLQueryItem(name: "plov", value: "\(Otpless.sharedInstance.isOneTapEnabledForHeadless())")
-                    urlComponents.queryItems?.append(queryItemPlov)
-                    
                     let queryItemHeadless = URLQueryItem(name: "isHeadless", value: "true")
                     urlComponents.queryItems?.append(queryItemHeadless)
                 }
