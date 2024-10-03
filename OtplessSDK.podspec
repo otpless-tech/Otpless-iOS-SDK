@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'OtplessSDK'
-  s.version          = '2.1.5'
+  s.version          = '2.1.6'
   s.summary          = 'Sign-up/ Sign-in engineered by OTPLESS.'
 
   s.description      = <<-DESC

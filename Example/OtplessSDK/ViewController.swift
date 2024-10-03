@@ -22,6 +22,15 @@ class ViewController: UIViewController, onResponseDelegate, onEventCallback {
         return button
     }()
     
+    private let startCustomHeadlessButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Start Custom Headless", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        return button
+    }()
+    
+    
     private let navigateToLoggingVCButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -113,16 +122,21 @@ extension ViewController: OtplessLoggerDelegate {
         navigateToLoggingVCButton.addTarget(self, action: #selector(navigateToLoggerVCButtonTapped), for: .touchUpInside)
         
         startHeadlessButton.addTarget(self, action: #selector(startHeadlessButtonTapped), for: .touchUpInside)
+        startCustomHeadlessButton.addTarget(self, action: #selector(startCustomHeadlessButtonTapped), for: .touchUpInside)
         
         copyResponseButton.addTarget(self, action: #selector(copyResponseButtonTapped), for: .touchUpInside)
     }
     
     @IBAction func buttonclicked(_ sender: Any) {
-        Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: "YOUR_APPID", vc: self, params: nil)
+        Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: "", vc: self, params: nil)
     }
     
     @objc func startHeadlessButtonTapped() {
         let headlessDemoVC = self.storyboard?.instantiateViewController(withIdentifier: "HeadlessDemoVC") as! HeadlessDemoVC
+        self.navigationController?.pushViewController(headlessDemoVC, animated: true)
+    }
+    @objc func startCustomHeadlessButtonTapped() {
+        let headlessDemoVC = self.storyboard?.instantiateViewController(withIdentifier: "CustomHeadlessVC") as! CustomHeadlessVC
         self.navigationController?.pushViewController(headlessDemoVC, animated: true)
     }
     
@@ -154,6 +168,7 @@ extension ViewController: OtplessLoggerDelegate {
         // Add buttons and label to stackView
         stackView.addArrangedSubview(showLoginPageButton)
         stackView.addArrangedSubview(startHeadlessButton)
+        stackView.addArrangedSubview(startCustomHeadlessButton)
         stackView.addArrangedSubview(navigateToLoggingVCButton)
         stackView.addArrangedSubview(copyResponseButton)
         stackView.addArrangedSubview(responseLabel)
@@ -177,6 +192,7 @@ extension ViewController: OtplessLoggerDelegate {
         
         showLoginPageButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         startHeadlessButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        startCustomHeadlessButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         copyResponseButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 }

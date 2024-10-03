@@ -16,6 +16,11 @@ import Foundation
     private var code: String?
     private var channelType: String?
     private var countryCode: String?
+    private var otpLength: String?
+    private var expiry: String?
+    private var deliveryChannel: String?
+    private var locale: String?
+    
     
     @objc public func setPhoneNumber(number: String, withCountryCode countryCode: String) {
         self.phoneNumber = number
@@ -39,6 +44,22 @@ import Foundation
         }
         phoneNumber = nil
         email = nil
+    }
+    
+    @objc public func setDeliveryChannel(_ deliveryChannelType: String) {
+        self.deliveryChannel = deliveryChannelType
+    }
+    
+    @objc public func setOtpLength(otpLength: String){
+        self.otpLength = otpLength
+    }
+    
+    @objc public func setExpiry(expiry: String){
+        self.expiry = expiry
+    }
+    
+    @objc public func setLocale(locale: String){
+        self.locale = locale
     }
     
     func setOtp(otp: String) {
@@ -93,6 +114,22 @@ import Foundation
         
         if let code = code {
             requestJson["code"] = code
+        }
+        
+        if let otpLength = otpLength {
+            requestJson["otpLength"] = otpLength
+        }
+        
+        if let expiry = expiry {
+            requestJson["expiry"] = expiry
+        }
+        
+        if let deliveryChannel = deliveryChannel {
+            requestJson["deliveryChannel"] = deliveryChannel
+        }
+        
+        if let locale = locale {
+            requestJson["locale"] = locale
         }
         
         return requestJson
