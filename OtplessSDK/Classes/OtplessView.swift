@@ -173,29 +173,37 @@ class OtplessView: UIView {
                 var urlComponents = URLComponents(string: startUrl)!
                 if let bundleIdentifier = Bundle.main.bundleIdentifier {
                     let queryItem = URLQueryItem(name: "package", value: bundleIdentifier)
-                    let queryItemloginuri = URLQueryItem(name: "login_uri", value: "otpless." + Otpless.sharedInstance.getAppId().lowercased() + "://otpless")
+                    
                     if urlComponents.queryItems != nil {
                         urlComponents.queryItems?.append(queryItem)
-                        urlComponents.queryItems?.append(queryItemloginuri)
                     } else {
                         urlComponents.queryItems = [queryItem]
-                        urlComponents.queryItems?.append(queryItemloginuri)
                     }
                 }
                 
-                let queryItem = URLQueryItem(name: "hasWhatsapp", value: DeviceInfoUtils.shared.hasWhatsApp ? "true" : "false" )
+                var loginUri = "otpless." + Otpless.sharedInstance.getAppId().lowercased() + "://otpless"
+                
+                if let loginUriFromClient = Otpless.sharedInstance.getLoginUri(),
+                   !loginUriFromClient.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                {
+                    loginUri = loginUriFromClient
+                }
+                
+                let queryItemLoginUri = URLQueryItem(name: "login_uri", value: loginUri)
+                
+                let queryItemWhatsApp = URLQueryItem(name: "hasWhatsapp", value: DeviceInfoUtils.shared.hasWhatsApp ? "true" : "false" )
                 let queryItemOtpless = URLQueryItem(name: "hasOtplessApp", value: DeviceInfoUtils.shared.hasOTPLESSInstalled ? "true" : "false" )
                 let queryItemGmail = URLQueryItem(name: "hasGmailApp", value: DeviceInfoUtils.shared.hasGmailInstalled ? "true" : "false" )
                 let querySilentAuth = URLQueryItem(name: "isSilentAuthSupported", value: "true")
                 
                 if urlComponents.queryItems != nil {
-                    urlComponents.queryItems?.append(queryItem)
+                    urlComponents.queryItems?.append(queryItemWhatsApp)
                     urlComponents.queryItems?.append(queryItemOtpless)
                     urlComponents.queryItems?.append(queryItemGmail)
                     urlComponents.queryItems?.append(querySilentAuth)
-                    
+                    urlComponents.queryItems?.append(queryItemLoginUri)
                 } else {
-                    urlComponents.queryItems = [queryItem, queryItemOtpless, queryItemGmail, querySilentAuth]
+                    urlComponents.queryItems = [queryItemWhatsApp, queryItemOtpless, queryItemGmail, querySilentAuth, queryItemLoginUri]
                 }
                 
                 if isHeadless {

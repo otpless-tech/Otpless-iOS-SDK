@@ -30,6 +30,7 @@ import Foundation
     private var isOneTapEnabled: Bool = true
     private var userAgent = "otplesssdk"
     private weak var loggerDelegate: OtplessLoggerDelegate?
+    private var loginUri: String?
     
     @objc public func initialise(vc : UIViewController, appId: String!){
         merchantVC = vc
@@ -252,6 +253,21 @@ import Foundation
         windowScene = merchantVC?.view.window?.windowScene
         
         return windowScene
+    }
+    
+    /// Set custom `loginUri` for deeplinking.
+    /// - Note: Make sure this `loginUri` matches the login uri you are using in `info.plist` file
+    ///
+    /// - parameter loginUri: Custom login uri to be used for deep linking.
+    @objc public func setLoginUri(_ loginUri: String) {
+        self.loginUri = loginUri
+    }
+    
+    /// Fetches the `loginUri` set by merchant. For internal use only.
+    ///
+    /// - returns: Nullable String `loginUri`
+    func getLoginUri() -> String? {
+        return self.loginUri
     }
 }
 
