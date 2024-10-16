@@ -12,6 +12,8 @@ import OtplessSDK
 class ViewController: UIViewController, onResponseDelegate, onEventCallback {
     static var logs: [CustomLog] = []
     
+    static let APPID = ""
+    
     @IBOutlet var showLoginPageButton: UIButton!
     
     private let startHeadlessButton: UIButton = {
@@ -128,7 +130,7 @@ extension ViewController: OtplessLoggerDelegate {
     }
     
     @IBAction func buttonclicked(_ sender: Any) {
-        Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: "", vc: self, params: nil)
+        Otpless.sharedInstance.showOtplessLoginPageWithParams(appId: ViewController.APPID, vc: self, params: nil)
     }
     
     @objc func startHeadlessButtonTapped() {
