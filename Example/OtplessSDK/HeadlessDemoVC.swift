@@ -98,7 +98,6 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
         phoneOrEmailTextField.delegate = self
         Otpless.sharedInstance.initialise(vc: self, appId: ViewController.APPID)
         Otpless.sharedInstance.headlessDelegate = self
-        Otpless.sharedInstance.setLoginUri("")
         
         let dismissKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
          view.addGestureRecognizer(dismissKeyboardGesture)

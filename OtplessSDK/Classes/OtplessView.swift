@@ -186,7 +186,7 @@ class OtplessView: UIView {
                 if let loginUriFromClient = Otpless.sharedInstance.getLoginUri(),
                    !loginUriFromClient.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
                 {
-                    loginUri = loginUriFromClient
+                    loginUri = loginUriFromClient.lowercased()
                 }
                 
                 let queryItemLoginUri = URLQueryItem(name: "login_uri", value: loginUri)

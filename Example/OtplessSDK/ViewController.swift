@@ -102,8 +102,6 @@ class ViewController: UIViewController, onResponseDelegate, onEventCallback {
         setDelegates()
         setupUI()
         addTargets()
-        
-//        Otpless.sharedInstance.setLoginUri("login.page://otpless") Pass any login uri for testing
     }
     
     override func didReceiveMemoryWarning() {
