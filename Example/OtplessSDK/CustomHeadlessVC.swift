@@ -49,7 +49,7 @@ class CustomHeadlessVC: UIViewController, onHeadlessResponseDelegate {
         channelTextField.delegate = self
         otpTextField.delegate = self
         phoneOrEmailTextField.delegate = self
-        Otpless.sharedInstance.initialise(vc: self, appId: "")
+        Otpless.sharedInstance.initialise(vc: self, appId: ViewController.APPID)
         Otpless.sharedInstance.headlessDelegate = self
         
         let dismissKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))

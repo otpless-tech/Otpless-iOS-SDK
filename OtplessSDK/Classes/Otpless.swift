@@ -30,10 +30,17 @@ import Foundation
     private var isOneTapEnabled: Bool = true
     private var userAgent = "otplesssdk"
     private weak var loggerDelegate: OtplessLoggerDelegate?
+    private var loginUri: String?
     
-    @objc public func initialise(vc : UIViewController, appId: String!){
+    /// Initializes `Otpless` for Headless support
+    ///
+    /// - parameter vc: Instance of your `UIViewController`
+    /// - parameter appId: Your `APP_ID` from `Otpless`
+    /// - parameter loginUri: Optional String to override the default `loginUri` when a custom deeplink is needed. Ensure the `url scheme` in `info.plist` matches. `Host` of the `loginUri` must  be `otpless`. Eg. "yourscheme://otpless"
+    @objc public func initialise(vc : UIViewController, appId: String!, loginUri: String? = nil){
         merchantVC = vc
         self.appId = appId
+        self.loginUri = loginUri
         
         let initHeadlessRequest = HeadlessRequest()
         initHeadlessRequest.setChannelType("")
@@ -252,6 +259,13 @@ import Foundation
         windowScene = merchantVC?.view.window?.windowScene
         
         return windowScene
+    }
+    
+    /// Fetches the `loginUri` set by merchant. For internal use only.
+    ///
+    /// - returns: Nullable String `loginUri`
+    func getLoginUri() -> String? {
+        return self.loginUri
     }
 }
 
