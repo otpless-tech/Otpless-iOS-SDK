@@ -11,6 +11,7 @@ import Foundation
     @objc static let PHONE = "PHONE"
     @objc static let EMAIL = "EMAIL"
     @objc static let OAUTH = "OAUTH"
+    @objc static let WEBAUTHN = "WEB_AUTHN"
     
     @objc private var selectedChannel: String = ""
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mAK-wl-omQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mAK-wl-omQ">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -100,29 +100,11 @@
                                     <action selector="startHeadless" destination="nVz-dg-Jm0" eventType="touchUpInside" id="aCx-Xi-HdK"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type/set channel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="r9J-lS-tQh">
-                                <rect key="frame" x="16" y="198" width="150" height="34"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="8zY-tH-eW4"/>
-                                    <constraint firstAttribute="width" constant="150" id="D5B-fm-g5z"/>
-                                </constraints>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type Channel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="r9J-lS-tQh">
+                                <rect key="frame" x="16" y="158" width="343" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xey-GO-Ow6">
-                                <rect key="frame" x="189" y="198" width="160" height="35"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Set channel"/>
-                                <connections>
-                                    <action selector="setChannel" destination="nVz-dg-Jm0" eventType="touchUpInside" id="vyA-jJ-KEn"/>
-                                </connections>
-                            </button>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wej-uQ-8Hw">
-                                <rect key="frame" x="16" y="485" width="343" height="162"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="162" id="Itc-7K-CLF"/>
-                                </constraints>
-                            </pickerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JUB-cu-Mhv">
                                 <rect key="frame" x="288" y="94" width="68" height="35"/>
                                 <constraints>
@@ -135,49 +117,62 @@
                                     <action selector="verifyOtp" destination="nVz-dg-Jm0" eventType="touchUpInside" id="lBV-mj-eS1"/>
                                 </connections>
                             </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6UE-sM-Fkf">
-                                <rect key="frame" x="163" y="439" width="49" height="31"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="31" id="ewv-OY-KP2"/>
-                                </constraints>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter UserId" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zgg-9n-AUO">
+                                <rect key="frame" x="16" y="216" width="343" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kf8-Nz-npg">
+                                <rect key="frame" x="118" y="279" width="139" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Copy response"/>
                                 <connections>
-                                    <action selector="switchValueChanged:" destination="nVz-dg-Jm0" eventType="touchUpInside" id="WPD-hi-uKF"/>
+                                    <action selector="copyToClipboard" destination="nVz-dg-Jm0" eventType="touchDown" id="6T8-7p-M6n"/>
                                 </connections>
-                            </switch>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jhp-vk-3MZ">
+                                <rect key="frame" x="16" y="334" width="343" height="333"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="JUB-cu-Mhv" firstAttribute="top" secondItem="Bi9-Lz-bOw" secondAttribute="bottom" constant="19" id="1aP-jm-EoU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="JUB-cu-Mhv" secondAttribute="trailing" constant="3" id="2Uw-jh-ItP"/>
                             <constraint firstItem="hey-P0-i2r" firstAttribute="top" secondItem="eRL-J7-gdp" secondAttribute="bottom" constant="20" id="74H-Yb-r84"/>
-                            <constraint firstItem="Xey-GO-Ow6" firstAttribute="leading" secondItem="r9J-lS-tQh" secondAttribute="trailing" constant="23" id="9fN-yV-eNe"/>
-                            <constraint firstItem="r9J-lS-tQh" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="Hol-FW-tk5"/>
-                            <constraint firstItem="Xey-GO-Ow6" firstAttribute="top" secondItem="r9J-lS-tQh" secondAttribute="top" id="JKg-rQ-qRe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="kf8-Nz-npg" secondAttribute="trailing" constant="102" id="9cM-1X-Cjm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Bi9-Lz-bOw" secondAttribute="trailing" constant="6" id="Mpi-pC-nBu"/>
-                            <constraint firstItem="Xey-GO-Ow6" firstAttribute="centerY" secondItem="r9J-lS-tQh" secondAttribute="centerY" id="NZQ-Ip-wKJ"/>
                             <constraint firstItem="TZo-CR-kAm" firstAttribute="top" secondItem="hey-P0-i2r" secondAttribute="bottom" constant="20" id="Otz-fg-ZOC"/>
-                            <constraint firstItem="Wej-uQ-8Hw" firstAttribute="centerX" secondItem="BLX-kN-IsR" secondAttribute="centerX" id="Pm3-Jr-xvz"/>
-                            <constraint firstItem="6UE-sM-Fkf" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" constant="147" id="UdU-Hr-MyM"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="6UE-sM-Fkf" secondAttribute="trailing" constant="149" id="YAA-X4-rY4"/>
+                            <constraint firstItem="zgg-9n-AUO" firstAttribute="top" secondItem="r9J-lS-tQh" secondAttribute="bottom" constant="24" id="Pua-He-vr4"/>
+                            <constraint firstItem="r9J-lS-tQh" firstAttribute="top" secondItem="JUB-cu-Mhv" secondAttribute="bottom" constant="29" id="QEJ-hW-Ux6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="r9J-lS-tQh" secondAttribute="trailing" id="Th1-d9-7vJ"/>
+                            <constraint firstItem="r9J-lS-tQh" firstAttribute="trailing" secondItem="BLX-kN-IsR" secondAttribute="trailingMargin" id="TzG-QS-0dp"/>
+                            <constraint firstItem="kf8-Nz-npg" firstAttribute="top" secondItem="zgg-9n-AUO" secondAttribute="bottom" constant="29" id="Um7-rk-fqy"/>
+                            <constraint firstItem="zgg-9n-AUO" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="VoV-IE-VYr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jhp-vk-3MZ" secondAttribute="trailing" id="XAd-ra-gyL"/>
+                            <constraint firstItem="kf8-Nz-npg" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" constant="102" id="XaG-S9-RZL"/>
                             <constraint firstItem="hey-P0-i2r" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="a3A-VQ-7lM"/>
-                            <constraint firstItem="sTQ-1L-shd" firstAttribute="top" secondItem="Wej-uQ-8Hw" secondAttribute="bottom" constant="20" id="bMt-Lv-6mD"/>
+                            <constraint firstItem="jhp-vk-3MZ" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="d5j-Mc-2kv"/>
                             <constraint firstItem="Bi9-Lz-bOw" firstAttribute="leading" secondItem="hey-P0-i2r" secondAttribute="trailing" constant="52" id="hb2-1O-0dw"/>
                             <constraint firstItem="Bi9-Lz-bOw" firstAttribute="top" secondItem="eRL-J7-gdp" secondAttribute="bottom" constant="20" id="phm-df-GNJ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Xey-GO-Ow6" secondAttribute="trailing" constant="10" id="qJa-EM-6dJ"/>
-                            <constraint firstItem="r9J-lS-tQh" firstAttribute="top" secondItem="TZo-CR-kAm" secondAttribute="bottom" constant="70" id="qxM-5M-5ml"/>
-                            <constraint firstItem="Wej-uQ-8Hw" firstAttribute="top" secondItem="6UE-sM-Fkf" secondAttribute="bottom" constant="15" id="sCV-zv-TEk"/>
-                            <constraint firstItem="Wej-uQ-8Hw" firstAttribute="leading" secondItem="r9J-lS-tQh" secondAttribute="leading" id="t0z-fZ-Wq5"/>
+                            <constraint firstItem="jhp-vk-3MZ" firstAttribute="top" secondItem="kf8-Nz-npg" secondAttribute="bottom" constant="20" id="sbN-0N-baH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="zgg-9n-AUO" secondAttribute="trailing" id="tPo-6o-aGl"/>
                             <constraint firstItem="TZo-CR-kAm" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="umY-aq-ZEn"/>
+                            <constraint firstItem="r9J-lS-tQh" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="z08-5G-UH5"/>
+                            <constraint firstItem="sTQ-1L-shd" firstAttribute="top" secondItem="jhp-vk-3MZ" secondAttribute="bottom" id="zvs-sq-RcK"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="channelPicker" destination="Wej-uQ-8Hw" id="5uJ-j6-d9E"/>
-                        <outlet property="channelPickerSwitch" destination="6UE-sM-Fkf" id="PCT-aU-3Vr"/>
                         <outlet property="channelTextField" destination="r9J-lS-tQh" id="mLe-g9-NR9"/>
+                        <outlet property="copyResponseToClipboardButton" destination="kf8-Nz-npg" id="wDb-Sb-QbY"/>
                         <outlet property="otpTextField" destination="TZo-CR-kAm" id="3KU-Lj-YBz"/>
                         <outlet property="phoneOrEmailTextField" destination="hey-P0-i2r" id="zjX-oU-UwT"/>
-                        <outlet property="setChannelButton" destination="Xey-GO-Ow6" id="hrC-Lz-u8H"/>
+                        <outlet property="responseTextView" destination="jhp-vk-3MZ" id="yDB-bH-ehV"/>
                         <outlet property="startHeadlessButton" destination="Bi9-Lz-bOw" id="A9t-cy-rcl"/>
+                        <outlet property="userIdTextField" destination="zgg-9n-AUO" id="NXm-af-nGK"/>
                         <outlet property="verifyOtpButton" destination="JUB-cu-Mhv" id="Spx-sS-auq"/>
                     </connections>
                 </viewController>
@@ -325,6 +320,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

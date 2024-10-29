@@ -11,12 +11,20 @@ IPA_DIR = $(IPA_BASE_DIR)/$(BRANCH_NAME)_RC
 
 # CocoaPod deployment
 deploy-pod:
+	@echo "Starting pod lib lint..."
 	@pod lib lint
 	@if [ $$? -eq 0 ]; then \
-		echo "Pod validation successful. Proceeding with publishing..."; \
-		pod trunk push; \
+		echo "pod lib lint succeeded. Proceeding with pod spec lint..."; \
+		pod spec lint OtplessSDK.podspec; \
+		if [ $$? -eq 0 ]; then \
+			echo "pod spec lint succeeded. Proceeding with pod trunk push..."; \
+			pod trunk push; \
+		else \
+			echo "pod spec lint failed. Please fix the errors and try again."; \
+			exit 1; \
+		fi; \
 	else \
-		echo "Pod validation failed. Please fix the errors and try again."; \
+		echo "pod lib lint failed. Please fix the errors and try again."; \
 		exit 1; \
 	fi
 
@@ -31,7 +39,7 @@ clean:
 # Update app info (version, bundle ID)
 update-app-info:
 	@echo "Updating app information..."
-	@BRANCH_NAME=$$(git rev-parse --abbrev-ref HEAD | tr '[:upper:]' '[:lower:]' | sed 's/^feat\///;s/^fix\///'); \
+	@BRANCH_NAME=$$(git rev-parse --abbrev-ref HEAD | tr '[:upper:]' '[:lower:]' | sed 's/^feat\///;s/^fix\///;s/^feature\///'); \
 	/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 1.0.$$BRANCH_NAME" $(PLIST_PATH)
 	@CURRENT_VERSION=$$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" $(PLIST_PATH)); \
 	NEW_VERSION=$$((CURRENT_VERSION + 1)); \

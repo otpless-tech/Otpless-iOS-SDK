@@ -17,4 +17,9 @@ import Foundation
         self.responseData = responseData
         self.statusCode = statusCode
     }
+    
+    @objc public func toString() -> String {
+        let responseDataString = responseData?.map { "\($0.key): \($0.value)" }.joined(separator: ", ") ?? "nil"
+        return "{responseType: \(responseType), responseData: [\(responseDataString)], statusCode: \(statusCode)}"
+    }
 }
