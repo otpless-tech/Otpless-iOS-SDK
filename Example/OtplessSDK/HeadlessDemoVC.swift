@@ -24,10 +24,13 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
     @IBOutlet var otpTextField: UITextField!
     @IBOutlet var channelTextField: UITextField!
     @IBOutlet var startHeadlessButton: UIButton!
-    @IBOutlet var userIdTextField: UITextField!
+    @IBOutlet var requestIdTextField: UITextField!
     @IBOutlet var verifyOtpButton: UIButton!
     @IBOutlet var responseTextView: UITextView!
     @IBOutlet var copyResponseToClipboardButton: UIButton!
+    @IBOutlet var deliveryChannelTextField: UITextField!
+    @IBOutlet var expiryTextField: UITextField!
+    @IBOutlet var otpLengthTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +50,7 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
         channelTextField.delegate = self
         otpTextField.delegate = self
         phoneOrEmailTextField.delegate = self
-        userIdTextField.delegate = self
+        requestIdTextField.delegate = self
         
         // Headless delegate
         Otpless.sharedInstance.headlessDelegate = self
@@ -89,9 +92,9 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
     @IBAction func startHeadless() {
         let headlessRequest = HeadlessRequest()
         
-        if let userId = userIdTextField.text,
-           !userId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            Otpless.sharedInstance.initiateWebAuthn(withUserId: userId)
+        if let requestId = requestIdTextField.text,
+           !requestId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            Otpless.sharedInstance.initiateWebAuthn(withRequestId: requestId)
             return
         }
                 
@@ -100,6 +103,21 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
                 headlessRequest.setPhoneNumber(number: String(phoneNumber), withCountryCode: "+91")
             } else {
                 headlessRequest.setEmail(phoneOrEmailTextField.text ?? "")
+            }
+            
+            if let otpLength = otpLengthTextField.text,
+               !otpLength.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                headlessRequest.setOtpLength(otpLength: otpLength)
+            }
+            
+            if let deliveryChannel = deliveryChannelTextField.text,
+               !deliveryChannel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                headlessRequest.setDeliveryChannel(deliveryChannel)
+            }
+            
+            if let expiry = expiryTextField.text,
+               !expiry.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                headlessRequest.setExpiry(expiry: expiry)
             }
             
             Otpless.sharedInstance.startHeadless(headlessRequest: headlessRequest)

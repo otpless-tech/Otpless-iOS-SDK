@@ -72,7 +72,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter number/email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hey-P0-i2r">
-                                <rect key="frame" x="16" y="40" width="223" height="34"/>
+                                <rect key="frame" x="16" y="40" width="223.5" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="S4b-rI-ssH"/>
                                 </constraints>
@@ -89,7 +89,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bi9-Lz-bOw">
-                                <rect key="frame" x="291" y="40" width="62" height="35"/>
+                                <rect key="frame" x="291.5" y="40" width="61.5" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="C5K-gd-jln"/>
                                     <constraint firstAttribute="height" constant="35" id="KuY-oO-Y2O"/>
@@ -100,8 +100,8 @@
                                     <action selector="startHeadless" destination="nVz-dg-Jm0" eventType="touchUpInside" id="aCx-Xi-HdK"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type Channel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="r9J-lS-tQh">
-                                <rect key="frame" x="16" y="158" width="343" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="OAUTH ChannelType" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="r9J-lS-tQh">
+                                <rect key="frame" x="16" y="202" width="343" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                             </textField>
@@ -117,13 +117,13 @@
                                     <action selector="verifyOtp" destination="nVz-dg-Jm0" eventType="touchUpInside" id="lBV-mj-eS1"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter UserId" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zgg-9n-AUO">
-                                <rect key="frame" x="16" y="216" width="343" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter requestId" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zgg-9n-AUO">
+                                <rect key="frame" x="16" y="260" width="343" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kf8-Nz-npg">
-                                <rect key="frame" x="118" y="279" width="139" height="35"/>
+                                <rect key="frame" x="118" y="304" width="139" height="34.5"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Copy response"/>
                                 <connections>
@@ -131,36 +131,59 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jhp-vk-3MZ">
-                                <rect key="frame" x="16" y="334" width="343" height="333"/>
+                                <rect key="frame" x="16" y="348.5" width="343" height="318.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="XYu-bK-JSu">
+                                <rect key="frame" x="16" y="148" width="343" height="34"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Delivery Channel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nwd-Gu-HoK">
+                                        <rect key="frame" x="0.0" y="0.0" width="150.5" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="OTP Length" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Srv-xX-ttO">
+                                        <rect key="frame" x="160.5" y="0.0" width="104.5" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Expiry" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="14G-VX-xUX">
+                                        <rect key="frame" x="275" y="0.0" width="68" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="JUB-cu-Mhv" firstAttribute="top" secondItem="Bi9-Lz-bOw" secondAttribute="bottom" constant="19" id="1aP-jm-EoU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="JUB-cu-Mhv" secondAttribute="trailing" constant="3" id="2Uw-jh-ItP"/>
+                            <constraint firstItem="XYu-bK-JSu" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="5gS-Mp-pVR"/>
                             <constraint firstItem="hey-P0-i2r" firstAttribute="top" secondItem="eRL-J7-gdp" secondAttribute="bottom" constant="20" id="74H-Yb-r84"/>
                             <constraint firstAttribute="trailingMargin" secondItem="kf8-Nz-npg" secondAttribute="trailing" constant="102" id="9cM-1X-Cjm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Bi9-Lz-bOw" secondAttribute="trailing" constant="6" id="Mpi-pC-nBu"/>
                             <constraint firstItem="TZo-CR-kAm" firstAttribute="top" secondItem="hey-P0-i2r" secondAttribute="bottom" constant="20" id="Otz-fg-ZOC"/>
                             <constraint firstItem="zgg-9n-AUO" firstAttribute="top" secondItem="r9J-lS-tQh" secondAttribute="bottom" constant="24" id="Pua-He-vr4"/>
-                            <constraint firstItem="r9J-lS-tQh" firstAttribute="top" secondItem="JUB-cu-Mhv" secondAttribute="bottom" constant="29" id="QEJ-hW-Ux6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="r9J-lS-tQh" secondAttribute="trailing" id="Th1-d9-7vJ"/>
                             <constraint firstItem="r9J-lS-tQh" firstAttribute="trailing" secondItem="BLX-kN-IsR" secondAttribute="trailingMargin" id="TzG-QS-0dp"/>
-                            <constraint firstItem="kf8-Nz-npg" firstAttribute="top" secondItem="zgg-9n-AUO" secondAttribute="bottom" constant="29" id="Um7-rk-fqy"/>
+                            <constraint firstItem="kf8-Nz-npg" firstAttribute="top" secondItem="zgg-9n-AUO" secondAttribute="bottom" constant="10" id="Um7-rk-fqy"/>
                             <constraint firstItem="zgg-9n-AUO" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="VoV-IE-VYr"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jhp-vk-3MZ" secondAttribute="trailing" id="XAd-ra-gyL"/>
                             <constraint firstItem="kf8-Nz-npg" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" constant="102" id="XaG-S9-RZL"/>
                             <constraint firstItem="hey-P0-i2r" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="a3A-VQ-7lM"/>
                             <constraint firstItem="jhp-vk-3MZ" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="d5j-Mc-2kv"/>
+                            <constraint firstItem="XYu-bK-JSu" firstAttribute="top" secondItem="JUB-cu-Mhv" secondAttribute="bottom" constant="19" id="fht-7M-KVX"/>
+                            <constraint firstItem="r9J-lS-tQh" firstAttribute="top" secondItem="XYu-bK-JSu" secondAttribute="bottom" constant="20" id="gnc-0X-nEC"/>
                             <constraint firstItem="Bi9-Lz-bOw" firstAttribute="leading" secondItem="hey-P0-i2r" secondAttribute="trailing" constant="52" id="hb2-1O-0dw"/>
                             <constraint firstItem="Bi9-Lz-bOw" firstAttribute="top" secondItem="eRL-J7-gdp" secondAttribute="bottom" constant="20" id="phm-df-GNJ"/>
-                            <constraint firstItem="jhp-vk-3MZ" firstAttribute="top" secondItem="kf8-Nz-npg" secondAttribute="bottom" constant="20" id="sbN-0N-baH"/>
+                            <constraint firstItem="jhp-vk-3MZ" firstAttribute="top" secondItem="kf8-Nz-npg" secondAttribute="bottom" constant="10" id="sbN-0N-baH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zgg-9n-AUO" secondAttribute="trailing" id="tPo-6o-aGl"/>
                             <constraint firstItem="TZo-CR-kAm" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="umY-aq-ZEn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XYu-bK-JSu" secondAttribute="trailing" id="vca-Md-3hM"/>
                             <constraint firstItem="r9J-lS-tQh" firstAttribute="leading" secondItem="BLX-kN-IsR" secondAttribute="leadingMargin" id="z08-5G-UH5"/>
                             <constraint firstItem="sTQ-1L-shd" firstAttribute="top" secondItem="jhp-vk-3MZ" secondAttribute="bottom" id="zvs-sq-RcK"/>
                         </constraints>
@@ -168,11 +191,14 @@
                     <connections>
                         <outlet property="channelTextField" destination="r9J-lS-tQh" id="mLe-g9-NR9"/>
                         <outlet property="copyResponseToClipboardButton" destination="kf8-Nz-npg" id="wDb-Sb-QbY"/>
+                        <outlet property="deliveryChannelTextField" destination="nwd-Gu-HoK" id="As1-ER-BT5"/>
+                        <outlet property="expiryTextField" destination="14G-VX-xUX" id="DvV-Au-9NA"/>
+                        <outlet property="otpLengthTextField" destination="Srv-xX-ttO" id="IMU-qS-HAj"/>
                         <outlet property="otpTextField" destination="TZo-CR-kAm" id="3KU-Lj-YBz"/>
                         <outlet property="phoneOrEmailTextField" destination="hey-P0-i2r" id="zjX-oU-UwT"/>
                         <outlet property="responseTextView" destination="jhp-vk-3MZ" id="yDB-bH-ehV"/>
                         <outlet property="startHeadlessButton" destination="Bi9-Lz-bOw" id="A9t-cy-rcl"/>
-                        <outlet property="userIdTextField" destination="zgg-9n-AUO" id="NXm-af-nGK"/>
+                        <outlet property="requestIdTextField" destination="zgg-9n-AUO" id="NXm-af-nGK"/>
                         <outlet property="verifyOtpButton" destination="JUB-cu-Mhv" id="Spx-sS-auq"/>
                     </connections>
                 </viewController>

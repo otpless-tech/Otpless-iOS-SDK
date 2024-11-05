@@ -268,12 +268,12 @@ import Foundation
         return self.loginUri
     }
     
-    /// Initiates `WebAuthn` sign in using `userId` received from `Otpless`.
+    /// Initiates `WebAuthn` sign in using `requestId` received from `Otpless`.
     ///
-    /// - parameter userId: A String value received from `Otpless` server.
-    @objc public func initiateWebAuthn(withUserId userId: String) {
+    /// - parameter requestId: A String value received from `Otpless` server.
+    @objc public func initiateWebAuthn(withRequestId requestId: String) {
         let webAuthnRequest = HeadlessRequest()
-        webAuthnRequest.setUserId(userId)
+        webAuthnRequest.setRequestId(requestId)
         addHeadlessViewToMerchantVC(headlessRequest: webAuthnRequest)
     }
 }

@@ -20,7 +20,7 @@ import Foundation
     private var expiry: String?
     private var deliveryChannel: String?
     private var locale: String?
-    private var userId: String?
+    private var requestId: String?
     
     
     @objc public func setPhoneNumber(number: String, withCountryCode countryCode: String) {
@@ -106,10 +106,10 @@ import Foundation
             break
             
         case HeadlessChannel.WEBAUTHN:
-            if let userId = userId {
-                requestJson["userId"] = userId
+            if let requestId = requestId {
+                requestJson["requestId"] = requestId
             }
-            
+            break
         default:
             break
         }
@@ -145,11 +145,11 @@ import Foundation
         return channel.isEmpty
     }
     
-    /// Sets the `userId` required for `WebAuthn` sign in.
+    /// Sets the `requestId` required for `WebAuthn` sign in.
     ///
-    /// - parameter userId: A String value received from `Otpless` server.
-    func setUserId(_ userId: String, channel: String = HeadlessChannel.WEBAUTHN) {
+    /// - parameter requestId: A String value received from `Otpless` server.
+    func setRequestId(_ requestId: String, channel: String = HeadlessChannel.WEBAUTHN) {
         self.channel = channel
-        self.userId = userId
+        self.requestId = requestId
     }
 }
