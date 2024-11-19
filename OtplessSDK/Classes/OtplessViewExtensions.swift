@@ -93,7 +93,7 @@ extension OtplessView: WKNavigationDelegate {
                             responseData: [
                                 "errorMessage": "Internet Error",
                                 "details": [
-                                    "errorCode": urlError.errorCode,
+                                    "errorCode": String(urlError.errorCode),
                                     "description": urlError.localizedDescription.description
                                 ]
                             ],
@@ -154,7 +154,7 @@ extension OtplessView: WKNavigationDelegate {
                             responseData: [
                                 "errorMessage": "Internet Error",
                                 "details": [
-                                    "errorCode": urlError.errorCode,
+                                    "errorCode": String(urlError.errorCode),
                                     "description": urlError.localizedDescription.description
                                 ]
                             ],
