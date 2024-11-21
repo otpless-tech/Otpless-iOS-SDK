@@ -13,7 +13,7 @@ class OtplessView: UIView {
     let messageName = "webNativeAssist"
     var mWebView: WKWebView! = nil
     var bridge: NativeWebBridge = NativeWebBridge()
-    var startUri = "https://otpless.com/rc3/appid/"
+    var startUri = "https://otpless.com/rc4/appid/"
     var finalDeeplinkUri: URL?
     var initialParams: [String: Any]?
     var headlessRequest: HeadlessRequest?
