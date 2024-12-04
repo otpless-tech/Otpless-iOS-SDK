@@ -20,6 +20,7 @@ import Foundation
     private var expiry: String?
     private var deliveryChannel: String?
     private var locale: String?
+    private var requestId: String?
     
     
     @objc public func setPhoneNumber(number: String, withCountryCode countryCode: String) {
@@ -104,6 +105,11 @@ import Foundation
             }
             break
             
+        case HeadlessChannel.WEBAUTHN:
+            if let requestId = requestId {
+                requestJson["requestId"] = requestId
+            }
+            break
         default:
             break
         }
@@ -139,4 +145,11 @@ import Foundation
         return channel.isEmpty
     }
     
+    /// Sets the `requestId` required for `WebAuthn` sign in.
+    ///
+    /// - parameter requestId: A String value received from `Otpless` server.
+    func setRequestId(_ requestId: String, channel: String = HeadlessChannel.WEBAUTHN) {
+        self.channel = channel
+        self.requestId = requestId
+    }
 }
