@@ -17,4 +17,12 @@ import Foundation
         self.responseData = responseData
         self.statusCode = statusCode
     }
+    
+    @objc public func toDict() -> [String: String] {
+        return [
+            "responseType": responseType,
+            "responseData": Utils.convertDictionaryToString(responseData ?? [:]),
+            "statusCode": String(statusCode)
+        ]
+    }
 }

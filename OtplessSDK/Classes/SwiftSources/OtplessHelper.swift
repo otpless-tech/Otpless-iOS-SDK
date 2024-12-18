@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import UIKit
+
 class OtplessHelper {
     
   public static func checkValueExists(forKey key: String) -> Bool {
@@ -38,7 +40,7 @@ class OtplessHelper {
         var params = [String: String]()
         params["event_name"]=event
         params["platform"]="iOS"
-        params["sdk_version"]="2.1.8"
+        params["sdk_version"]="2.1.9"
         let tsid = DeviceInfoUtils.shared.getTrackingSessionId()
         let inid = DeviceInfoUtils.shared.getInstallationId()
         

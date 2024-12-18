@@ -15,5 +15,12 @@ import Foundation
         self.errorString = responseString
         self.responseData = responseData
     }
+    
+    @objc public func toDict() -> [String: String] {
+        return [
+            "errorString": errorString ?? "NA",
+            "responseData": Utils.convertDictionaryToString(responseData ?? [:])
+        ]
+    }
 }
 

@@ -7,115 +7,125 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		020E1F920001595EEECF2169FA594BDA /* OtplessSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 00A1116A336D7D58B56E21F6DCF7FD16 /* OtplessSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		035133E748DCD0D89B1851A1CCCFA83C /* DeviceInfoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82172ED6C5DDCA7A354169E102DE3D1E /* DeviceInfoUtils.swift */; };
 		045F32C367236F6A2C13E99D47109EE9 /* Pods-OtplessSDK_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F9947807AF4B0DF78CE668396CB2CC44 /* Pods-OtplessSDK_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		09CF7D49694619026AC898008BDDC61E /* OtplessSDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BC387AF794D777A23A2648E567CE0B4 /* OtplessSDK-dummy.m */; };
-		24F91F7F2CAC2578002B6309 /* HeadlessDeliveryChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F91F7E2CAC2578002B6309 /* HeadlessDeliveryChannel.swift */; };
-		26C09975F2D55B55A95B4180B3E368D2 /* NativeWebBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE8CD6DC8F73AC6D442F486C30E3914 /* NativeWebBridge.swift */; };
-		4FCB02867C00340570EBFA50C81DF5AC /* OtplessNetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAC80F01874AE90C58E896908359F1D /* OtplessNetworkHelper.swift */; };
-		540F0F162BB5665800162CCF /* HeadlessRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540F0F152BB5665800162CCF /* HeadlessRequest.swift */; };
-		540F0F182BB5667700162CCF /* HeadlessChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540F0F172BB5667700162CCF /* HeadlessChannel.swift */; };
-		540F0F1A2BB5669600162CCF /* HeadlessChannelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540F0F192BB5669600162CCF /* HeadlessChannelType.swift */; };
-		540F0F1C2BB566B800162CCF /* HeadlessResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540F0F1B2BB566B800162CCF /* HeadlessResponse.swift */; };
-		540F0F1E2BB5679C00162CCF /* OtplessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540F0F1D2BB5679C00162CCF /* OtplessView.swift */; };
-		54660C9E2BB59C8F001C7072 /* OtplessViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54660C9D2BB59C8F001C7072 /* OtplessViewExtensions.swift */; };
-		546B77A92BC715D50074735A /* CellularConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 546B77A82BC715D50074735A /* CellularConnectionManager.swift */; };
-		54A67CFD2C53C9DD004343AD /* OtplessLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A67CFC2C53C9DC004343AD /* OtplessLogger.swift */; };
-		54ECFBEA2C6A154E006D2A05 /* NativeWebBridgeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ECFBE92C6A154E006D2A05 /* NativeWebBridgeExtension.swift */; };
-		54F4A7962C2D7F33006B215E /* OtplessWebAuthn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F4A7952C2D7F33006B215E /* OtplessWebAuthn.swift */; };
-		54FDFF1A2BE25C8E00EA2A99 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 54FDFF192BE25C8E00EA2A99 /* PrivacyInfo.xcprivacy */; };
-		6466C5B4313E7405093023FC1FB528D0 /* DeviceInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B9A9050BC54DA945A0CCD41FB236D8 /* DeviceInfoModel.swift */; };
+		0F75E1EBF21B1435E2C322315B3327D8 /* Otpless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C589AD38014A734A3D745EC846CD4AA /* Otpless.swift */; };
+		1F837C31588237FF6A9A1EADB8C4978B /* OtplessSDK-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = DCE06E03F83DA1C2E89664BF2654A0D9 /* OtplessSDK-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		25FCE6BC863F279536D29D453853688E /* HeadlessDeliveryChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5A2C55DC9A4AD818C9870AF391350D /* HeadlessDeliveryChannel.swift */; };
+		2DB9973C33A7B0F2AC6F86D9A92D78ED /* OtplessEventResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C59A2D6C32B561B15DE068A65E83B /* OtplessEventResponse.swift */; };
+		30D34E2014CE953EFF8198C403E7870A /* HeadlessChannelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429FD64DB7896AAC67929E248A2071C1 /* HeadlessChannelType.swift */; };
+		4CF5F57E122105AF28AB71435843A7FB /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B9E846247A661B97EA4AB1BEA9DB8E3A /* PrivacyInfo.xcprivacy */; };
+		54B051717B442933D0926F699DB81E0F /* HeadlessRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D1527CCA7038FF7D3DD0A50D748B2D /* HeadlessRequest.swift */; };
+		59C2CE947AF72630764ACFF0DC71AC0E /* OtplessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED44C13CD729B73DDE2A92B3900D04C3 /* OtplessHelper.swift */; };
+		5F5EB8665B6FCAA3F1C7F2A3E2B7CC25 /* OtplessResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0BA81FBD826FC273051A3AE90221C2 /* OtplessResponse.swift */; };
+		6216572F7A717EC8F0A2420AC6E4A03A /* CellularConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908E0D3016479AD7ED9682CBA55880FB /* CellularConnectionManager.swift */; };
 		6891EC5DF9DA233F5BD9F7EF5485D5F7 /* Pods-OtplessSDK_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E146F3771BDDED30456B50131F5664FB /* Pods-OtplessSDK_Tests-dummy.m */; };
-		710C92FA7CBE91C26C774576DA777858 /* OtplessSDK-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 28C60736CB58A6F3B21CC1046B1A5917 /* OtplessSDK-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7627A15A35C73B53858AF4FDF95B7E06 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
+		7081A0A5CAE1F4E01833242679884DF1 /* NativeWebBridgeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093796ED5F7DBFD60B7995997A686339 /* NativeWebBridgeExtension.swift */; };
+		77883550F6383C06CD0CCDFEAB36D161 /* OtplessSDK-OtplessSDK in Resources */ = {isa = PBXBuildFile; fileRef = 2B134E69BC2DCE51CCA762ABCC2A1DA1 /* OtplessSDK-OtplessSDK */; };
+		84E3743423334603EA93E5593110434D /* OtplessSDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E4EA8E6CFF60D1EF188CB963462EADF4 /* OtplessSDK-dummy.m */; };
 		8D52B3FE0999D6B3FDCFB6BF79B27601 /* Pods-OtplessSDK_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D803D00F91C2347AB32C1E6A57FE63D5 /* Pods-OtplessSDK_Example-dummy.m */; };
-		90B6A623CC73733AE7EDD2E71F25C23D /* OtplessResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D553F74F23A21CBA311229D9ED7605 /* OtplessResponse.swift */; };
-		955DA19295D5C20DB5BF4AC49377C66D /* Otpless.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3D7745ED7E8D3E6C5FD4E1F3C4FA4C /* Otpless.swift */; };
-		966E782CB2136A55EBB3BBC6810E5A46 /* DeviceInfoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7499A8551BEE9C1E7526CE111E69E4BA /* DeviceInfoUtils.swift */; };
+		971A887C14F643D7670C990A2B3817A5 /* OtplessNetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B84A885C674408B18F12DC504226746 /* OtplessNetworkHelper.swift */; };
+		9C9DCE2A0D0B33137CB5CEBF5BE12C4F /* OtplessLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC054B17B278E92A437DB9519E9A55 /* OtplessLogger.swift */; };
+		A74099C978700C81135B3513ECDED805 /* HeadlessResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E9DA6FB13FCC0FAA3FA05C8C6D5D7B /* HeadlessResponse.swift */; };
 		AE9CDC48B2A5FF7EB449B7B448163DBB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		C46A95ECA2229A91A4BC77B78B3639AA /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D769986B4D4BE5C5D2FFD8103D1406E /* Utils.swift */; };
+		AFE996A186D4407B6CB03483081F252B /* OtplessWebAuthn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D63F24836AB24CB2AE397E28480A6BD /* OtplessWebAuthn.swift */; };
+		B23A86A0EC390EE63FE7CBEF48B6ED3C /* HeadlessChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56288217B18B82D87D1D4944EEC874C6 /* HeadlessChannel.swift */; };
+		B9EB277402DA384050B962EAD1FC0A57 /* OtplessViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEDAD318EC1092CBDF7AF0DB95F8CB7 /* OtplessViewExtensions.swift */; };
+		BA761B88810DFEFA30F25FA5354CDD6A /* OtplessSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = FD8CDFF5638E13E076DBC8323D5843F0 /* OtplessSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BFC34BF77C70DF3378B666CF03A51330 /* OtplessLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D7A8BEC49053156A207FB7E15D209 /* OtplessLoader.swift */; };
 		C910AF8858B42AA34A4FF43237B5348B /* Pods-OtplessSDK_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A8FBC36DAE3B78586EDEEE5BCF54273B /* Pods-OtplessSDK_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CAE58AA38037579C65A26C8E98A7BBD5 /* OtplessLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F6B1F0FD5C010B02C98230F2BDD808 /* OtplessLoader.swift */; };
+		D0BC73FF5CF1B264E3B26EF4744A97B5 /* OtplessLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 379AC16C4A73F08187334FB78F58BE16 /* OtplessLib.m */; };
+		D75664D6EC392AE7A6B31ED7E36B6DF0 /* DeviceInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01661F480328EB11844C32990243F6E4 /* DeviceInfoModel.swift */; };
+		DF5301EA6B72CA874546896834E08260 /* NativeWebBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECC6E56DA2E0BBE62C924724F3F0E2 /* NativeWebBridge.swift */; };
+		E122829F9039C618D2614624DDAABD5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 		E5C3967D87AD4C6B16EBCBAA26FCFAEE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		E83756260CF66938897C0D33FEA872BB /* OtplessLib.m in Sources */ = {isa = PBXBuildFile; fileRef = DB77FCF894D1424C5F901D0EC2338F9B /* OtplessLib.m */; };
-		E9985553E494E9FF66D8FD410E68853E /* OtplessEventResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEAD807EF5C4E0A9453FED36E700F67 /* OtplessEventResponse.swift */; };
-		F499E53AEC8FF67D24E3C431DD413182 /* OtplessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41265B29287A93319BD5E5CF406DCFD1 /* OtplessHelper.swift */; };
+		EB0FEF2279686F9F6A0AC21182B82590 /* OtplessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007247D758C70FB01FD04F51C397E6FF /* OtplessView.swift */; };
+		F574D86AEE57F8738F3F214D2179BD2B /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609F46C0D046B1E368A95E26BB504D08 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0285AB638AB5C6367AD99777C57FA09C /* PBXContainerItemProxy */ = {
+		8B01278BB7FE900659F48A5AC3D7BAE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = E877AEBC824B1294DC171F10FDF1A09A;
 			remoteInfo = OtplessSDK;
 		};
-		E4BB2222C7FB7E880CAF1A2EB3D69D42 /* PBXContainerItemProxy */ = {
+		EA9AE3C1B1A2372BAD87BF757CB18496 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 77308C7FB10A5868D920D6362E5DCE83;
 			remoteInfo = "Pods-OtplessSDK_Example";
 		};
+		F066D80021C75A96A7F4F6FCB2E4AB5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CA0E9207DCB253D0319BCD0556760557;
+			remoteInfo = "OtplessSDK-OtplessSDK";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00A1116A336D7D58B56E21F6DCF7FD16 /* OtplessSDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OtplessSDK-umbrella.h"; sourceTree = "<group>"; };
-		0E3FC39F705FE50AD2195804373248E3 /* OtplessSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OtplessSDK.release.xcconfig; sourceTree = "<group>"; };
-		0FEAD807EF5C4E0A9453FED36E700F67 /* OtplessEventResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OtplessEventResponse.swift; path = OtplessSDK/Classes/OtplessEventResponse.swift; sourceTree = "<group>"; };
-		16D553F74F23A21CBA311229D9ED7605 /* OtplessResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OtplessResponse.swift; path = OtplessSDK/Classes/OtplessResponse.swift; sourceTree = "<group>"; };
-		221E866BA844E65896A853886DD28B9D /* OtplessSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OtplessSDK.debug.xcconfig; sourceTree = "<group>"; };
-		24F91F7E2CAC2578002B6309 /* HeadlessDeliveryChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HeadlessDeliveryChannel.swift; path = OtplessSDK/Classes/HeadlessDeliveryChannel.swift; sourceTree = "<group>"; };
-		28C60736CB58A6F3B21CC1046B1A5917 /* OtplessSDK-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "OtplessSDK-Bridging-Header.h"; path = "OtplessSDK/Classes/OtplessSDK-Bridging-Header.h"; sourceTree = "<group>"; };
-		2D769986B4D4BE5C5D2FFD8103D1406E /* Utils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = OtplessSDK/Classes/Utils.swift; sourceTree = "<group>"; };
+		007247D758C70FB01FD04F51C397E6FF /* OtplessView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OtplessView.swift; sourceTree = "<group>"; };
+		01661F480328EB11844C32990243F6E4 /* DeviceInfoModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeviceInfoModel.swift; sourceTree = "<group>"; };
+		093796ED5F7DBFD60B7995997A686339 /* NativeWebBridgeExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NativeWebBridgeExtension.swift; sourceTree = "<group>"; };
+		0D63F24836AB24CB2AE397E28480A6BD /* OtplessWebAuthn.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OtplessWebAuthn.swift; sourceTree = "<group>"; };
+		19F2171E93FF2DC90AACDE5894A5D31B /* OtplessSDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OtplessSDK-prefix.pch"; sourceTree = "<group>"; };
+		2B134E69BC2DCE51CCA762ABCC2A1DA1 /* OtplessSDK-OtplessSDK */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "OtplessSDK-OtplessSDK"; path = OtplessSDK.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B84A885C674408B18F12DC504226746 /* OtplessNetworkHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OtplessNetworkHelper.swift; sourceTree = "<group>"; };
+		2E5A2C55DC9A4AD818C9870AF391350D /* HeadlessDeliveryChannel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HeadlessDeliveryChannel.swift; sourceTree = "<group>"; };
 		34C1ED3A4355CC35D4225C427A9410B0 /* Pods-OtplessSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OtplessSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		35E9DA6FB13FCC0FAA3FA05C8C6D5D7B /* HeadlessResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HeadlessResponse.swift; sourceTree = "<group>"; };
+		379AC16C4A73F08187334FB78F58BE16 /* OtplessLib.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = OtplessLib.m; sourceTree = "<group>"; };
 		38DB573872309041ACF90A9EA92FD50F /* Pods-OtplessSDK_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OtplessSDK_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		3AA0262A3AB464F5B5D9BCBAA2140DCC /* Pods-OtplessSDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OtplessSDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		3AA4F502E284AF0FF7FC7BEFDC34332C /* Pods-OtplessSDK_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OtplessSDK_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
-		41265B29287A93319BD5E5CF406DCFD1 /* OtplessHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OtplessHelper.swift; path = OtplessSDK/Classes/OtplessHelper.swift; sourceTree = "<group>"; };
-		47B9A9050BC54DA945A0CCD41FB236D8 /* DeviceInfoModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DeviceInfoModel.swift; path = OtplessSDK/Classes/DeviceInfoModel.swift; sourceTree = "<group>"; };
-		4D50C26228CE5F577A3D16A74163DF2E /* OtplessSDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "OtplessSDK-Info.plist"; sourceTree = "<group>"; };
+		429FD64DB7896AAC67929E248A2071C1 /* HeadlessChannelType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HeadlessChannelType.swift; sourceTree = "<group>"; };
+		44BA27B1C572B866D3A13F62780B08C4 /* OtplessSDK.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = OtplessSDK.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		46EC515BEAA1519EDD3877FB222481CE /* ResourceBundle-OtplessSDK-OtplessSDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-OtplessSDK-OtplessSDK-Info.plist"; sourceTree = "<group>"; };
 		4FE9446F64B0592169EE94EAAD6B3D86 /* Pods-OtplessSDK_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-OtplessSDK_Example.modulemap"; sourceTree = "<group>"; };
-		53BEBE00A4F3CE8827B18D1E1ED48B39 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		540F0F152BB5665800162CCF /* HeadlessRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HeadlessRequest.swift; path = OtplessSDK/Classes/HeadlessRequest.swift; sourceTree = "<group>"; };
-		540F0F172BB5667700162CCF /* HeadlessChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HeadlessChannel.swift; path = OtplessSDK/Classes/HeadlessChannel.swift; sourceTree = "<group>"; };
-		540F0F192BB5669600162CCF /* HeadlessChannelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HeadlessChannelType.swift; path = OtplessSDK/Classes/HeadlessChannelType.swift; sourceTree = "<group>"; };
-		540F0F1B2BB566B800162CCF /* HeadlessResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HeadlessResponse.swift; path = OtplessSDK/Classes/HeadlessResponse.swift; sourceTree = "<group>"; };
-		540F0F1D2BB5679C00162CCF /* OtplessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessView.swift; path = OtplessSDK/Classes/OtplessView.swift; sourceTree = "<group>"; };
-		54660C9D2BB59C8F001C7072 /* OtplessViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessViewExtensions.swift; path = OtplessSDK/Classes/OtplessViewExtensions.swift; sourceTree = "<group>"; };
-		546B77A82BC715D50074735A /* CellularConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CellularConnectionManager.swift; path = OtplessSDK/Classes/CellularConnectionManager.swift; sourceTree = "<group>"; };
-		54A67CFC2C53C9DC004343AD /* OtplessLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessLogger.swift; path = OtplessSDK/Classes/OtplessLogger.swift; sourceTree = "<group>"; };
-		54ECFBE92C6A154E006D2A05 /* NativeWebBridgeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NativeWebBridgeExtension.swift; path = OtplessSDK/Classes/NativeWebBridgeExtension.swift; sourceTree = "<group>"; };
-		54F4A7952C2D7F33006B215E /* OtplessWebAuthn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtplessWebAuthn.swift; path = OtplessSDK/Classes/OtplessWebAuthn.swift; sourceTree = "<group>"; };
-		54FDFF192BE25C8E00EA2A99 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = OtplessSDK/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		56288217B18B82D87D1D4944EEC874C6 /* HeadlessChannel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HeadlessChannel.swift; sourceTree = "<group>"; };
+		609F46C0D046B1E368A95E26BB504D08 /* Utils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		65729737D6BFC627BEFF88AAABFEDB74 /* OtplessSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = OtplessSDK.modulemap; sourceTree = "<group>"; };
 		70E1F605C69AA8238A747AE7B2040682 /* Pods-OtplessSDK_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-OtplessSDK_Tests.modulemap"; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		7499A8551BEE9C1E7526CE111E69E4BA /* DeviceInfoUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DeviceInfoUtils.swift; path = OtplessSDK/Classes/DeviceInfoUtils.swift; sourceTree = "<group>"; };
+		73FCF70A3A97FA44668CE09C4DBDD25C /* OtplessSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OtplessSDK.debug.xcconfig; sourceTree = "<group>"; };
+		7C589AD38014A734A3D745EC846CD4AA /* Otpless.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Otpless.swift; sourceTree = "<group>"; };
 		7D67FA6DD20239F9CD38B54807127FA4 /* Pods-OtplessSDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OtplessSDK_Example.release.xcconfig"; sourceTree = "<group>"; };
+		82172ED6C5DDCA7A354169E102DE3D1E /* DeviceInfoUtils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DeviceInfoUtils.swift; sourceTree = "<group>"; };
 		87E4DDC580E36C396EC2C42CF8C0304E /* Pods-OtplessSDK_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-OtplessSDK_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		89F6B1F0FD5C010B02C98230F2BDD808 /* OtplessLoader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OtplessLoader.swift; path = OtplessSDK/Classes/OtplessLoader.swift; sourceTree = "<group>"; };
-		8BC387AF794D777A23A2648E567CE0B4 /* OtplessSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "OtplessSDK-dummy.m"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A55B1083787A3303E6078D76FB4F2376 /* OtplessSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = OtplessSDK.modulemap; sourceTree = "<group>"; };
-		A6312D56623416115C72702D1C97E10B /* Pods_OtplessSDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OtplessSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BD5B68127CAA6CBC7BE3E47441EA7ED /* OtplessSDK-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "OtplessSDK-Info.plist"; sourceTree = "<group>"; };
+		904A0636780C37824C7215C5E15CB8BE /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		908E0D3016479AD7ED9682CBA55880FB /* CellularConnectionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CellularConnectionManager.swift; sourceTree = "<group>"; };
+		94DC054B17B278E92A437DB9519E9A55 /* OtplessLogger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OtplessLogger.swift; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A30C59A2D6C32B561B15DE068A65E83B /* OtplessEventResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OtplessEventResponse.swift; sourceTree = "<group>"; };
+		A6312D56623416115C72702D1C97E10B /* Pods-OtplessSDK_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-OtplessSDK_Tests"; path = Pods_OtplessSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8FBC36DAE3B78586EDEEE5BCF54273B /* Pods-OtplessSDK_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OtplessSDK_Example-umbrella.h"; sourceTree = "<group>"; };
-		BFE8CD6DC8F73AC6D442F486C30E3914 /* NativeWebBridge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NativeWebBridge.swift; path = OtplessSDK/Classes/NativeWebBridge.swift; sourceTree = "<group>"; };
-		C4F064B4DD2C67CD6F92D7EEAA3650EC /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		C886CC3F6266C36ADA780C03B2660DAF /* OtplessSDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OtplessSDK-prefix.pch"; sourceTree = "<group>"; };
-		D14361EC80603708839B6A80EE20FFEB /* OtplessSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OtplessSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods_OtplessSDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OtplessSDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9E846247A661B97EA4AB1BEA9DB8E3A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = OtplessSDK/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		BB0BA81FBD826FC273051A3AE90221C2 /* OtplessResponse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OtplessResponse.swift; sourceTree = "<group>"; };
+		C15C04EFEAFA77A775FE9F0BB1CBD45C /* OtplessSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OtplessSDK.release.xcconfig; sourceTree = "<group>"; };
+		D14361EC80603708839B6A80EE20FFEB /* OtplessSDK */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = OtplessSDK; path = OtplessSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods-OtplessSDK_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-OtplessSDK_Example"; path = Pods_OtplessSDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4ECC6E56DA2E0BBE62C924724F3F0E2 /* NativeWebBridge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NativeWebBridge.swift; sourceTree = "<group>"; };
+		D5F9950527D3DBBE0F09B16D6D00EDEE /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
 		D803D00F91C2347AB32C1E6A57FE63D5 /* Pods-OtplessSDK_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OtplessSDK_Example-dummy.m"; sourceTree = "<group>"; };
-		DB77FCF894D1424C5F901D0EC2338F9B /* OtplessLib.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OtplessLib.m; path = OtplessSDK/Classes/OtplessLib.m; sourceTree = "<group>"; };
-		DEB73C2AC2BE0886A2359F0231724F6D /* OtplessSDK.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = OtplessSDK.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		DF3D7745ED7E8D3E6C5FD4E1F3C4FA4C /* Otpless.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Otpless.swift; path = OtplessSDK/Classes/Otpless.swift; sourceTree = "<group>"; };
+		DCE06E03F83DA1C2E89664BF2654A0D9 /* OtplessSDK-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "OtplessSDK-Bridging-Header.h"; path = "OtplessSDK/Classes/OtplessSDK-Bridging-Header.h"; sourceTree = "<group>"; };
 		E146F3771BDDED30456B50131F5664FB /* Pods-OtplessSDK_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OtplessSDK_Tests-dummy.m"; sourceTree = "<group>"; };
 		E3274FA68E2A4D3DF2763C150B024C4E /* Pods-OtplessSDK_Tests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OtplessSDK_Tests-Info.plist"; sourceTree = "<group>"; };
+		E4EA8E6CFF60D1EF188CB963462EADF4 /* OtplessSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "OtplessSDK-dummy.m"; sourceTree = "<group>"; };
 		EAB30363A7D81A56D03ADA4D046D8E9F /* Pods-OtplessSDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OtplessSDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		EAFCFEE7D72DDDA02A877FF2E12C4F61 /* Pods-OtplessSDK_Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OtplessSDK_Example-Info.plist"; sourceTree = "<group>"; };
 		EBF7BF86E0E853A05B4FF1765D8FC370 /* Pods-OtplessSDK_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-OtplessSDK_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		ECAC80F01874AE90C58E896908359F1D /* OtplessNetworkHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OtplessNetworkHelper.swift; path = OtplessSDK/Classes/OtplessNetworkHelper.swift; sourceTree = "<group>"; };
+		ED44C13CD729B73DDE2A92B3900D04C3 /* OtplessHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OtplessHelper.swift; sourceTree = "<group>"; };
+		EEEDAD318EC1092CBDF7AF0DB95F8CB7 /* OtplessViewExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OtplessViewExtensions.swift; sourceTree = "<group>"; };
 		F1375BC27262DB531090F9C021C54A1C /* Pods-OtplessSDK_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-OtplessSDK_Example-frameworks.sh"; sourceTree = "<group>"; };
+		F6D1527CCA7038FF7D3DD0A50D748B2D /* HeadlessRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HeadlessRequest.swift; sourceTree = "<group>"; };
+		F90D7A8BEC49053156A207FB7E15D209 /* OtplessLoader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OtplessLoader.swift; sourceTree = "<group>"; };
 		F9947807AF4B0DF78CE668396CB2CC44 /* Pods-OtplessSDK_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OtplessSDK_Tests-umbrella.h"; sourceTree = "<group>"; };
+		FD8CDFF5638E13E076DBC8323D5843F0 /* OtplessSDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "OtplessSDK-umbrella.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,46 +145,72 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7A2B4EADDA4FD57A29E3DC920A14CD37 /* Frameworks */ = {
+		5AE2BAAF88E6C86FCF01DE39846705C1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7627A15A35C73B53858AF4FDF95B7E06 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		834060DF9BB51F86F877EEACD2EE196E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E122829F9039C618D2614624DDAABD5E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		26B66797FBE577D5C931C59E42F71D8F /* OtplessSDK */ = {
+		159E203F7810E3CD2A0CBCD4CF081600 /* SwiftSources */ = {
 			isa = PBXGroup;
 			children = (
-				54FDFF192BE25C8E00EA2A99 /* PrivacyInfo.xcprivacy */,
-				47B9A9050BC54DA945A0CCD41FB236D8 /* DeviceInfoModel.swift */,
-				7499A8551BEE9C1E7526CE111E69E4BA /* DeviceInfoUtils.swift */,
-				BFE8CD6DC8F73AC6D442F486C30E3914 /* NativeWebBridge.swift */,
-				54ECFBE92C6A154E006D2A05 /* NativeWebBridgeExtension.swift */,
-				DF3D7745ED7E8D3E6C5FD4E1F3C4FA4C /* Otpless.swift */,
-				0FEAD807EF5C4E0A9453FED36E700F67 /* OtplessEventResponse.swift */,
-				41265B29287A93319BD5E5CF406DCFD1 /* OtplessHelper.swift */,
-				DB77FCF894D1424C5F901D0EC2338F9B /* OtplessLib.m */,
-				89F6B1F0FD5C010B02C98230F2BDD808 /* OtplessLoader.swift */,
-				ECAC80F01874AE90C58E896908359F1D /* OtplessNetworkHelper.swift */,
-				16D553F74F23A21CBA311229D9ED7605 /* OtplessResponse.swift */,
-				28C60736CB58A6F3B21CC1046B1A5917 /* OtplessSDK-Bridging-Header.h */,
-				2D769986B4D4BE5C5D2FFD8103D1406E /* Utils.swift */,
-				540F0F152BB5665800162CCF /* HeadlessRequest.swift */,
-				24F91F7E2CAC2578002B6309 /* HeadlessDeliveryChannel.swift */,
-				540F0F172BB5667700162CCF /* HeadlessChannel.swift */,
-				540F0F192BB5669600162CCF /* HeadlessChannelType.swift */,
-				540F0F1B2BB566B800162CCF /* HeadlessResponse.swift */,
-				540F0F1D2BB5679C00162CCF /* OtplessView.swift */,
-				54660C9D2BB59C8F001C7072 /* OtplessViewExtensions.swift */,
-				546B77A82BC715D50074735A /* CellularConnectionManager.swift */,
-				54F4A7952C2D7F33006B215E /* OtplessWebAuthn.swift */,
-				54A67CFC2C53C9DC004343AD /* OtplessLogger.swift */,
-				6AC82192B0A9A086623CFC0B90EF0877 /* Pod */,
-				4084CFC4797EB487FED6150E46F5C8F1 /* Support Files */,
+				908E0D3016479AD7ED9682CBA55880FB /* CellularConnectionManager.swift */,
+				01661F480328EB11844C32990243F6E4 /* DeviceInfoModel.swift */,
+				82172ED6C5DDCA7A354169E102DE3D1E /* DeviceInfoUtils.swift */,
+				56288217B18B82D87D1D4944EEC874C6 /* HeadlessChannel.swift */,
+				429FD64DB7896AAC67929E248A2071C1 /* HeadlessChannelType.swift */,
+				2E5A2C55DC9A4AD818C9870AF391350D /* HeadlessDeliveryChannel.swift */,
+				F6D1527CCA7038FF7D3DD0A50D748B2D /* HeadlessRequest.swift */,
+				35E9DA6FB13FCC0FAA3FA05C8C6D5D7B /* HeadlessResponse.swift */,
+				D4ECC6E56DA2E0BBE62C924724F3F0E2 /* NativeWebBridge.swift */,
+				093796ED5F7DBFD60B7995997A686339 /* NativeWebBridgeExtension.swift */,
+				7C589AD38014A734A3D745EC846CD4AA /* Otpless.swift */,
+				A30C59A2D6C32B561B15DE068A65E83B /* OtplessEventResponse.swift */,
+				ED44C13CD729B73DDE2A92B3900D04C3 /* OtplessHelper.swift */,
+				F90D7A8BEC49053156A207FB7E15D209 /* OtplessLoader.swift */,
+				94DC054B17B278E92A437DB9519E9A55 /* OtplessLogger.swift */,
+				2B84A885C674408B18F12DC504226746 /* OtplessNetworkHelper.swift */,
+				BB0BA81FBD826FC273051A3AE90221C2 /* OtplessResponse.swift */,
+				007247D758C70FB01FD04F51C397E6FF /* OtplessView.swift */,
+				EEEDAD318EC1092CBDF7AF0DB95F8CB7 /* OtplessViewExtensions.swift */,
+				0D63F24836AB24CB2AE397E28480A6BD /* OtplessWebAuthn.swift */,
+				609F46C0D046B1E368A95E26BB504D08 /* Utils.swift */,
+			);
+			name = SwiftSources;
+			path = OtplessSDK/Classes/SwiftSources;
+			sourceTree = "<group>";
+		};
+		1F46394316E643F9D2944E6DB41BAF47 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				D5F9950527D3DBBE0F09B16D6D00EDEE /* LICENSE */,
+				44BA27B1C572B866D3A13F62780B08C4 /* OtplessSDK.podspec */,
+				904A0636780C37824C7215C5E15CB8BE /* README.md */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		2CA4557692D9BAED6A734D03E6AA71A0 /* OtplessSDK */ = {
+			isa = PBXGroup;
+			children = (
+				DCE06E03F83DA1C2E89664BF2654A0D9 /* OtplessSDK-Bridging-Header.h */,
+				B9E846247A661B97EA4AB1BEA9DB8E3A /* PrivacyInfo.xcprivacy */,
+				85590CB650C522454E1E0ED1F9E9F8D1 /* ObjcSources */,
+				1F46394316E643F9D2944E6DB41BAF47 /* Pod */,
+				D6AADB7BFEA8D5F2DEFC156D726FE40E /* Support Files */,
+				159E203F7810E3CD2A0CBCD4CF081600 /* SwiftSources */,
 			);
 			name = OtplessSDK;
 			path = ../..;
@@ -196,31 +232,6 @@
 			path = "Target Support Files/Pods-OtplessSDK_Tests";
 			sourceTree = "<group>";
 		};
-		4084CFC4797EB487FED6150E46F5C8F1 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				A55B1083787A3303E6078D76FB4F2376 /* OtplessSDK.modulemap */,
-				8BC387AF794D777A23A2648E567CE0B4 /* OtplessSDK-dummy.m */,
-				4D50C26228CE5F577A3D16A74163DF2E /* OtplessSDK-Info.plist */,
-				C886CC3F6266C36ADA780C03B2660DAF /* OtplessSDK-prefix.pch */,
-				00A1116A336D7D58B56E21F6DCF7FD16 /* OtplessSDK-umbrella.h */,
-				221E866BA844E65896A853886DD28B9D /* OtplessSDK.debug.xcconfig */,
-				0E3FC39F705FE50AD2195804373248E3 /* OtplessSDK.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/OtplessSDK";
-			sourceTree = "<group>";
-		};
-		53E18135799E92548017F8B04D1DE6C7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D14361EC80603708839B6A80EE20FFEB /* OtplessSDK.framework */,
-				D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods_OtplessSDK_Example.framework */,
-				A6312D56623416115C72702D1C97E10B /* Pods_OtplessSDK_Tests.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		578452D2E740E91742655AC8F1636D1F /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -229,22 +240,32 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		6178E70D591857177BDD1D8FF82FC5AF /* Development Pods */ = {
+		6271E8BC3094C7B215A207E82C93156B /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				26B66797FBE577D5C931C59E42F71D8F /* OtplessSDK */,
+				2CA4557692D9BAED6A734D03E6AA71A0 /* OtplessSDK */,
 			);
 			name = "Development Pods";
 			sourceTree = "<group>";
 		};
-		6AC82192B0A9A086623CFC0B90EF0877 /* Pod */ = {
+		6F5EA00CC7F443B53A084CB54EFDFF79 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				53BEBE00A4F3CE8827B18D1E1ED48B39 /* LICENSE */,
-				DEB73C2AC2BE0886A2359F0231724F6D /* OtplessSDK.podspec */,
-				C4F064B4DD2C67CD6F92D7EEAA3650EC /* README.md */,
+				D14361EC80603708839B6A80EE20FFEB /* OtplessSDK */,
+				2B134E69BC2DCE51CCA762ABCC2A1DA1 /* OtplessSDK-OtplessSDK */,
+				D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods-OtplessSDK_Example */,
+				A6312D56623416115C72702D1C97E10B /* Pods-OtplessSDK_Tests */,
 			);
-			name = Pod;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		85590CB650C522454E1E0ED1F9E9F8D1 /* ObjcSources */ = {
+			isa = PBXGroup;
+			children = (
+				379AC16C4A73F08187334FB78F58BE16 /* OtplessLib.m */,
+			);
+			name = ObjcSources;
+			path = OtplessSDK/Classes/ObjcSources;
 			sourceTree = "<group>";
 		};
 		893B45F3625964EB765B1AB00931CDAB /* Targets Support Files */ = {
@@ -277,9 +298,9 @@
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				6178E70D591857177BDD1D8FF82FC5AF /* Development Pods */,
+				6271E8BC3094C7B215A207E82C93156B /* Development Pods */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
-				53E18135799E92548017F8B04D1DE6C7 /* Products */,
+				6F5EA00CC7F443B53A084CB54EFDFF79 /* Products */,
 				893B45F3625964EB765B1AB00931CDAB /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
@@ -292,23 +313,39 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D6AADB7BFEA8D5F2DEFC156D726FE40E /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				65729737D6BFC627BEFF88AAABFEDB74 /* OtplessSDK.modulemap */,
+				E4EA8E6CFF60D1EF188CB963462EADF4 /* OtplessSDK-dummy.m */,
+				8BD5B68127CAA6CBC7BE3E47441EA7ED /* OtplessSDK-Info.plist */,
+				19F2171E93FF2DC90AACDE5894A5D31B /* OtplessSDK-prefix.pch */,
+				FD8CDFF5638E13E076DBC8323D5843F0 /* OtplessSDK-umbrella.h */,
+				73FCF70A3A97FA44668CE09C4DBDD25C /* OtplessSDK.debug.xcconfig */,
+				C15C04EFEAFA77A775FE9F0BB1CBD45C /* OtplessSDK.release.xcconfig */,
+				46EC515BEAA1519EDD3877FB222481CE /* ResourceBundle-OtplessSDK-OtplessSDK-Info.plist */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/OtplessSDK";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		9524C5A4F139740631BC3024DF189D32 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				710C92FA7CBE91C26C774576DA777858 /* OtplessSDK-Bridging-Header.h in Headers */,
-				020E1F920001595EEECF2169FA594BDA /* OtplessSDK-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A8B4C71BA424EED7A0CD18DE0761DBEC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				045F32C367236F6A2C13E99D47109EE9 /* Pods-OtplessSDK_Tests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE7E31D14F143C8B3421EF25C442DEA0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1F837C31588237FF6A9A1EADB8C4978B /* OtplessSDK-Bridging-Header.h in Headers */,
+				BA761B88810DFEFA30F25FA5354CDD6A /* OtplessSDK-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,11 +372,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				EFFA5B42E4D3A8CF59BFEAEA006FC05D /* PBXTargetDependency */,
+				5E7A3130BD0DE879BCD66BA05BD37CF3 /* PBXTargetDependency */,
 			);
 			name = "Pods-OtplessSDK_Example";
 			productName = Pods_OtplessSDK_Example;
-			productReference = D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods_OtplessSDK_Example.framework */;
+			productReference = D2A9144A01AEDBCE9A1FE1753F345E05 /* Pods-OtplessSDK_Example */;
 			productType = "com.apple.product-type.framework";
 		};
 		7DB828B44E21B7E7CED13C9FCE68354D /* Pods-OtplessSDK_Tests */ = {
@@ -354,29 +391,47 @@
 			buildRules = (
 			);
 			dependencies = (
-				5D39F4C2179882D1777B44CABA2CE36E /* PBXTargetDependency */,
+				AD958715C88A318136E7E8A91FAD4912 /* PBXTargetDependency */,
 			);
 			name = "Pods-OtplessSDK_Tests";
 			productName = Pods_OtplessSDK_Tests;
-			productReference = A6312D56623416115C72702D1C97E10B /* Pods_OtplessSDK_Tests.framework */;
+			productReference = A6312D56623416115C72702D1C97E10B /* Pods-OtplessSDK_Tests */;
 			productType = "com.apple.product-type.framework";
 		};
-		E877AEBC824B1294DC171F10FDF1A09A /* OtplessSDK */ = {
+		CA0E9207DCB253D0319BCD0556760557 /* OtplessSDK-OtplessSDK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 72E5604646E8D293D09F9B34C47BF319 /* Build configuration list for PBXNativeTarget "OtplessSDK" */;
+			buildConfigurationList = 3CA984DB51DC3F24BCA560483A56D120 /* Build configuration list for PBXNativeTarget "OtplessSDK-OtplessSDK" */;
 			buildPhases = (
-				9524C5A4F139740631BC3024DF189D32 /* Headers */,
-				B74C4C79FA7F98DDD437086E54E284E2 /* Sources */,
-				7A2B4EADDA4FD57A29E3DC920A14CD37 /* Frameworks */,
-				514AFE805A9CABCB181A958C929ECF45 /* Resources */,
+				3D961D19471C11CC76FF84A37ED1D5EF /* Sources */,
+				5AE2BAAF88E6C86FCF01DE39846705C1 /* Frameworks */,
+				8C439F1EB1325F1A53062C985313C563 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
+			name = "OtplessSDK-OtplessSDK";
+			productName = OtplessSDK;
+			productReference = 2B134E69BC2DCE51CCA762ABCC2A1DA1 /* OtplessSDK-OtplessSDK */;
+			productType = "com.apple.product-type.bundle";
+		};
+		E877AEBC824B1294DC171F10FDF1A09A /* OtplessSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08C4C5927281D143AC1DA3EF9A5C311D /* Build configuration list for PBXNativeTarget "OtplessSDK" */;
+			buildPhases = (
+				AE7E31D14F143C8B3421EF25C442DEA0 /* Headers */,
+				1A47A4AF2EAE8F0B152D8F5D962509D7 /* Sources */,
+				834060DF9BB51F86F877EEACD2EE196E /* Frameworks */,
+				8C0CB97FFA4645DE768253016309EB8E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F7C80164AD6B06B82018532208A45553 /* PBXTargetDependency */,
+			);
 			name = OtplessSDK;
 			productName = OtplessSDK;
-			productReference = D14361EC80603708839B6A80EE20FFEB /* OtplessSDK.framework */;
+			productReference = D14361EC80603708839B6A80EE20FFEB /* OtplessSDK */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -397,11 +452,12 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 53E18135799E92548017F8B04D1DE6C7 /* Products */;
+			productRefGroup = 6F5EA00CC7F443B53A084CB54EFDFF79 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				E877AEBC824B1294DC171F10FDF1A09A /* OtplessSDK */,
+				CA0E9207DCB253D0319BCD0556760557 /* OtplessSDK-OtplessSDK */,
 				77308C7FB10A5868D920D6362E5DCE83 /* Pods-OtplessSDK_Example */,
 				7DB828B44E21B7E7CED13C9FCE68354D /* Pods-OtplessSDK_Tests */,
 			);
@@ -416,11 +472,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		514AFE805A9CABCB181A958C929ECF45 /* Resources */ = {
+		8C0CB97FFA4645DE768253016309EB8E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54FDFF1A2BE25C8E00EA2A99 /* PrivacyInfo.xcprivacy in Resources */,
+				77883550F6383C06CD0CCDFEAB36D161 /* OtplessSDK-OtplessSDK in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C439F1EB1325F1A53062C985313C563 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CF5F57E122105AF28AB71435843A7FB /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,11 +498,48 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1A47A4AF2EAE8F0B152D8F5D962509D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6216572F7A717EC8F0A2420AC6E4A03A /* CellularConnectionManager.swift in Sources */,
+				D75664D6EC392AE7A6B31ED7E36B6DF0 /* DeviceInfoModel.swift in Sources */,
+				035133E748DCD0D89B1851A1CCCFA83C /* DeviceInfoUtils.swift in Sources */,
+				B23A86A0EC390EE63FE7CBEF48B6ED3C /* HeadlessChannel.swift in Sources */,
+				30D34E2014CE953EFF8198C403E7870A /* HeadlessChannelType.swift in Sources */,
+				25FCE6BC863F279536D29D453853688E /* HeadlessDeliveryChannel.swift in Sources */,
+				54B051717B442933D0926F699DB81E0F /* HeadlessRequest.swift in Sources */,
+				A74099C978700C81135B3513ECDED805 /* HeadlessResponse.swift in Sources */,
+				DF5301EA6B72CA874546896834E08260 /* NativeWebBridge.swift in Sources */,
+				7081A0A5CAE1F4E01833242679884DF1 /* NativeWebBridgeExtension.swift in Sources */,
+				0F75E1EBF21B1435E2C322315B3327D8 /* Otpless.swift in Sources */,
+				2DB9973C33A7B0F2AC6F86D9A92D78ED /* OtplessEventResponse.swift in Sources */,
+				59C2CE947AF72630764ACFF0DC71AC0E /* OtplessHelper.swift in Sources */,
+				D0BC73FF5CF1B264E3B26EF4744A97B5 /* OtplessLib.m in Sources */,
+				BFC34BF77C70DF3378B666CF03A51330 /* OtplessLoader.swift in Sources */,
+				9C9DCE2A0D0B33137CB5CEBF5BE12C4F /* OtplessLogger.swift in Sources */,
+				971A887C14F643D7670C990A2B3817A5 /* OtplessNetworkHelper.swift in Sources */,
+				5F5EB8665B6FCAA3F1C7F2A3E2B7CC25 /* OtplessResponse.swift in Sources */,
+				84E3743423334603EA93E5593110434D /* OtplessSDK-dummy.m in Sources */,
+				EB0FEF2279686F9F6A0AC21182B82590 /* OtplessView.swift in Sources */,
+				B9EB277402DA384050B962EAD1FC0A57 /* OtplessViewExtensions.swift in Sources */,
+				AFE996A186D4407B6CB03483081F252B /* OtplessWebAuthn.swift in Sources */,
+				F574D86AEE57F8738F3F214D2179BD2B /* Utils.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		37F13A0C8BCBDFFCDC111DEEA0C9F037 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8D52B3FE0999D6B3FDCFB6BF79B27601 /* Pods-OtplessSDK_Example-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3D961D19471C11CC76FF84A37ED1D5EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,50 +551,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B74C4C79FA7F98DDD437086E54E284E2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				54A67CFD2C53C9DD004343AD /* OtplessLogger.swift in Sources */,
-				540F0F182BB5667700162CCF /* HeadlessChannel.swift in Sources */,
-				54660C9E2BB59C8F001C7072 /* OtplessViewExtensions.swift in Sources */,
-				540F0F1E2BB5679C00162CCF /* OtplessView.swift in Sources */,
-				6466C5B4313E7405093023FC1FB528D0 /* DeviceInfoModel.swift in Sources */,
-				54F4A7962C2D7F33006B215E /* OtplessWebAuthn.swift in Sources */,
-				966E782CB2136A55EBB3BBC6810E5A46 /* DeviceInfoUtils.swift in Sources */,
-				540F0F162BB5665800162CCF /* HeadlessRequest.swift in Sources */,
-				26C09975F2D55B55A95B4180B3E368D2 /* NativeWebBridge.swift in Sources */,
-				955DA19295D5C20DB5BF4AC49377C66D /* Otpless.swift in Sources */,
-				24F91F7F2CAC2578002B6309 /* HeadlessDeliveryChannel.swift in Sources */,
-				E9985553E494E9FF66D8FD410E68853E /* OtplessEventResponse.swift in Sources */,
-				F499E53AEC8FF67D24E3C431DD413182 /* OtplessHelper.swift in Sources */,
-				540F0F1A2BB5669600162CCF /* HeadlessChannelType.swift in Sources */,
-				540F0F1C2BB566B800162CCF /* HeadlessResponse.swift in Sources */,
-				E83756260CF66938897C0D33FEA872BB /* OtplessLib.m in Sources */,
-				CAE58AA38037579C65A26C8E98A7BBD5 /* OtplessLoader.swift in Sources */,
-				4FCB02867C00340570EBFA50C81DF5AC /* OtplessNetworkHelper.swift in Sources */,
-				90B6A623CC73733AE7EDD2E71F25C23D /* OtplessResponse.swift in Sources */,
-				09CF7D49694619026AC898008BDDC61E /* OtplessSDK-dummy.m in Sources */,
-				C46A95ECA2229A91A4BC77B78B3639AA /* Utils.swift in Sources */,
-				546B77A92BC715D50074735A /* CellularConnectionManager.swift in Sources */,
-				54ECFBEA2C6A154E006D2A05 /* NativeWebBridgeExtension.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5D39F4C2179882D1777B44CABA2CE36E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-OtplessSDK_Example";
-			target = 77308C7FB10A5868D920D6362E5DCE83 /* Pods-OtplessSDK_Example */;
-			targetProxy = E4BB2222C7FB7E880CAF1A2EB3D69D42 /* PBXContainerItemProxy */;
-		};
-		EFFA5B42E4D3A8CF59BFEAEA006FC05D /* PBXTargetDependency */ = {
+		5E7A3130BD0DE879BCD66BA05BD37CF3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = OtplessSDK;
 			target = E877AEBC824B1294DC171F10FDF1A09A /* OtplessSDK */;
-			targetProxy = 0285AB638AB5C6367AD99777C57FA09C /* PBXContainerItemProxy */;
+			targetProxy = 8B01278BB7FE900659F48A5AC3D7BAE7 /* PBXContainerItemProxy */;
+		};
+		AD958715C88A318136E7E8A91FAD4912 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-OtplessSDK_Example";
+			target = 77308C7FB10A5868D920D6362E5DCE83 /* Pods-OtplessSDK_Example */;
+			targetProxy = EA9AE3C1B1A2372BAD87BF757CB18496 /* PBXContainerItemProxy */;
+		};
+		F7C80164AD6B06B82018532208A45553 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OtplessSDK-OtplessSDK";
+			target = CA0E9207DCB253D0319BCD0556760557 /* OtplessSDK-OtplessSDK */;
+			targetProxy = F066D80021C75A96A7F4F6FCB2E4AB5F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -514,7 +591,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example.modulemap";
@@ -531,35 +608,20 @@
 			};
 			name = Debug;
 		};
-		4F93E32E9A939C3B0B790ED29691B489 /* Release */ = {
+		5992DB97BFDFFAD24C4CD7DDAD4B9F8C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E3FC39F705FE50AD2195804373248E3 /* OtplessSDK.release.xcconfig */;
+			baseConfigurationReference = C15C04EFEAFA77A775FE9F0BB1CBD45C /* OtplessSDK.release.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/OtplessSDK/OtplessSDK-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/OtplessSDK/OtplessSDK-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/OtplessSDK/OtplessSDK.modulemap";
-				PRODUCT_MODULE_NAME = OtplessSDK;
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/OtplessSDK";
+				IBSC_MODULE = OtplessSDK;
+				INFOPLIST_FILE = "Target Support Files/OtplessSDK/ResourceBundle-OtplessSDK-OtplessSDK-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_NAME = OtplessSDK;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.5;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};
@@ -618,7 +680,8 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
@@ -640,7 +703,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example.modulemap";
@@ -658,6 +721,23 @@
 			};
 			name = Release;
 		};
+		8F94DBF43B72D4D3FEEC445B62589B1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73FCF70A3A97FA44668CE09C4DBDD25C /* OtplessSDK.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGNING_ALLOWED = NO;
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/OtplessSDK";
+				IBSC_MODULE = OtplessSDK;
+				INFOPLIST_FILE = "Target Support Files/OtplessSDK/ResourceBundle-OtplessSDK-OtplessSDK-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_NAME = OtplessSDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
 		99C7F1D95DD36FA54CF718C9E1F0C0C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34C1ED3A4355CC35D4225C427A9410B0 /* Pods-OtplessSDK_Tests.debug.xcconfig */;
@@ -674,7 +754,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests.modulemap";
@@ -707,7 +787,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests.modulemap";
@@ -791,9 +871,9 @@
 			};
 			name = Debug;
 		};
-		DEF5584E2DBFD2FA9D09C6F511D5E185 /* Debug */ = {
+		F03FCB0E391A060DE98AED6E15CB57A3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 221E866BA844E65896A853886DD28B9D /* OtplessSDK.debug.xcconfig */;
+			baseConfigurationReference = C15C04EFEAFA77A775FE9F0BB1CBD45C /* OtplessSDK.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -807,7 +887,39 @@
 				GCC_PREFIX_HEADER = "Target Support Files/OtplessSDK/OtplessSDK-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/OtplessSDK/OtplessSDK-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/OtplessSDK/OtplessSDK.modulemap";
+				PRODUCT_MODULE_NAME = OtplessSDK;
+				PRODUCT_NAME = OtplessSDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.5;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F785B7F8ACA99B773B4FDF963F2D526F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73FCF70A3A97FA44668CE09C4DBDD25C /* OtplessSDK.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/OtplessSDK/OtplessSDK-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/OtplessSDK/OtplessSDK-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/OtplessSDK/OtplessSDK.modulemap";
 				PRODUCT_MODULE_NAME = OtplessSDK;
@@ -825,20 +937,29 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		08C4C5927281D143AC1DA3EF9A5C311D /* Build configuration list for PBXNativeTarget "OtplessSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F785B7F8ACA99B773B4FDF963F2D526F /* Debug */,
+				F03FCB0E391A060DE98AED6E15CB57A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3CA984DB51DC3F24BCA560483A56D120 /* Build configuration list for PBXNativeTarget "OtplessSDK-OtplessSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F94DBF43B72D4D3FEEC445B62589B1F /* Debug */,
+				5992DB97BFDFFAD24C4CD7DDAD4B9F8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D299434AB35E7FD6F7921C8EF24742FF /* Debug */,
 				7EE7A78859F657F6BEFC651185B43192 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		72E5604646E8D293D09F9B34C47BF319 /* Build configuration list for PBXNativeTarget "OtplessSDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DEF5584E2DBFD2FA9D09C6F511D5E185 /* Debug */,
-				4F93E32E9A939C3B0B790ED29691B489 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
