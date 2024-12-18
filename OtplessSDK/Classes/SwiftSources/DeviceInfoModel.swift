@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import UIKit
 
 class DeviceInfoModel: NSObject {
     var udid : String!

@@ -7,6 +7,11 @@
 
 import Network
 import os
+#if canImport(UIKit)
+import UIKit
+#else
+import Foundation
+#endif
 
 typealias ResultHandler = (ConnectionResult) -> Void
 

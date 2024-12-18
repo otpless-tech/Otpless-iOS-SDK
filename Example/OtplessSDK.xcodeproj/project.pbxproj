@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17CD595201E7B9D76EF55235 /* Pods_OtplessSDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 441218C39A3D10BCD3E96383 /* Pods_OtplessSDK_Example.framework */; };
 		24F91F812CAC3CAF002B6309 /* CustomHeadlessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F91F802CAC3CAF002B6309 /* CustomHeadlessVC.swift */; };
-		375C787B54F4635FC2AD0B2C /* Pods_OtplessSDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 681017ACF48EA13F36EDCD34 /* Pods_OtplessSDK_Tests.framework */; };
 		540F0F202BB56A1000162CCF /* HeadlessDemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540F0F1F2BB56A1000162CCF /* HeadlessDemoVC.swift */; };
 		54A67CFB2C53C96D004343AD /* LoggerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A67CFA2C53C96D004343AD /* LoggerVC.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
@@ -17,7 +17,7 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
-		D37F85AE7B5F5F7140248498 /* Pods_OtplessSDK_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAA172BA0BCC410AFEDE1815 /* Pods_OtplessSDK_Example.framework */; };
+		9E1D1249C4D67456E44F613F /* Pods_OtplessSDK_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 742708CAB25C81163F64A36A /* Pods_OtplessSDK_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,9 +33,12 @@
 /* Begin PBXFileReference section */
 		24F91F802CAC3CAF002B6309 /* CustomHeadlessVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomHeadlessVC.swift; sourceTree = "<group>"; };
 		335C988840D0F8EFDF5F50CF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		3A5260F58EDA6AD245547C45 /* Pods-OtplessSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OtplessSDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		441218C39A3D10BCD3E96383 /* Pods_OtplessSDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OtplessSDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		451962978C2146AAAEC6A101 /* Pods-OtplessSDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OtplessSDK_Example.release.xcconfig"; path = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example.release.xcconfig"; sourceTree = "<group>"; };
+		4D6C816E9F64B3A622F550CC /* Pods-OtplessSDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OtplessSDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		540F0F1F2BB56A1000162CCF /* HeadlessDemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlessDemoVC.swift; sourceTree = "<group>"; };
 		549411CA2C355D1600DAE926 /* OtplessSDK_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OtplessSDK_Example.entitlements; sourceTree = "<group>"; };
+		549E93C0B353A00587D6BC71 /* Pods-OtplessSDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OtplessSDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		54A67CFA2C53C96D004343AD /* LoggerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerVC.swift; sourceTree = "<group>"; };
 		58F5AC57C83E2F5633F91EFF /* OtplessSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = OtplessSDK.podspec; path = ../OtplessSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		5D2E20818F910356A6DC5834 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -49,11 +52,8 @@
 		607FACE51AFB9204008FA782 /* OtplessSDK_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OtplessSDK_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		681017ACF48EA13F36EDCD34 /* Pods_OtplessSDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OtplessSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6FCB55D4BB2531A02E1D7224 /* Pods-OtplessSDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OtplessSDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		85123A41B6F2CE8204D0BA63 /* Pods-OtplessSDK_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OtplessSDK_Tests.release.xcconfig"; path = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		DAA172BA0BCC410AFEDE1815 /* Pods_OtplessSDK_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OtplessSDK_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD6ADE66734C19FC438F71FB /* Pods-OtplessSDK_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OtplessSDK_Example.release.xcconfig"; path = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example.release.xcconfig"; sourceTree = "<group>"; };
+		742708CAB25C81163F64A36A /* Pods_OtplessSDK_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OtplessSDK_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8938D6047756FC35D4238197 /* Pods-OtplessSDK_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OtplessSDK_Tests.debug.xcconfig"; path = "Target Support Files/Pods-OtplessSDK_Tests/Pods-OtplessSDK_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D37F85AE7B5F5F7140248498 /* Pods_OtplessSDK_Example.framework in Frameworks */,
+				17CD595201E7B9D76EF55235 /* Pods_OtplessSDK_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				375C787B54F4635FC2AD0B2C /* Pods_OtplessSDK_Tests.framework in Frameworks */,
+				9E1D1249C4D67456E44F613F /* Pods_OtplessSDK_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,12 +79,21 @@
 		253C26EB8C94A4050F36A09A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6FCB55D4BB2531A02E1D7224 /* Pods-OtplessSDK_Example.debug.xcconfig */,
-				FD6ADE66734C19FC438F71FB /* Pods-OtplessSDK_Example.release.xcconfig */,
-				3A5260F58EDA6AD245547C45 /* Pods-OtplessSDK_Tests.debug.xcconfig */,
-				85123A41B6F2CE8204D0BA63 /* Pods-OtplessSDK_Tests.release.xcconfig */,
+				4D6C816E9F64B3A622F550CC /* Pods-OtplessSDK_Example.debug.xcconfig */,
+				451962978C2146AAAEC6A101 /* Pods-OtplessSDK_Example.release.xcconfig */,
+				8938D6047756FC35D4238197 /* Pods-OtplessSDK_Tests.debug.xcconfig */,
+				549E93C0B353A00587D6BC71 /* Pods-OtplessSDK_Tests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		2936C3382FC80D908747E438 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				441218C39A3D10BCD3E96383 /* Pods_OtplessSDK_Example.framework */,
+				742708CAB25C81163F64A36A /* Pods_OtplessSDK_Tests.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		607FACC71AFB9204008FA782 = {
@@ -96,7 +105,7 @@
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				253C26EB8C94A4050F36A09A /* Pods */,
-				649A04D6C5284F65AAF2D7EA /* Frameworks */,
+				2936C3382FC80D908747E438 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -161,15 +170,6 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		649A04D6C5284F65AAF2D7EA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				DAA172BA0BCC410AFEDE1815 /* Pods_OtplessSDK_Example.framework */,
-				681017ACF48EA13F36EDCD34 /* Pods_OtplessSDK_Tests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -177,11 +177,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "OtplessSDK_Example" */;
 			buildPhases = (
-				214DEBA5B38A575E603F09E1 /* [CP] Check Pods Manifest.lock */,
+				2EF355624C99E2CE74452089 /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
-				65F51B1D02E44574FADAD64B /* [CP] Embed Pods Frameworks */,
+				5F3AC7C2B7059BF6A2D093B8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,7 +196,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "OtplessSDK_Tests" */;
 			buildPhases = (
-				AD1F8BF272A12A36AFAB21E0 /* [CP] Check Pods Manifest.lock */,
+				CB2AA36340D230F123FB1266 /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
 				607FACE21AFB9204008FA782 /* Frameworks */,
 				607FACE31AFB9204008FA782 /* Resources */,
@@ -275,7 +275,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		214DEBA5B38A575E603F09E1 /* [CP] Check Pods Manifest.lock */ = {
+		2EF355624C99E2CE74452089 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -297,7 +297,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		65F51B1D02E44574FADAD64B /* [CP] Embed Pods Frameworks */ = {
+		5F3AC7C2B7059BF6A2D093B8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -315,7 +315,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AD1F8BF272A12A36AFAB21E0 /* [CP] Check Pods Manifest.lock */ = {
+		CB2AA36340D230F123FB1266 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -491,7 +491,7 @@
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6FCB55D4BB2531A02E1D7224 /* Pods-OtplessSDK_Example.debug.xcconfig */;
+			baseConfigurationReference = 4D6C816E9F64B3A622F550CC /* Pods-OtplessSDK_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OtplessSDK_Example.entitlements;
@@ -515,7 +515,7 @@
 		};
 		607FACF11AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FD6ADE66734C19FC438F71FB /* Pods-OtplessSDK_Example.release.xcconfig */;
+			baseConfigurationReference = 451962978C2146AAAEC6A101 /* Pods-OtplessSDK_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = OtplessSDK_Example.entitlements;
@@ -539,7 +539,7 @@
 		};
 		607FACF31AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A5260F58EDA6AD245547C45 /* Pods-OtplessSDK_Tests.debug.xcconfig */;
+			baseConfigurationReference = 8938D6047756FC35D4238197 /* Pods-OtplessSDK_Tests.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = LRPGAA2922;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -563,7 +563,7 @@
 		};
 		607FACF41AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 85123A41B6F2CE8204D0BA63 /* Pods-OtplessSDK_Tests.release.xcconfig */;
+			baseConfigurationReference = 549E93C0B353A00587D6BC71 /* Pods-OtplessSDK_Tests.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = LRPGAA2922;
 				FRAMEWORK_SEARCH_PATHS = (
