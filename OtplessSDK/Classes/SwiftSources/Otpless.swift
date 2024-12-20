@@ -7,6 +7,10 @@
 
 import Foundation
 import UIKit
+import FBSDKCoreKit
+import GoogleSignInSwift
+import FBSDKLoginKit
+import GoogleSignIn
 
 
 @objc final public class Otpless:NSObject {
@@ -267,6 +271,147 @@ import UIKit
     /// - returns: Nullable String `loginUri`
     func getLoginUri() -> String? {
         return self.loginUri
+    }
+    
+    public func isGoogleDeepLink(url: URL) -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
+    }
+    
+    
+    public func loginWithGoogle(vc: UIViewController) {
+        //352005508671-11ljc49d2abgheh1jbvdgag7gt0ib9mm.apps.googleusercontent.com
+        // TODO - set server clientId in info.plist for further validation
+        
+        
+        
+        GIDSignIn.sharedInstance.signIn(
+            withPresenting: vc,
+            hint: nil,
+            additionalScopes: nil,
+            nonce: "oyehoye"
+        ) { signInResult, error in
+            guard let signInResult = signInResult else {
+                print("Error! \(String(describing: error))")
+                return
+            }
+            
+            // Per OpenID Connect Core section 3.1.3.7, rule #11, compare returned nonce to manual
+            guard let idToken = signInResult.user.idToken?.tokenString,
+                  let returnedNonce = self.decodeNonce(fromJWT: idToken),
+                  returnedNonce == "oyehoye" else {
+                // Assert a failure for convenience so that integration tests with this sample app fail upon
+                // `nonce` mismatch
+                assertionFailure("ERROR: Returned nonce doesn't match manual nonce!")
+                return
+            }
+            
+            self.delegate?.onResponse(response: OtplessResponse(responseString: "\(signInResult.user.profile?.email) and \(signInResult.user.idToken?.tokenString)", responseData: ["email": "\(signInResult.user.profile?.email)", "idToken": "\(signInResult.user.idToken)", "accessToken": "\(signInResult.user.accessToken)", "refreshToken": "\(signInResult.user.refreshToken)"]))
+        }
+    }
+    
+    func decodeNonce(fromJWT jwt: String) -> String? {
+        let segments = jwt.components(separatedBy: ".")
+        guard let parts = decodeJWTSegment(segments[1]),
+              let nonce = parts["nonce"] as? String else {
+            return nil
+        }
+        return nonce
+    }
+    
+    func decodeJWTSegment(_ segment: String) -> [String: Any]? {
+        guard let segmentData = base64UrlDecode(segment),
+              let segmentJSON = try? JSONSerialization.jsonObject(with: segmentData, options: []),
+              let payload = segmentJSON as? [String: Any] else {
+            return nil
+        }
+        return payload
+    }
+    
+    func base64UrlDecode(_ value: String) -> Data? {
+        var base64 = value
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        
+        let length = Double(base64.lengthOfBytes(using: String.Encoding.utf8))
+        let requiredLength = 4 * ceil(length / 4.0)
+        let paddingLength = requiredLength - length
+        if paddingLength > 0 {
+            let padding = "".padding(toLength: Int(paddingLength), withPad: "=", startingAt: 0)
+            base64 = base64 + padding
+        }
+        return Data(base64Encoded: base64, options: .ignoreUnknownCharacters)
+    }
+    
+    @objc public func registerFBApp(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) {
+        ApplicationDelegate.shared.application(
+            application,
+            didFinishLaunchingWithOptions: launchOptions
+        )
+    }
+    
+    @objc public func registerFBApp(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+    ) {
+        ApplicationDelegate.shared.application(
+            app,
+            open: url,
+            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+        )
+    }
+    
+    @objc public func loginWithFB() {
+        let loginManager = LoginManager()
+        loginManager.logIn(permissions: ["public_profile", "email"], from: nil) { result, error in
+            if let error = error {
+                print("Facebook login error: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let result = result else { return }
+            
+            if result.isCancelled {
+                print("Facebook login was cancelled")
+            } else {
+                // Successful login
+                self.fetchFacebookProfile()
+            }
+        }
+    }
+    
+    private func fetchFacebookProfile() {
+        if let token = AccessToken.current {
+            let graphRequest = GraphRequest(graphPath: "me", parameters: ["fields": "id, name, email"])
+            graphRequest.start { connection, result, error in
+                if let error = error {
+                    print("Error fetching Facebook profile: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let userInfo = result as? [String: Any] {
+                    let id = userInfo["id"] as? String
+                    let name = userInfo["name"] as? String
+                    let email = userInfo["email"] as? String
+                    
+                    // Handle the user information as needed
+                    print("Facebook User ID: \(id ?? "")")
+                    print("Name: \(name ?? "")")
+                    print("Email: \(email ?? "")")
+                    
+                    
+                    
+                    self.delegate?.onResponse(response: OtplessResponse(responseString: token.tokenString, responseData: userInfo))
+                    return
+                }
+            }
+        }
+        
+        delegate?.onResponse(response: OtplessResponse(responseString: "nahi mila", responseData: ["nahi": "mila"]))
     }
 }
 

@@ -17,7 +17,21 @@
   },
   "social_media_url": "https://twitter.com/otpless",
   "platforms": {
-    "ios": "11.0"
+    "ios": "13.0"
+  },
+  "dependencies": {
+    "GoogleSignIn": [
+      "~> 8.1.0-vwg-eap-1.0.0"
+    ],
+    "GoogleSignInSwiftSupport": [
+      "~> 8.0.0"
+    ],
+    "FBSDKLoginKit": [
+      "~> 17.4.0"
+    ],
+    "FBSDKCoreKit": [
+      "~> 17.4.0"
+    ]
   },
   "source_files": "OtplessSDK/Classes/**/*",
   "resource_bundles": {

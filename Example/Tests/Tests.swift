@@ -1,5 +1,4 @@
 import XCTest
-import OtplessSDK
 
 class Tests: XCTestCase {
     

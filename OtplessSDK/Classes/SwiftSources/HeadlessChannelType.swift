@@ -25,6 +25,8 @@ import Foundation
     @objc public let BITBUCKET = "BITBUCKET"
     @objc public let ATLASSIAN = "ATLASSIAN"
     @objc public let GITLAB = "GITLAB"
+    @objc public let FACEBOOK_SDK = "FACEBOOK_SDK"
+    @objc public let GOOGLE_SDK = "GOOGLE_SDK"
     
     @objc public static var sharedInstance : HeadlessChannelType = {
         let instance = HeadlessChannelType()

@@ -172,7 +172,7 @@ extension NativeWebBridge {
                 self.loadErrorInScript(function: "onWebAuthnSigninError", error: "window_nil", errorDescription: "Window scene is nil, can't show Passkey bottom sheet.")
                 return
             }
-        
+            
             if otplessWebAuthn == nil {
                 otplessWebAuthn = OtplessWebAuthn()
             }
@@ -226,6 +226,25 @@ extension NativeWebBridge {
         } else {
             // handle case when unable to create URL from string
             self.loadErrorInScript(function: "onCellularNetworkResult", error: "url_parsing_fail", errorDescription: "Unable to parse url from string.")
+        }
+    }
+    
+    /// Key 56 - Perform google/fb sign in using google/fb sdk
+    func performGoogleOrFBSignInUsingSDK(channel: String, data: [String: Any]) {
+        let nonce = data["nonce"] as? String ?? "failed_to_fetch_nonce"
+        if channel == HeadlessChannelType.sharedInstance.GOOGLE_SDK {
+            if let vc = Otpless.sharedInstance.merchantVC {
+                let otplessGIDSignIn = OtplessGIDSignIn()
+                otplessGIDSignIn.startGoogleSignIn(vc: vc, withNonce: nonce, onSignIn: { signInResult in
+                    self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
+                })
+            }
+        } else if channel == HeadlessChannelType.sharedInstance.FACEBOOK_SDK {
+            let otplessFbSignIn = OtplessFBSignIn()
+            let permissions = data["permissions"] as? [String] ?? ["public_profile", "email"]
+            otplessFbSignIn.startFBSignIn(withNonce: nonce, withPermissions: permissions, onSignIn: {signInResult in
+                self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
+            })
         }
     }
 }

@@ -8,6 +8,8 @@
 
 import UIKit
 import OtplessSDK
+import AppTrackingTransparency
+import AdSupport
 
 class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
     func onHeadlessResponse(response: OtplessSDK.HeadlessResponse?) {
@@ -67,6 +69,8 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
     }()
    
     let channels = [
+        HeadlessChannelType.sharedInstance.FACEBOOK_SDK,
+        HeadlessChannelType.sharedInstance.GOOGLE_SDK,
         HeadlessChannelType.sharedInstance.WHATSAPP,
         HeadlessChannelType.sharedInstance.GMAIL,
         HeadlessChannelType.sharedInstance.APPLE,
@@ -86,7 +90,7 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
         HeadlessChannelType.sharedInstance.GITLAB
     ]
     
-    var selectedChannel: String = HeadlessChannelType.sharedInstance.WHATSAPP
+    var selectedChannel: String = HeadlessChannelType.sharedInstance.FACEBOOK_SDK
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,6 +107,36 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
          view.addGestureRecognizer(dismissKeyboardGesture)
         
         channelTextField.autocapitalizationType = .allCharacters
+        
+        requestTrackingPermission()
+    }
+    
+    
+    func requestTrackingPermission() {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                switch status {
+                case .authorized:
+                    print("User granted tracking permission")
+                    // Proceed with tracking
+
+                case .denied:
+                    print("User denied tracking permission")
+
+                case .notDetermined:
+                    print("User has not yet been asked for tracking permission")
+
+                case .restricted:
+                    print("User cannot grant tracking permission due to restrictions")
+                    
+                @unknown default:
+                    print("Unknown authorization status")
+                }
+            }
+        } else {
+            print("Tracking permission not required for iOS versions below 14")
+            // For older iOS versions, proceed without tracking
+        }
     }
     
     @objc func dismissKeyboard() {
