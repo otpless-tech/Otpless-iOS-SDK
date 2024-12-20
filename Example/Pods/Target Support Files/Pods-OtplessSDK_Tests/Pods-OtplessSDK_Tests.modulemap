@@ -1,6 +1,0 @@
-framework module Pods_OtplessSDK_Tests {
-  umbrella header "Pods-OtplessSDK_Tests-umbrella.h"
-
-  export *
-  module * { export * }
-}
