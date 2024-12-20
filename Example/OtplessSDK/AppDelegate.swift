@@ -47,10 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         Otpless.sharedInstance.registerFBApp(app, open: url, options: options)
         
-        if Otpless.sharedInstance.isGoogleDeepLink(url: url) {
-            return true
-        }
-        
         if Otpless.sharedInstance.isOtplessDeeplink(url: url){
             Otpless.sharedInstance.processOtplessDeeplink(url: url)
         }
