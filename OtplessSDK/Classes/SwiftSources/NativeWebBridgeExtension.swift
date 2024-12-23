@@ -242,9 +242,19 @@ extension NativeWebBridge {
         } else if channel == HeadlessChannelType.sharedInstance.FACEBOOK_SDK {
             let otplessFbSignIn = OtplessFBSignIn()
             let permissions = data["permissions"] as? [String] ?? ["public_profile", "email"]
+            otplessFbSignIn.logoutFBUser()
             otplessFbSignIn.startFBSignIn(withNonce: nonce, withPermissions: permissions, onSignIn: {signInResult in
                 self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
             })
+        }
+    }
+    
+    /// Key 57 - Logout user from FB/Google
+    func logoutUserFromSDK(channel: String) {
+        if channel == HeadlessChannelType.sharedInstance.GOOGLE_SDK {
+            // Logout from google
+        } else if channel == HeadlessChannelType.sharedInstance.FACEBOOK_SDK {
+            OtplessFBSignIn().logoutFBUser()
         }
     }
 }

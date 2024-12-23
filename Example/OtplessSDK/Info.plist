@@ -30,36 +30,35 @@
 				<string>otpless.your_appid_in_lowercase</string>
 			</array>
 		</dict>
-	    <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>com.googleusercontent.apps.352005508671-11ljc49d2abgheh1jbvdgag7gt0ib9mm</string>
-            </array>
-        </dict>
-        <dict>
+		<dict>
 			<key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb1093861368957498</string>
-              </array>
+			<array>
+				<string>DOT_REVERSED_GOOGLE_CLIENT_ID</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb{FB_APPID}</string>
+			</array>
 		</dict>
 	</array>
-    
 	<key>CFBundleVersion</key>
 	<string>11</string>
-    <key>FacebookClientToken</key>
-    <string>4578cd6e9708bd670455d5fdab6d0b9a</string>
-    <key>FacebookAppID</key>
-    <string>1093861368957498</string>
-    <key>FacebookDisplayName</key>
-    <string>OtplessDemo</string>
+	<key>FacebookAppID</key>
+	<string>FACEBOOK_APPID</string>
+	<key>FacebookClientToken</key>
+	<string>FACEBOOK_CLIENT_TOKEN</string>
+	<key>FacebookDisplayName</key>
+	<string>OtplessDemo</string>
 	<key>GIDClientID</key>
-	<string>352005508671-11ljc49d2abgheh1jbvdgag7gt0ib9mm.apps.googleusercontent.com</string>
+	<string>GID_CLIENT_ID</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>whatsapp</string>
 		<string>com.otpless.ios.app.otpless</string>
 		<string>googlegmail</string>
-        <string>fbapi</string>
+		<string>fbapi</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -89,6 +88,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We use your data to provide a personalized experience and relevant advertisements.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -109,7 +110,5 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
-    <key>NSUserTrackingUsageDescription</key>
-    <string>We use your data to provide a personalized experience and relevant advertisements.</string>
 </dict>
 </plist>

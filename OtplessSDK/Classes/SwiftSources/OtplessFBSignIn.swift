@@ -52,9 +52,14 @@ class OtplessFBSignIn {
                 }
                 break
             }
+            
+            onSignIn(fBSignInResult.toDict())
         })
-        
-        onSignIn(fBSignInResult.toDict())
+    }
+    
+    /// Logs out the existing user from FB so that a user can login again from a different identity if they want to.
+    func logoutFBUser() {
+        LoginManager().logOut()
     }
 }
 
