@@ -7,6 +7,10 @@
 
 import Foundation
 import UIKit
+import FBSDKCoreKit
+import GoogleSignInSwift
+import FBSDKLoginKit
+import GoogleSignIn
 
 
 @objc final public class Otpless:NSObject {
@@ -120,6 +124,11 @@ import UIKit
     }
     
     @objc public func isOtplessDeeplink(url : URL) -> Bool{
+        let isGoogleDeepLink = GIDSignIn.sharedInstance.handle(url)
+        if isGoogleDeepLink {
+            return true
+        }
+        
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host {
             switch host {
             case "otpless":
@@ -267,6 +276,47 @@ import UIKit
     /// - returns: Nullable String `loginUri`
     func getLoginUri() -> String? {
         return self.loginUri
+    }
+    
+    /// Registers the application to use Facebook Login.
+    @objc public func registerFBApp(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) {
+        ApplicationDelegate.shared.application(
+            application,
+            didFinishLaunchingWithOptions: launchOptions
+        )
+    }
+    
+    /// Registers the application to use Facebook Login. To be called from `AppDelegate`
+    @objc public func registerFBApp(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+    ) {
+        ApplicationDelegate.shared.application(
+            app,
+            open: url,
+            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+        )
+    }
+    
+    /// Registers the application to use Facebook Login. To be called from `SceneDelegate`
+    @objc public func registerFBApp(
+        openURLContexts URLContexts: Set<UIOpenURLContext>
+    ) {
+        guard let url = URLContexts.first?.url else {
+            return
+        }
+
+        ApplicationDelegate.shared.application(
+            UIApplication.shared,
+            open: url,
+            sourceApplication: nil,
+            annotation: [UIApplication.OpenURLOptionsKey.annotation]
+        )
     }
 }
 

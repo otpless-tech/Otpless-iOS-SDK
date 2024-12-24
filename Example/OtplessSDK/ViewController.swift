@@ -12,7 +12,7 @@ import OtplessSDK
 class ViewController: UIViewController, onResponseDelegate, onEventCallback {
     static var logs: [CustomLog] = []
     
-    static let APPID = ""
+    static let APPID = "YOUR_APPID"
     
     @IBOutlet var showLoginPageButton: UIButton!
     

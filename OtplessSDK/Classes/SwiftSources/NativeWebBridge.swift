@@ -123,7 +123,18 @@ class NativeWebBridge {
                 let connectionUrl = URL(string: url)
                 self.performSilentAuth(withConnectionUrl: connectionUrl)
                 break
-
+                
+            case 56:
+                // Perform google/fb sdk login
+                let req = dataDict?["request"] as? [String: Any]
+                let channel = req?["channel"] as? String ?? ""
+                let data = req?["data"] as? [String: Any] ?? [:]
+                self.performGoogleOrFBSignInUsingSDK(channel: channel, data: data)
+                break
+            case 57:
+                let req = dataDict?["request"] as? [String: Any]
+                let channel = req?["channel"] as? String ?? ""
+                self.logoutUserFromSDK(channel: channel)
             default:
                 return
             }
