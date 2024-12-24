@@ -40,6 +40,13 @@ internal class OtplessGIDSignIn {
             additionalScopes: additionalScopes,
             nonce: nonce
         ) { signInResult, error in
+            if let error = error {
+                onSignIn(
+                    GIDSignInResult(success: false, idToken: nil, error: error.localizedDescription).toDict()
+                )
+                return
+            }
+            
             guard let signInResult = signInResult else {
                 onSignIn(
                     GIDSignInResult(success: false, idToken: nil, error: "Could not get sign in result").toDict()
