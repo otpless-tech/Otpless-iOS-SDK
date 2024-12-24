@@ -289,7 +289,7 @@ import GoogleSignIn
         )
     }
     
-    /// Registers the application to use Facebook Login.
+    /// Registers the application to use Facebook Login. To be called from `AppDelegate`
     @objc public func registerFBApp(
         _ app: UIApplication,
         open url: URL,
@@ -300,6 +300,22 @@ import GoogleSignIn
             open: url,
             sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
             annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+        )
+    }
+    
+    /// Registers the application to use Facebook Login. To be called from `SceneDelegate`
+    @objc public func registerFBApp(
+        openURLContexts URLContexts: Set<UIOpenURLContext>
+    ) {
+        guard let url = URLContexts.first?.url else {
+            return
+        }
+
+        ApplicationDelegate.shared.application(
+            UIApplication.shared,
+            open: url,
+            sourceApplication: nil,
+            annotation: [UIApplication.OpenURLOptionsKey.annotation]
         )
     }
 }
