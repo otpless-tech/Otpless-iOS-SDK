@@ -241,8 +241,8 @@ extension NativeWebBridge {
             }
         } else if channel == HeadlessChannelType.sharedInstance.FACEBOOK_SDK {
             let otplessFbSignIn = OtplessFBSignIn()
-            let permissions = data["permissions"] as? [String] ?? ["public_profile", "email"]
             otplessFbSignIn.logoutFBUser()
+            let permissions = data["permissions"] as? [String] ?? ["public_profile", "email"]
             otplessFbSignIn.startFBSignIn(withNonce: nonce, withPermissions: permissions, onSignIn: {signInResult in
                 self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
             })
