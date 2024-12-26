@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'OtplessSDK'
-  s.version          = '2.2.0'
+  s.version          = '2.2.1'
   s.summary          = 'Sign-up/ Sign-in engineered by OTPLESS.'
 
   s.description      = <<-DESC
@@ -18,8 +18,8 @@ Pod::Spec.new do |s|
   
   s.dependency 'GoogleSignIn', '~> 8.1.0-vwg-eap-1.0.0'
   s.dependency 'GoogleSignInSwiftSupport', '~> 8.0.0'
-  s.dependency 'FBSDKLoginKit', '~> 17.4.0'
-  s.dependency 'FBSDKCoreKit', '~> 17.4.0'
+  s.dependency 'FBSDKLoginKit', '~> 17.0.2'
+  s.dependency 'FBSDKCoreKit', '~> 17.0.2'
 
   s.source_files = 'OtplessSDK/Classes/**/*'
   s.resource_bundles = {
