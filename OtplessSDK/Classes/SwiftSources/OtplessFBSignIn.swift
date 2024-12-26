@@ -6,8 +6,18 @@
 //
 
 import Foundation
+
+#if canImport(FBSDKCoreKit)
 import FBSDKCoreKit
+#endif
+
+#if canImport(FacebookCore)
+import FacebookCore
+#endif
+
+#if canImport(FBSDKLoginKit)
 import FBSDKLoginKit
+#endif
 
 class OtplessFBSignIn {
     func startFBSignIn(

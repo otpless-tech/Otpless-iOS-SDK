@@ -6,8 +6,16 @@
 //
 
 import Foundation
+import UIKit
+
+#if canImport(GoogleSignInSwift)
 import GoogleSignInSwift
+#endif
+
+#if canImport(GoogleSignIn)
 import GoogleSignIn
+#endif
+
 
 /// Wrapper class of Google's GIDSignIn class
 internal class OtplessGIDSignIn {
