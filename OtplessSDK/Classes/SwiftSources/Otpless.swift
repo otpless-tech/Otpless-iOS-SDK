@@ -7,10 +7,26 @@
 
 import Foundation
 import UIKit
+
+#if canImport(FBSDKCoreKit)
 import FBSDKCoreKit
+#endif
+
+#if canImport(FacebookCore)
+import FacebookCore
+#endif
+
+#if canImport(GoogleSignInSwift)
 import GoogleSignInSwift
+#endif
+
+#if canImport(FBSDKLoginKit)
 import FBSDKLoginKit
+#endif
+
+#if canImport(GoogleSignIn)
 import GoogleSignIn
+#endif
 
 
 @objc final public class Otpless:NSObject {
@@ -304,6 +320,7 @@ import GoogleSignIn
     }
     
     /// Registers the application to use Facebook Login. To be called from `SceneDelegate`
+    @available(iOS 13.0, *)
     @objc public func registerFBApp(
         openURLContexts URLContexts: Set<UIOpenURLContext>
     ) {
