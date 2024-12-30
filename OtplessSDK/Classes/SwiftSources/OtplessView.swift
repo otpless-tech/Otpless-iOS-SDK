@@ -110,6 +110,7 @@ class OtplessView: UIView {
     }
     
     func sendHeadlessRequestToWeb(request: HeadlessRequest) {
+        self.headlessRequest = request
         bridge.setHeadlessRequest(headlessRequest: request, webview: mWebView)
         bridge.sendHeadlessRequestToWeb()
     }

@@ -13,7 +13,7 @@ import WebKit
 class NativeWebBridge {
     internal var webView: WKWebView! = nil
     public weak var delegate: BridgeDelegate?
-    public weak var headlessRequest: HeadlessRequest? = nil
+    public var headlessRequest: HeadlessRequest? = nil
     var otplessWebAuthn: OtplessWebAuthn?
     
     func parseScriptMessage(message: WKScriptMessage, webview : WKWebView){
