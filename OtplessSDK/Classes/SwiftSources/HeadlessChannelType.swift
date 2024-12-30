@@ -27,6 +27,7 @@ import Foundation
     @objc public let GITLAB = "GITLAB"
     @objc public let FACEBOOK_SDK = "FACEBOOK_SDK"
     @objc public let GOOGLE_SDK = "GOOGLE_SDK"
+    @objc public let APPLE_SDK = "APPLE_SDK"
     
     @objc public static var sharedInstance : HeadlessChannelType = {
         let instance = HeadlessChannelType()

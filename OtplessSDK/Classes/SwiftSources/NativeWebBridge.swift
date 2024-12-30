@@ -94,6 +94,7 @@ class NativeWebBridge {
 
             case 20:
                 // send headless request to web
+                print("Making request: \(headlessRequest?.makeJson())")
                 self.sendHeadlessRequestToWeb(self.headlessRequest, withCode: "")
                 break
             case 21:
@@ -146,6 +147,7 @@ class NativeWebBridge {
 extension NativeWebBridge {
     func setHeadlessRequest(headlessRequest: HeadlessRequest?, webview: WKWebView) {
         self.headlessRequest = headlessRequest
+        print("Request: \(headlessRequest?.makeJson())")
         if self.webView == nil {
             self.webView = webview
         }

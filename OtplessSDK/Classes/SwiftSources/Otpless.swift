@@ -174,6 +174,7 @@ import GoogleSignIn
     func addHeadlessViewToMerchantVC(headlessRequest: HeadlessRequest) {
         if (merchantVC != nil && merchantVC?.view != nil) {
             if otplessView == nil || otplessView?.superview == nil {
+                print("In if with \(headlessRequest.makeJson())")
                 let vcView = merchantVC?.view
                 DispatchQueue.main.async {
                     if vcView != nil {
@@ -205,6 +206,7 @@ import GoogleSignIn
                     }
                 }
             } else {
+                print("In else with \(headlessRequest.makeJson())")
                 self.otplessView?.sendHeadlessRequestToWeb(request: headlessRequest)
             }
         }
@@ -334,6 +336,16 @@ import GoogleSignIn
             sourceApplication: nil,
             annotation: [UIApplication.OpenURLOptionsKey.annotation]
         )
+    }
+    
+    /// Fetches the `window` from `OtplessView` instance
+    ///
+    /// - returns: An instance of `UIWindow?`.
+    func getWindow() -> UIWindow? {
+        if let window = otplessView?.window {
+            return window
+        }
+        return (merchantVC?.view.window)
     }
 }
 
