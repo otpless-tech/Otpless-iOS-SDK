@@ -140,6 +140,7 @@ class DeviceInfoUtils {
         }
     }
     
+    
     private func generateId(withTimeStamp: Bool) -> String {
         let uuid = UUID().uuidString
         if !withTimeStamp {
