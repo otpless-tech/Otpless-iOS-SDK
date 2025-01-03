@@ -94,19 +94,13 @@ private class AppleSignInResult: NSObject {
     /// - parameter token: It is the `authorizationCode` provided by Apple after sign in.
     func setToken(_ token: String) {
         self.token = token
+        self.success = true
     }
     
     /// Setter function to set `idToken`
     /// - parameter idToken: It is the `authenticationToken (JWT)` provided by Apple after login is successful.
     func setIdToken(_ idToken: String) {
         self.idToken = idToken
-        self.success = true
-    }
-    
-    /// Setter function to set `success`
-    /// - parameter success: It is a boolean indicating whether the login is successful.
-    func setIsSuccessful(_ success: Bool) {
-        self.success = success
         self.success = true
     }
     
