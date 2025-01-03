@@ -12,7 +12,7 @@ import OtplessSDK
 class ViewController: UIViewController, onResponseDelegate, onEventCallback {
     static var logs: [CustomLog] = []
     
-    static let APPID = "LTKMN0FJDK545M9N7YRP"
+    static let APPID = "YOUR_APPID"
     
     @IBOutlet var showLoginPageButton: UIButton!
     
@@ -102,14 +102,6 @@ class ViewController: UIViewController, onResponseDelegate, onEventCallback {
         setDelegates()
         setupUI()
         addTargets()
-        
-        Otpless.sharedInstance.initialise(vc: self, appId: ViewController.APPID)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-            let req = HeadlessRequest()
-            req.setPhoneNumber(number: "9643519024", withCountryCode: "+91")
-            Otpless.sharedInstance.startHeadless(headlessRequest: req)
-        })
     }
     
     override func didReceiveMemoryWarning() {

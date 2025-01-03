@@ -145,7 +145,7 @@ class DeviceInfoUtils {
         if !withTimeStamp {
             return uuid
         }
-        let timestamp = Int(Date().timeIntervalSince1970)
+        let timestamp = Int64(Date().timeIntervalSince1970)
         let uniqueString = "\(uuid)-\(timestamp)"
         return uniqueString
     }

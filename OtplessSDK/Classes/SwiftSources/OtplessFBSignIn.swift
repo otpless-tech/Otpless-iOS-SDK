@@ -29,7 +29,6 @@ class OtplessFBSignIn {
         let configuration = LoginConfiguration(permissions: permissions, tracking: .enabled, nonce: nonce)
         
         let fBSignInResult = FBSignInResult()
-        fBSignInResult.setIsSuccessful(false) // Set it to false by default and only set it to true if authentication is successful.
         
         guard let configuration = configuration else {
             fBSignInResult.setErrorStr("Could not get LocalConfiguration instance")
@@ -48,12 +47,10 @@ class OtplessFBSignIn {
                 break
             case .success( _, _, let token):
                 if let accessTokenStr = token?.tokenString {
-                    fBSignInResult.setIsSuccessful(true)
                     fBSignInResult.setToken(accessTokenStr)
                 }
                 
                 if let authenticationTokenStr = AuthenticationToken.current?.tokenString {
-                    fBSignInResult.setIsSuccessful(true)
                     fBSignInResult.setIdToken(authenticationTokenStr)
                 }
                 
@@ -91,18 +88,21 @@ private class FBSignInResult: NSObject {
     /// - parameter idToken: It is the `authenticationToken (JWT)` provided by Facebook after Limited Login is successful.
     func setIdToken(_ idToken: String) {
         self.idToken = idToken
+        self.success = true
     }
     
     /// Setter function to set `success`
     /// - parameter success: It is a boolean indicating whether the login is successful.
     func setIsSuccessful(_ success: Bool) {
         self.success = success
+        self.success = true
     }
     
     /// Setter function to set `error`
     /// - parameter error: It is the error string describing the error occured during Limited Login.
     func setErrorStr(_ error: String) {
         self.error = error
+        self.success = false
     }
     
     func toDict() -> [String: Any] {

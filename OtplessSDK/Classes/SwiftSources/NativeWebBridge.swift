@@ -94,7 +94,6 @@ class NativeWebBridge {
 
             case 20:
                 // send headless request to web
-                print("Making request: \(headlessRequest?.makeJson())")
                 self.sendHeadlessRequestToWeb(self.headlessRequest, withCode: "")
                 break
             case 21:
@@ -130,7 +129,7 @@ class NativeWebBridge {
                 let req = dataDict?["request"] as? [String: Any]
                 let channel = req?["channel"] as? String ?? ""
                 let data = req?["data"] as? [String: Any] ?? [:]
-                self.performGoogleOrFBSignInUsingSDK(channel: channel, data: data)
+                self.useNativeSDKToAuthenticateUser(channel: channel, data: data)
                 break
             case 57:
                 let req = dataDict?["request"] as? [String: Any]
@@ -147,7 +146,6 @@ class NativeWebBridge {
 extension NativeWebBridge {
     func setHeadlessRequest(headlessRequest: HeadlessRequest?, webview: WKWebView) {
         self.headlessRequest = headlessRequest
-        print("Request: \(headlessRequest?.makeJson())")
         if self.webView == nil {
             self.webView = webview
         }

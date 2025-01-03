@@ -229,32 +229,53 @@ extension NativeWebBridge {
         }
     }
     
-    /// Key 56 - Perform google/fb sign in using google/fb sdk
-    func performGoogleOrFBSignInUsingSDK(channel: String, data: [String: Any]) {
+    
+    /// Key 56 - Performs custom SSO Authentication. Currently supported channels: `APPLE_SDK, GOOGLE_SDK & FACEBOOK_SDK`
+    func useNativeSDKToAuthenticateUser(channel: String, data: [String: Any]) {
         let nonce = data["nonce"] as? String ?? "failed_to_fetch_nonce"
-        if channel == HeadlessChannelType.sharedInstance.GOOGLE_SDK {
+        
+        switch channel {
+        case HeadlessChannelType.sharedInstance.GOOGLE_SDK:
             if let vc = Otpless.sharedInstance.merchantVC {
                 let otplessGIDSignIn = OtplessGIDSignIn()
                 otplessGIDSignIn.startGoogleSignIn(vc: vc, withNonce: nonce, onSignIn: { signInResult in
                     self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
                 })
             }
-        } else if channel == HeadlessChannelType.sharedInstance.FACEBOOK_SDK {
+            break
+        case HeadlessChannelType.sharedInstance.FACEBOOK_SDK:
             let otplessFbSignIn = OtplessFBSignIn()
             otplessFbSignIn.logoutFBUser()
             let permissions = data["permissions"] as? [String] ?? ["public_profile", "email"]
             otplessFbSignIn.startFBSignIn(withNonce: nonce, withPermissions: permissions, onSignIn: {signInResult in
                 self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
             })
+            break
+        case HeadlessChannelType.sharedInstance.APPLE_SDK:
+            let otplessAppleSignIn = OtplessAppleSignIn()
+            otplessAppleSignIn.performSignIn(withNonce: nonce, onSignInComplete: { signInResult in
+                self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
+            })
+            break
+        default:
+            self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(["success": false, "error": "Could not find a valid channel to authenticate user."]))
         }
     }
     
-    /// Key 57 - Logout user from FB/Google
+    /// Key 57 - Logout user if session exists in 3rd party sdk
     func logoutUserFromSDK(channel: String) {
-        if channel == HeadlessChannelType.sharedInstance.GOOGLE_SDK {
-            // Logout from google
-        } else if channel == HeadlessChannelType.sharedInstance.FACEBOOK_SDK {
+        switch channel {
+        case HeadlessChannelType.sharedInstance.GOOGLE_SDK:
+            // Not required
+            break
+        case HeadlessChannelType.sharedInstance.FACEBOOK_SDK:
             OtplessFBSignIn().logoutFBUser()
+            break
+        case HeadlessChannelType.sharedInstance.APPLE_SDK:
+            // Not required
+            break
+        default:
+            OtplessLogger.log(string: "Invalid channel received", type: "SDK_AUTHENTICATION")
         }
     }
 }

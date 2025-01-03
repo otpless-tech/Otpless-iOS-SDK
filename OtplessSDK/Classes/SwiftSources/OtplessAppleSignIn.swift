@@ -8,23 +8,31 @@
 import Foundation
 import AuthenticationServices
 
-class OtplessAppleSignIn: NSObject, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
-    private var onSignInComplete: (([String: Any]) -> Void)?
+class OtplessAppleSignIn: NSObject {
     
-    func performSignIn(withNonce nonce: String?, onSignInComplete: @escaping ([String: Any]) -> Void) {
-        if !isWindowValid() {
-            onSignInComplete(
-                AppleSignInResult(success: false, idToken: nil, error: "Could not get a valid Window.").toDict()
-            )
-            return
-        }
-        
-        self.onSignInComplete = onSignInComplete
+    private var completionHandler: ((Result<ASAuthorizationAppleIDCredential, Error>) -> Void)?
+    
+    func performSignIn(withNonce nonce: String?, onSignInComplete: @escaping (([String: Any]) -> Void)) {
+        signIn(withNonce: nonce, completion: { result in
+            switch result {
+            case .success(let credential):
+                let signInResult = self.handleSuccessfulSignIn(with: credential)
+                
+                onSignInComplete(signInResult)
+            case .failure(let error):
+                let signInResult = self.handleSignInError(error)
+                onSignInComplete(signInResult)
+            }
+        })
+    }
+    
+    private func signIn(withNonce nonce: String?, completion: @escaping (Result<ASAuthorizationAppleIDCredential, Error>) -> Void) {
+        self.completionHandler = completion
         
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
         request.nonce = nonce
+        request.requestedScopes = [.fullName, .email]
         
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
@@ -32,67 +40,81 @@ class OtplessAppleSignIn: NSObject, ASAuthorizationControllerDelegate, ASAuthori
         authorizationController.performRequests()
     }
     
-    private func isWindowValid() -> Bool {
-        if #available(iOS 15, *) {
-            return Otpless.sharedInstance.getWindowScene() == nil && Otpless.sharedInstance.getWindow() == nil
-        } else {
-            return Otpless.sharedInstance.getWindow() == nil
+    private func handleSuccessfulSignIn(with credential: ASAuthorizationAppleIDCredential) -> [String: Any] {
+        let appleSignInResult = AppleSignInResult()
+        
+        if let idToken = credential.identityToken,
+           let idTokenStr = String(data: idToken, encoding: .utf8) {
+            appleSignInResult.setIdToken(idTokenStr)
         }
+        
+        if let authorizationCode = credential.authorizationCode,
+           let authorizationCodeStr = String(data: authorizationCode, encoding: .utf8) {
+            appleSignInResult.setToken(authorizationCodeStr)
+        }
+        
+        if appleSignInResult.idToken == nil && appleSignInResult.token == nil {
+            appleSignInResult.setErrorStr("Could not get a valid token after authentication.")
+        }
+        
+        return appleSignInResult.toDict()
+    }
+    
+    private func handleSignInError(_ error: Error) -> [String: Any] {
+        let appleSignInResult = AppleSignInResult()
+        appleSignInResult.setErrorStr(error.localizedDescription)
+        return appleSignInResult.toDict()
     }
 }
 
-
-extension OtplessAppleSignIn {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        if #available(iOS 15.0, *) {
-            return ASPresentationAnchor(windowScene: Otpless.sharedInstance.getWindowScene()!)
-        }
-        
-        return Otpless.sharedInstance.getWindow()!
-    }
-    
+extension OtplessAppleSignIn: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        switch authorization.credential {
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            
-            let authorizationCode = appleIDCredential.authorizationCode
-            guard let authorizationCodeString = String(data: appleIDCredential.authorizationCode ?? Data(), encoding: .utf8) else {
-                onSignInComplete?(
-                    AppleSignInResult(success: false, idToken: nil, error: "Failed to convert authorization code to string").toDict()
-                )
-                return
-            }
-            
-            print("Authorization code string: \(authorizationCodeString)")
-            onSignInComplete?(
-                AppleSignInResult(success: true, idToken: authorizationCodeString, error: nil).toDict()
-            )
-        default:
-            onSignInComplete?(
-                AppleSignInResult(success: false, idToken: nil, error: "Received unwanted credential type.").toDict()
-            )
-            break
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            completionHandler?(.success(appleIDCredential))
         }
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        onSignInComplete?(
-            AppleSignInResult(success: false, idToken: nil, error: error.localizedDescription).toDict()
-        )
+        completionHandler?(.failure(error))
     }
     
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return UIApplication.shared.windows.first!
+    }
 }
 
 private class AppleSignInResult: NSObject {
-    let idToken: String?
-    let error: String?
-    let success: Bool
+    var idToken: String?
+    var error: String?
+    var success: Bool = false
     let channel = HeadlessChannelType.sharedInstance.APPLE_SDK
+    var token: String?
     
-    init(success: Bool, idToken: String?, error: String?) {
-        self.success = success
+    /// Setter function to set `token`
+    /// - parameter token: It is the `authorizationCode` provided by Apple after sign in.
+    func setToken(_ token: String) {
+        self.token = token
+    }
+    
+    /// Setter function to set `idToken`
+    /// - parameter idToken: It is the `authenticationToken (JWT)` provided by Apple after login is successful.
+    func setIdToken(_ idToken: String) {
         self.idToken = idToken
+        self.success = true
+    }
+    
+    /// Setter function to set `success`
+    /// - parameter success: It is a boolean indicating whether the login is successful.
+    func setIsSuccessful(_ success: Bool) {
+        self.success = success
+        self.success = true
+    }
+    
+    /// Setter function to set `error`
+    /// - parameter error: It is the error string describing the error occured during Apple Sign In.
+    func setErrorStr(_ error: String) {
         self.error = error
+        self.success = false
     }
     
     func toDict() -> [String: Any] {
@@ -103,6 +125,10 @@ private class AppleSignInResult: NSObject {
         
         if let idToken = idToken {
             dict["idToken"] = idToken
+        }
+        
+        if let token = token {
+            dict["token"] = token
         }
         
         if let error = error {
