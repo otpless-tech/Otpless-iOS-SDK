@@ -205,7 +205,6 @@ import GoogleSignIn
                     }
                 }
             } else {
-                print("In else with \(headlessRequest.makeJson())")
                 self.otplessView?.sendHeadlessRequestToWeb(request: headlessRequest)
             }
         }
