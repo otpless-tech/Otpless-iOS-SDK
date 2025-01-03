@@ -129,7 +129,7 @@ class NativeWebBridge {
                 let req = dataDict?["request"] as? [String: Any]
                 let channel = req?["channel"] as? String ?? ""
                 let data = req?["data"] as? [String: Any] ?? [:]
-                self.performGoogleOrFBSignInUsingSDK(channel: channel, data: data)
+                self.useNativeSDKToAuthenticateUser(channel: channel, data: data)
                 break
             case 57:
                 let req = dataDict?["request"] as? [String: Any]

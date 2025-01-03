@@ -38,7 +38,7 @@
 		549411CA2C355D1600DAE926 /* OtplessSDK_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OtplessSDK_Example.entitlements; sourceTree = "<group>"; };
 		54A67CFA2C53C96D004343AD /* LoggerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerVC.swift; sourceTree = "<group>"; };
 		5797863FFE0EE5612D093CF7 /* Pods-OtplessSDK_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OtplessSDK_Example.debug.xcconfig"; path = "Target Support Files/Pods-OtplessSDK_Example/Pods-OtplessSDK_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		58F5AC57C83E2F5633F91EFF /* OtplessSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = OtplessSDK.podspec; path = ../OtplessSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		58F5AC57C83E2F5633F91EFF /* OtplessSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = OtplessSDK.podspec; path = ../OtplessSDK.podspec; sourceTree = "<group>"; };
 		5D2E20818F910356A6DC5834 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* OtplessSDK_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OtplessSDK_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
