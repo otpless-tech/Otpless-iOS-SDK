@@ -37,7 +37,7 @@ PODS:
     - AppAuth/Core (~> 1.7)
     - GTMSessionFetcher/Core (< 4.0, >= 3.3)
   - GTMSessionFetcher/Core (3.5.0)
-  - OtplessSDK (2.2.1):
+  - OtplessSDK (2.2.4):
     - FBSDKCoreKit (~> 17.0.2)
     - FBSDKLoginKit (~> 17.0.2)
     - GoogleSignIn (~> 8.1.0-vwg-eap-1.0.0)
@@ -78,7 +78,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
-  OtplessSDK: 1c22c2ba8292e65044f83f04930dfba9f228dd62
+  OtplessSDK: b5582047a974338cab19bbb9260e9c0cab1802be
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
 
 PODFILE CHECKSUM: 51dfdcb2b70efb8d55d8d9489787a06377d57ae9
