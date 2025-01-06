@@ -26,6 +26,6 @@ Pod::Spec.new do |s|
       'OtplessSDK' => ['OtplessSDK/PrivacyInfo.xcprivacy']
   }
   
-  s.swift_versions = ['5.0', '5.1', '5.2', '5.3', '5.4', '5.5']
+  s.swift_versions = ['4.0', '4.1', '4.2', '5.0', '5.1', '5.2', '5.3', '5.4', '5.5']
 
 end

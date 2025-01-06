@@ -252,10 +252,20 @@ extension NativeWebBridge {
             })
             break
         case HeadlessChannelType.sharedInstance.APPLE_SDK:
-            let otplessAppleSignIn = OtplessAppleSignIn()
-            otplessAppleSignIn.performSignIn(withNonce: nonce, onSignInComplete: { signInResult in
-                self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
-            })
+            if #available(iOS 13.0, *) {
+                let otplessAppleSignIn = OtplessAppleSignIn()
+                otplessAppleSignIn.performSignIn(withNonce: nonce, onSignInComplete: { signInResult in
+                    self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
+                })
+            } else {
+                self.loadScript(
+                    function: "ssoSdkResponse",
+                    message: Utils.convertDictionaryToString(
+                        Utils.createUnsupportedIOSVersionError(supportedFrom: "13.0", forFeature: "APPLE_SDK Sign In")
+                    )
+                )
+            }
+            
             break
         default:
             self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(["success": false, "error": "Could not find a valid channel to authenticate user."]))
