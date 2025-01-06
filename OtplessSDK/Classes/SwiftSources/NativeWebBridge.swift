@@ -124,6 +124,11 @@ class NativeWebBridge {
                 self.performSilentAuth(withConnectionUrl: connectionUrl)
                 break
                 
+            case 43:
+                let urls = dataDict?["urls"] as? [String] ?? []
+                self.warmupURLCache(forURLs: urls)
+                break
+                
             case 56:
                 // Perform google/fb sdk login
                 let req = dataDict?["request"] as? [String: Any]

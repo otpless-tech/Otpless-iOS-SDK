@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Network
+
  class OtplessNetworkHelper {
     var baseurl : String = ""
      var apiRoute = "metaverse"
@@ -67,6 +69,53 @@ import Foundation
              completion(data, response, error)
          }
          task.resume()
+     }
+     
+     @available(iOS 12.0, *)
+     func warmupURLCache(forURLs urls: [String], shouldRequireMobileDataEnabled: Bool, areURLsFromWeb: Bool, onComplete: @escaping (() -> Void)) {
+         if !shouldRequireMobileDataEnabled {
+             for url in urls {
+                 self.fetchDataWithGET(apiRoute: url, completion: { _, _, _  in
+                     OtplessLogger.log(string: "Warmup complete for url: \(url)", type: "URL CACHE WARMUP")
+                 })
+             }
+             return
+         }
+         
+         // Only make request if mobile data is enabled and `shouldRequireMobileDataEnabled` is also true
+         let networkMonitor = NWPathMonitor(requiredInterfaceType: .cellular)
+         networkMonitor.pathUpdateHandler = { [weak self] path in
+             guard let self = self else { return }
+             
+             DispatchQueue.main.async {
+                 if path.status == .satisfied {
+                     let providedPreLoadingURLs = Bundle.main.object(forInfoDictionaryKey: "OtplessSNAPreLoadingURLs") as? [String]
+                     
+                     var urlsToPing: [String] = []
+                     
+                     if areURLsFromWeb {
+                         urlsToPing.append(contentsOf: urls)
+                     } else {
+                         urlsToPing.append(contentsOf: providedPreLoadingURLs ?? urls)
+                     }
+                     
+                     for url in urlsToPing {
+                         self.fetchDataWithGET(apiRoute: url, completion: { _, _, _  in
+                             OtplessLogger.log(string: "Warmup complete for url: \(url)", type: "URL CACHE WARMUP")
+                             if url == urlsToPing.last {
+                                 DispatchQueue.main.async {
+                                     onComplete()
+                                 }
+                             }
+                         })
+                     }
+                 }
+                 // Stop monitoring after receiving the result
+                 networkMonitor.cancel()
+             }
+         }
+         
+         networkMonitor.start(queue: .main)
      }
 }
 

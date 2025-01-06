@@ -229,6 +229,30 @@ extension NativeWebBridge {
         }
     }
     
+    /// Key 43 - Make requests to provided SNA URLs
+    func warmupURLCache(forURLs urls: [String]) {
+        if #available(iOS 12.0, *) {
+            var urlsToPing: [String] = []
+            var areURLsFromWeb = false
+            if urls.isEmpty {
+                urlsToPing = Utils.getSNAPreLoadingURLs()
+                areURLsFromWeb = false
+            } else {
+                urlsToPing = urls
+                areURLsFromWeb = true
+            }
+            
+            OtplessNetworkHelper.shared.warmupURLCache(
+                forURLs: urlsToPing,
+                shouldRequireMobileDataEnabled: true,
+                areURLsFromWeb: areURLsFromWeb,
+                onComplete: {
+                    OtplessHelper.setValue(value: Int64(Date().timeIntervalSince1970), forKey: Constants.KEY_LAST_URL_CACHE_COMPLETION_TIME)
+                }
+            )
+        }
+    }
+    
     
     /// Key 56 - Performs custom SSO Authentication. Currently supported channels: `APPLE_SDK, GOOGLE_SDK & FACEBOOK_SDK`
     func useNativeSDKToAuthenticateUser(channel: String, data: [String: Any]) {

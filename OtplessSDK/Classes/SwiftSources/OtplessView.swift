@@ -47,6 +47,7 @@ class OtplessView: UIView {
     }
     
     private func setupView() {
+        warmupSNAUrlCacheIfPossible()
         initializeWebView()
         bridge.delegate = self
         
@@ -227,6 +228,12 @@ class OtplessView: UIView {
                     urlComponents.queryItems?.append(queryWebAuthn)
                 }
                 
+                if let lastSNAURLCacheTimeEpoch: Int64? = OtplessHelper.getValue(forKey: Constants.KEY_LAST_URL_CACHE_COMPLETION_TIME),
+                   let epochTime = lastSNAURLCacheTimeEpoch {
+                    let queryLastSNAURLCacheTimeEpoch = URLQueryItem(name: Constants.URL_CACHE_EPOCH, value: String(epochTime))
+                    urlComponents.queryItems?.append(queryLastSNAURLCacheTimeEpoch)
+                }
+                
                 let updatedUrlComponents = addInitialParams(urlComponents: urlComponents)
 
                 if let updatedURL = updatedUrlComponents.url {
@@ -347,5 +354,18 @@ class OtplessView: UIView {
     
     func getViewHeight() -> CGFloat {
         return self.headlessViewHeight
+    }
+    
+    private func warmupSNAUrlCacheIfPossible() {
+        if #available(iOS 12.0, *) {
+            let shouldPerformWarmupOnInitialise = Bundle.main.object(forInfoDictionaryKey: "OtplessSNAPreLoadingEnabled") as? String
+            if shouldPerformWarmupOnInitialise?.lowercased() != "true" {
+                return
+            }
+            
+            OtplessNetworkHelper.shared.warmupURLCache(forURLs: [], shouldRequireMobileDataEnabled: true, areURLsFromWeb: false, onComplete: {
+                OtplessHelper.setValue(value: Int64(Date().timeIntervalSince1970), forKey: Constants.KEY_LAST_URL_CACHE_COMPLETION_TIME)
+            })
+        }
     }
 }
