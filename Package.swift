@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Otpless-iOS-SDK",
     platforms: [
-        .iOS(.v12)
+        .iOS(.v13)
     ],
     products: [
         .library(
@@ -38,5 +38,5 @@ let package = Package(
             sources: ["ObjcSources"]
         )
     ],
-    swiftLanguageVersions: [.v4, .v5]
+    swiftLanguageVersions: [.v5]
 )
