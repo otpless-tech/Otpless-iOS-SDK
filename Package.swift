@@ -19,7 +19,11 @@ let package = Package(
     targets: [
         .target(
             name: "OtplessSDKSwift",
-            path: "OtplessSDK/Classes",
+            dependencies: [
+                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
+                .product(name: "FacebookCore", package: "facebook-ios-sdk"),
+                .product(name: "FacebookLogin", package: "facebook-ios-sdk")
+            ], path: "OtplessSDK/Classes",
             sources: ["SwiftSources"]
         ),
         .target(
