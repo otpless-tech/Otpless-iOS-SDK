@@ -66,8 +66,6 @@ import GoogleSignIn
         let initHeadlessRequest = HeadlessRequest()
         initHeadlessRequest.setChannelType("")
         addHeadlessViewToMerchantVC(headlessRequest: initHeadlessRequest)
-        
-        warmupSNAUrlCacheIfPossible()
     }
     
     @objc public func showOtplessLoginPageWithParams(appId: String!, vc: UIViewController,params: [String : Any]?){
@@ -349,19 +347,6 @@ extension Otpless {
     
     @objc public func getLoggerDelegate() -> OtplessLoggerDelegate? {
         return self.loggerDelegate
-    }
-    
-    private func warmupSNAUrlCacheIfPossible() {
-        if #available(iOS 12.0, *) {
-            let shouldPerformWarmupOnInitialise = Bundle.main.object(forInfoDictionaryKey: "OtplessSNAPreLoadingEnabled") as? String
-            if shouldPerformWarmupOnInitialise?.lowercased() != "true" {
-                return
-            }
-            
-            OtplessNetworkHelper.shared.warmupURLCache(forURLs: [], shouldRequireMobileDataEnabled: true, areURLsFromWeb: false, onComplete: {
-                OtplessHelper.setValue(value: Int64(Date().timeIntervalSince1970), forKey: Constants.KEY_LAST_URL_CACHE_COMPLETION_TIME)
-            })
-        }
     }
 }
 

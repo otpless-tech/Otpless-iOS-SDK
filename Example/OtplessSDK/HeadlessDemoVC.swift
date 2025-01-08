@@ -69,6 +69,7 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
     }()
    
     let channels = [
+        HeadlessChannelType.sharedInstance.APPLE_SDK,
         HeadlessChannelType.sharedInstance.FACEBOOK_SDK,
         HeadlessChannelType.sharedInstance.GOOGLE_SDK,
         HeadlessChannelType.sharedInstance.WHATSAPP,
@@ -90,7 +91,7 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
         HeadlessChannelType.sharedInstance.GITLAB
     ]
     
-    var selectedChannel: String = HeadlessChannelType.sharedInstance.FACEBOOK_SDK
+    var selectedChannel: String = HeadlessChannelType.sharedInstance.APPLE_SDK
     
     override func viewDidLoad() {
         super.viewDidLoad()
