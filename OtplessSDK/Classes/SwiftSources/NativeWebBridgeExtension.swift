@@ -237,19 +237,43 @@ extension NativeWebBridge {
         switch channel {
         case HeadlessChannelType.sharedInstance.GOOGLE_SDK:
             if let vc = Otpless.sharedInstance.merchantVC {
-                let otplessGIDSignIn = OtplessGIDSignIn()
-                otplessGIDSignIn.startGoogleSignIn(vc: vc, withNonce: nonce, onSignIn: { signInResult in
-                    self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
-                })
+                if let GoogleAuthClass = NSClassFromString("OtplessSDK.OtplessGIDSignIn") as? NSObject.Type {
+                    let googleAuthHandler = GoogleAuthClass.init()
+                    if let handler = googleAuthHandler as? GoogleAuthProtocol {
+                        handler.signIn(
+                            vc: vc,
+                            withHint: nil,
+                            shouldAddAdditionalScopes: nil,
+                            withNonce: nonce,
+                            onSignIn: { signInResult in
+                                self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
+                            })
+                    } else {
+                        self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(Utils.createErrorDictionary(error: "missing_dependency", errorDescription: "Google support not initialized. Please add OtplessSDK/GoogleSupport to your Podfile")))
+                    }
+                } else {
+                    self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(Utils.createErrorDictionary(error: "missing_class", errorDescription: "Could not find an instance of OtplessGIDSignIn")))
+                }
             }
             break
         case HeadlessChannelType.sharedInstance.FACEBOOK_SDK:
-            let otplessFbSignIn = OtplessFBSignIn()
-            otplessFbSignIn.logoutFBUser()
-            let permissions = data["permissions"] as? [String] ?? ["public_profile", "email"]
-            otplessFbSignIn.startFBSignIn(withNonce: nonce, withPermissions: permissions, onSignIn: {signInResult in
-                self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
-            })
+            if let FacebookAuthClass = NSClassFromString("OtplessSDK.OtplessFBSignIn") as? NSObject.Type {
+                let fbAuthHandler = FacebookAuthClass.init()
+                if let handler = fbAuthHandler as? FacebookAuthProtocol {
+                    handler.logoutFBUser()
+                    let permissions = data["permissions"] as? [String] ?? ["public_profile", "email"]
+                    handler.startFBSignIn(
+                        withNonce: nonce,
+                        withPermissions: permissions,
+                        onSignIn: { signInResult in
+                            self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(signInResult))
+                        })
+                } else {
+                    self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(Utils.createErrorDictionary(error: "missing_dependency", errorDescription: "Facebook support not initialized. Please add OtplessSDK/FacebookSupport to your Podfile")))
+                }
+            } else {
+                self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(Utils.createErrorDictionary(error: "missing_class", errorDescription: "Could not find an instance of OtplessFBSignIn")))
+            }
             break
         case HeadlessChannelType.sharedInstance.APPLE_SDK:
             if #available(iOS 13.0, *) {

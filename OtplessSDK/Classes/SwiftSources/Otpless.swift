@@ -8,26 +8,6 @@
 import Foundation
 import UIKit
 
-#if canImport(FBSDKCoreKit)
-import FBSDKCoreKit
-#endif
-
-#if canImport(FacebookCore)
-import FacebookCore
-#endif
-
-#if canImport(GoogleSignInSwift)
-import GoogleSignInSwift
-#endif
-
-#if canImport(FBSDKLoginKit)
-import FBSDKLoginKit
-#endif
-
-#if canImport(GoogleSignIn)
-import GoogleSignIn
-#endif
-
 
 @objc final public class Otpless:NSObject {
     
@@ -140,11 +120,15 @@ import GoogleSignIn
     }
     
     @objc public func isOtplessDeeplink(url : URL) -> Bool{
-        let isGoogleDeepLink = GIDSignIn.sharedInstance.handle(url)
-        if isGoogleDeepLink {
-            return true
+        if let GoogleAuthClass = NSClassFromString("OtplessSDK.OtplessGIDSignIn") as? NSObject.Type {
+            let googleAuthHandler = GoogleAuthClass.init()
+            if let handler = googleAuthHandler as? GoogleAuthProtocol {
+                let isGIDDeeplink = handler.isGIDDeeplink(url: url)
+                if isGIDDeeplink {
+                    return true
+                }
+            }
         }
-        
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true), let host = components.host {
             switch host {
             case "otpless":
@@ -299,10 +283,12 @@ import GoogleSignIn
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) {
-        ApplicationDelegate.shared.application(
-            application,
-            didFinishLaunchingWithOptions: launchOptions
-        )
+        if let FacebookAuthClass = NSClassFromString("OtplessSDK.OtplessFBSignIn") as? NSObject.Type {
+            let facebookAuthHandler = FacebookAuthClass.init()
+            if let handler = facebookAuthHandler as? FacebookAuthProtocol {
+                handler.register(application, didFinishLaunchingWithOptions: launchOptions)
+            }
+        }
     }
     
     /// Registers the application to use Facebook Login. To be called from `AppDelegate`
@@ -311,12 +297,12 @@ import GoogleSignIn
         open url: URL,
         options: [UIApplication.OpenURLOptionsKey : Any] = [:]
     ) {
-        ApplicationDelegate.shared.application(
-            app,
-            open: url,
-            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
-        )
+        if let FacebookAuthClass = NSClassFromString("OtplessSDK.OtplessFBSignIn") as? NSObject.Type {
+            let facebookAuthHandler = FacebookAuthClass.init()
+            if let handler = facebookAuthHandler as? FacebookAuthProtocol {
+                handler.register(app, open: url, options: options)
+            }
+        }
     }
     
     /// Registers the application to use Facebook Login. To be called from `SceneDelegate`
@@ -324,16 +310,12 @@ import GoogleSignIn
     @objc public func registerFBApp(
         openURLContexts URLContexts: Set<UIOpenURLContext>
     ) {
-        guard let url = URLContexts.first?.url else {
-            return
+        if let FacebookAuthClass = NSClassFromString("OtplessSDK.OtplessFBSignIn") as? NSObject.Type {
+            let facebookAuthHandler = FacebookAuthClass.init()
+            if let handler = facebookAuthHandler as? FacebookAuthProtocol {
+                handler.register(openURLContexts: URLContexts)
+            }
         }
-
-        ApplicationDelegate.shared.application(
-            UIApplication.shared,
-            open: url,
-            sourceApplication: nil,
-            annotation: [UIApplication.OpenURLOptionsKey.annotation]
-        )
     }
     
 }
