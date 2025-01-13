@@ -41,6 +41,21 @@ internal class OtplessGIDSignIn: NSObject, GoogleAuthProtocol {
         return GIDSignIn.sharedInstance.handle(url)
     }
     
+    /// Initiates the Google Sign-In process.
+    ///
+    /// - Parameters:
+    ///   - vc: The `UIViewController` that presents the sign-in UI.
+    ///   - hint: An optional string to suggest a Google account for the sign-in prompt.
+    ///   - additionalScopes: An optional array of additional OAuth 2.0 scopes to request access to.
+    ///   - nonce: An optional cryptographic nonce to associate with the sign-in request for enhanced security.
+    ///   - onSignIn: A closure that returns a dictionary with the sign-in result.
+    ///     - The dictionary includes:
+    ///       - `success`: A `Bool` indicating whether the sign-in was successful.
+    ///       - `idToken`: A `String?` containing the ID token if the sign-in is successful, or `nil` otherwise.
+    ///       - `error`: A `String?` containing an error message if the sign-in fails, or `nil` otherwise.
+    ///
+    /// - Note: This function handles errors internally and calls the `onSignIn` closure with a result dictionary
+    ///         representing the success or failure of the sign-in process.
     func signIn(
         vc: UIViewController,
         withHint hint: String?,
