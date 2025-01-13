@@ -11,4 +11,5 @@ class Constants {
     static let KEY_LAST_URL_CACHE_COMPLETION_TIME = "otpless_url_cache_complete_time"
     static let URL_CACHE_SUPPORTED = "urlCacheSupported"
     static let URL_CACHE_EPOCH = "urlCacheEpoch"
+    static let KEY_URL_CACHE_LINKED_TSID = "otpless_url_cache_linked_tsid"
 }

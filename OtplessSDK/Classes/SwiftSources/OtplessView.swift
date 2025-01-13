@@ -357,14 +357,21 @@ class OtplessView: UIView {
     }
     
     private func warmupSNAUrlCacheIfPossible() {
+        let tsidLinkedWithURLCacheEpoch: String? = OtplessHelper.getValue(forKey: Constants.KEY_URL_CACHE_LINKED_TSID)
+        if tsidLinkedWithURLCacheEpoch != nil && DeviceInfoUtils.shared.getTrackingSessionId() != nil && tsidLinkedWithURLCacheEpoch == DeviceInfoUtils.shared.getTrackingSessionId() {
+            // We have already made requests to the URLs for the existing tsid. Since tsid will refresh when app is relaunched, these conditions will fail and the requests will be made to the required URLs.
+            return
+        }
+        
         if #available(iOS 12.0, *) {
-            let shouldPerformWarmupOnInitialise = Bundle.main.object(forInfoDictionaryKey: "OtplessSNAPreLoadingEnabled") as? String
-            if shouldPerformWarmupOnInitialise?.lowercased() != "true" {
+            let shouldPerformWarmupOnInitialise = Bundle.main.object(forInfoDictionaryKey: "OtplessSNAPreLoadingEnabled") as? Bool
+            if shouldPerformWarmupOnInitialise != true {
                 return
             }
             
             OtplessNetworkHelper.shared.warmupURLCache(forURLs: [], shouldRequireMobileDataEnabled: true, areURLsFromWeb: false, onComplete: {
                 OtplessHelper.setValue(value: Int64(Date().timeIntervalSince1970), forKey: Constants.KEY_LAST_URL_CACHE_COMPLETION_TIME)
+                OtplessHelper.setValue(value: DeviceInfoUtils.shared.getTrackingSessionId(), forKey: Constants.KEY_URL_CACHE_LINKED_TSID)
             })
         }
     }

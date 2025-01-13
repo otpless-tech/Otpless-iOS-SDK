@@ -89,13 +89,12 @@ import Network
              
              DispatchQueue.main.async {
                  if path.status == .satisfied {
-                     let providedPreLoadingURLs = Bundle.main.object(forInfoDictionaryKey: "OtplessSNAPreLoadingURLs") as? [String]
-                     
                      var urlsToPing: [String] = []
                      
                      if areURLsFromWeb {
                          urlsToPing.append(contentsOf: urls)
                      } else {
+                         let providedPreLoadingURLs = Bundle.main.object(forInfoDictionaryKey: "OtplessSNAPreLoadingURLs") as? [String]
                          urlsToPing.append(contentsOf: providedPreLoadingURLs ?? urls)
                      }
                      
