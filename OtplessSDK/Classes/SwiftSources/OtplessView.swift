@@ -358,7 +358,7 @@ class OtplessView: UIView {
     
     private func warmupSNAUrlCacheIfPossible() {
         let tsidLinkedWithURLCacheEpoch: String? = OtplessHelper.getValue(forKey: Constants.KEY_URL_CACHE_LINKED_TSID)
-        if tsidLinkedWithURLCacheEpoch != nil && DeviceInfoUtils.shared.getTrackingSessionId() != nil && tsidLinkedWithURLCacheEpoch == DeviceInfoUtils.shared.getTrackingSessionId() {
+        if tsidLinkedWithURLCacheEpoch != nil && tsidLinkedWithURLCacheEpoch == DeviceInfoUtils.shared.getTrackingSessionId() {
             // We have already made requests to the URLs for the existing tsid. Since tsid will refresh when app is relaunched, these conditions will fail and the requests will be made to the required URLs.
             return
         }
