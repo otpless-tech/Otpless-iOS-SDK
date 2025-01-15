@@ -62,7 +62,7 @@ import Foundation
         self.locale = locale
     }
     
-    func setOtp(otp: String) {
+    @objc public func setOtp(otp: String) {
         self.otp = otp
     }
     

@@ -22,6 +22,7 @@ class DeviceInfoUtils {
     public var appHash = ""
     private var inid: String?
     private var tsid: String?
+    private var deviceInfoString: String?
     
     func initialise () {
         if (!isIntialised){
@@ -167,6 +168,33 @@ class DeviceInfoUtils {
         return tsid
     }
     
+    func getDeviceInfo() -> String {
+        if let deviceInfoString = deviceInfoString {
+            return deviceInfoString
+        }
+        
+        let os = ProcessInfo().operatingSystemVersion
+        let device = UIDevice.current
+        let deviceInfo = [
+            "brand": "Apple",
+            "manufacturer": "Apple",
+            "device": device.name,
+            "model": UIDevice.modelName,
+            "iOS_version": os.majorVersion.description + "." + os.minorVersion.description,
+            "product": device.systemName,
+            "hardware": hardwareString(),
+        ]
+        
+        deviceInfoString = Utils.convertDictionaryToString(deviceInfo)
+        return deviceInfoString!
+    }
+    
+    private func hardwareString() -> String {
+          var systemInfo = utsname()
+          uname(&systemInfo)
+          return String(bytes: Data(bytes: &systemInfo.machine, count: Int(_SYS_NAMELEN)), encoding: .utf8)?
+              .trimmingCharacters(in: .controlCharacters) ?? "Unknown"
+      }
     
     /// Determines whether the device is simulator.
     ///

@@ -114,7 +114,7 @@ class ViewController: UIViewController, onResponseDelegate, onEventCallback {
 extension ViewController: OtplessLoggerDelegate {
     
     private func setDelegates() {
-        Otpless.sharedInstance.delegate = self
+        Otpless.sharedInstance.setLoginPageDelegate(self)
         Otpless.sharedInstance.eventDelegate = self
         Otpless.sharedInstance.setLoggerDelegate(delegate: self)
         Otpless.sharedInstance.webviewInspectable = true

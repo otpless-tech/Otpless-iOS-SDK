@@ -102,7 +102,7 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
         otpTextField.delegate = self
         phoneOrEmailTextField.delegate = self
         Otpless.sharedInstance.initialise(vc: self, appId: ViewController.APPID)
-        Otpless.sharedInstance.headlessDelegate = self
+        Otpless.sharedInstance.setHeadlessResponseDelegate(self)
         
         let dismissKeyboardGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
          view.addGestureRecognizer(dismissKeyboardGesture)
@@ -155,7 +155,8 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
             }
             
             if let otp = Int64(otpTextField.text!) {
-                Otpless.sharedInstance.verifyOTP(otp: String(otp), headlessRequest: headlessRequest)
+                headlessRequest.setOtp(otp: String(otp))
+                Otpless.sharedInstance.startHeadless(headlessRequest: headlessRequest)
             }
             
             return
@@ -164,7 +165,8 @@ class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
         headlessRequest.setChannelType(channelType)
         
         if let otp = Int64(otpTextField.text!) {
-            Otpless.sharedInstance.verifyOTP(otp: String(otp), headlessRequest: headlessRequest)
+            headlessRequest.setOtp(otp: String(otp))
+            Otpless.sharedInstance.startHeadless(headlessRequest: headlessRequest)
         }
     }
     

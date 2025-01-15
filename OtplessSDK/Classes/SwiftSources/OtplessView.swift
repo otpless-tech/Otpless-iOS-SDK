@@ -75,6 +75,7 @@ class OtplessView: UIView {
         }
 
         setInspectable()
+        OtplessHelper.sendEvent(event: EventConstants.WEBVIEW_ADDED)
         addSubview(mWebView)
     }
     
@@ -114,6 +115,7 @@ class OtplessView: UIView {
         self.headlessRequest = request
         bridge.setHeadlessRequest(headlessRequest: request, webview: mWebView)
         bridge.sendHeadlessRequestToWeb()
+        OtplessHelper.sendEvent(event: EventConstants.REQUEST_PUSHED_WEB)
     }
     
     public func getWKWebViewConfiguration() -> WKWebViewConfiguration {
@@ -135,6 +137,9 @@ class OtplessView: UIView {
         contentController.add(self, name: messageName)
         let config = WKWebViewConfiguration()
         config.userContentController = contentController
+        
+        OtplessHelper.sendEvent(event: EventConstants.JS_INJECT)
+        
         return config
     }
     
@@ -240,6 +245,7 @@ class OtplessView: UIView {
                     let request = URLRequest(url: updatedURL)
                     OtplessLogger.log(string: request.url?.absoluteString ?? "Unable to get URL", type: "WebView URL")
                     mWebView.load(request)
+                    OtplessHelper.sendEvent(event: EventConstants.LOAD_URL)
                 }
             }
         }

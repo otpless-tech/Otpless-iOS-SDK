@@ -11,7 +11,7 @@ import UIKit
 
 @objc final public class Otpless:NSObject {
     
-    @objc public weak var delegate: onResponseDelegate?
+    @objc internal weak var delegate: onResponseDelegate?
     @objc public weak var eventDelegate: onEventCallback?
     @objc public var hideNetworkFailureUserInterface: Bool = false
     @objc public var hideActivityIndicator: Bool = false
@@ -26,12 +26,12 @@ import UIKit
     var loader : OtplessLoader? = nil
     private override init(){}
     private var appId: String = ""
-    @objc public weak var headlessDelegate: onHeadlessResponseDelegate?
+    @objc internal weak var headlessDelegate: onHeadlessResponseDelegate?
     @objc weak var otplessView: OtplessView?
-    private var isOneTapEnabled: Bool = true
     private var userAgent = "otplesssdk"
     private weak var loggerDelegate: OtplessLoggerDelegate?
     private var loginUri: String?
+    internal var merchantHeadlessRequest: HeadlessRequest?
     
     /// Initializes `Otpless` for Headless support
     ///
@@ -46,6 +46,8 @@ import UIKit
         let initHeadlessRequest = HeadlessRequest()
         initHeadlessRequest.setChannelType("")
         addHeadlessViewToMerchantVC(headlessRequest: initHeadlessRequest)
+        
+        OtplessHelper.sendEvent(event: EventConstants.INIT_HEADLESS)
     }
     
     @objc public func showOtplessLoginPageWithParams(appId: String!, vc: UIViewController,params: [String : Any]?){
@@ -53,6 +55,7 @@ import UIKit
     }
     
     @objc public func startHeadless(headlessRequest: HeadlessRequest) {
+        OtplessHelper.sendEvent(event: EventConstants.START_HEADLESS)
         addHeadlessViewToMerchantVC(headlessRequest: headlessRequest)
     }
     
@@ -61,6 +64,7 @@ import UIKit
         merchantVC = vc
         initialParams = params
         addLoginPageToMerchantVC(appId: appid, hideNetworkUi: hideNetworkUi, hideIndicator: hideIndicator)
+        OtplessHelper.sendEvent(event: EventConstants.SHOW_LOGIN_PAGE)
     }
     
     private func addLoginPageToMerchantVC(appId: String, hideNetworkUi: Bool, hideIndicator: Bool) {
@@ -102,12 +106,6 @@ import UIKit
                     }
                 }
             }
-        }
-    }
-    
-    public func onResponse(response : OtplessResponse){
-        if((Otpless.sharedInstance.delegate) != nil){
-            Otpless.sharedInstance.delegate?.onResponse(response: response)
         }
     }
     
@@ -156,6 +154,7 @@ import UIKit
     }
     
     func addHeadlessViewToMerchantVC(headlessRequest: HeadlessRequest) {
+        self.merchantHeadlessRequest = headlessRequest
         if (merchantVC != nil && merchantVC?.view != nil) {
             if otplessView == nil || otplessView?.superview == nil {
                 let vcView = merchantVC?.view
@@ -165,6 +164,8 @@ import UIKit
                         var headlessView: OtplessView
                         headlessView = OtplessView(headlessRequest: headlessRequest)
                         self.otplessView = headlessView
+                        
+                        OtplessHelper.sendEvent(event: EventConstants.REQUEST_PUSHED_WEB)
                         
                         if let view = vcView {
                             if let lastSubview = view.subviews.last {
@@ -190,6 +191,7 @@ import UIKit
                 }
             } else {
                 self.otplessView?.sendHeadlessRequestToWeb(request: headlessRequest)
+                OtplessHelper.sendEvent(event: EventConstants.REQUEST_PUSHED_WEB)
             }
         }
     }
@@ -197,6 +199,7 @@ import UIKit
     func sendHeadlessResponse(response: HeadlessResponse, closeView: Bool) {
         self.headlessDelegate?.onHeadlessResponse(response: response)
         if closeView && self.otplessView != nil {
+            OtplessHelper.sendEvent(event: EventConstants.CLOSE_VIEW)
             self.otplessView?.removeFromSuperview()
             self.otplessView = nil
         }
@@ -207,6 +210,7 @@ import UIKit
         self.otplessView = nil
     }
     
+    @available(*, deprecated, message: "This method will be removed in a future version of SDK. To verify OTP, use 'HeadlessRequest.setOtp()' method (make sure phone number and country code are also set) and pass the instance in 'Otpless.startHeadless()' method. For more information, please check the iOS integration documentation at https://otpless.com/docs/frontend-sdks/app-sdks/ios/headless.")
     @objc public func verifyOTP(otp: String, headlessRequest: HeadlessRequest?) {
         guard let request = headlessRequest else {
             return
@@ -214,15 +218,7 @@ import UIKit
         
         request.setOtp(otp: otp)
         otplessView?.sendHeadlessRequestToWeb(request: request)
-    }
-    
-    @available(*, deprecated, message: "To toggle the floater, visit https://otpless.com/dashboard/customer/customization/floater")
-    @objc public func setOneTapEnabled(_ isOneTapEnabled: Bool) {
-        self.isOneTapEnabled = isOneTapEnabled
-    }
-    
-    func isOneTapEnabledForHeadless() -> Bool {
-        return self.isOneTapEnabled
+        OtplessHelper.sendEvent(event: EventConstants.START_HEADLESS)
     }
     
     @objc public func getAppId() -> String {
@@ -316,6 +312,16 @@ import UIKit
                 handler.register(openURLContexts: URLContexts)
             }
         }
+    }
+    
+    @objc public func setLoginPageDelegate(_ delegate: onResponseDelegate) {
+        self.delegate = delegate
+        OtplessHelper.sendEvent(event: EventConstants.SET_LOGIN_PAGE_CALLBACK)
+    }
+    
+    @objc public func setHeadlessResponseDelegate(_ headlessResponseDelegate: onHeadlessResponseDelegate) {
+        self.headlessDelegate = headlessResponseDelegate
+        OtplessHelper.sendEvent(event: EventConstants.SET_HEADLESS_CALLBACK)
     }
     
 }
