@@ -123,4 +123,15 @@ class Utils {
         
         return base64
     }
+    
+    /// Fetches SNA URLs on which we make request while performing SNA.
+    ///
+    /// - returns: An array of URLs on which we make request.
+    class func getSNAPreLoadingURLs() -> [String] {
+        return [
+            "https://in.safr.sekuramobile.com/v1/.well-known/jwks.json",
+            "https://partnerapi.jio.com",
+            "http://80.in.safr.sekuramobile.com"
+        ]
+    }
 }

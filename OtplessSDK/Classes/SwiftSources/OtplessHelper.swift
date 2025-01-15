@@ -40,7 +40,7 @@ class OtplessHelper {
         var params = [String: String]()
         params["event_name"]=event
         params["platform"]="iOS"
-        params["sdk_version"]="2.2.4"
+        params["sdk_version"]="2.2.5"
         let tsid = DeviceInfoUtils.shared.getTrackingSessionId()
         let inid = DeviceInfoUtils.shared.getInstallationId()
         

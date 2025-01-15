@@ -18,6 +18,14 @@
 	<string>1.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>OtplessSNAPreLoadingURLs</key>
+	<array>
+		<string>https://in.safr.sekuramobile.com/v1/.well-known/jwks.json</string>
+		<string>https://partnerapi.jio.com</string>
+        <string>http://80.in.safr.sekuramobile.com</string>
+	</array>
+	<key>OtplessSNAPreLoadingEnabled</key>
+    <true/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

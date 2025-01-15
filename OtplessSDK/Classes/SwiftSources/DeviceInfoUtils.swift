@@ -114,6 +114,12 @@ class DeviceInfoUtils {
         params["hasOtplessApp"] = hasOTPLESSInstalled.description
         params["hasGmailApp"] = hasGmailInstalled.description
         
+        params[Constants.URL_CACHE_SUPPORTED] = "true"
+        let lastUrlCacheCompletionTimeEpoch: Int64? = OtplessHelper.getValue(forKey: Constants.KEY_LAST_URL_CACHE_COMPLETION_TIME)
+        if let epochTime = lastUrlCacheCompletionTimeEpoch {
+            params[Constants.URL_CACHE_EPOCH] = String(epochTime)
+        }
+        
         if #available(iOS 12.0, *) {
             params["isSilentAuthSupported"] = "true"
         } 
