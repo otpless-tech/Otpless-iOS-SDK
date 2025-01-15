@@ -172,3 +172,41 @@ public protocol BridgeDelegate: AnyObject {
     func hideLoader()
     func dismissView()
 }
+
+protocol GoogleAuthProtocol {
+    func signIn(
+        vc: UIViewController,
+        withHint hint: String?,
+        shouldAddAdditionalScopes additionalScopes: [String]?,
+        withNonce nonce: String?,
+        onSignIn: @escaping ([String: Any]) -> Void
+    )
+    
+    func isGIDDeeplink(url: URL) -> Bool
+}
+
+protocol FacebookAuthProtocol {
+    func startFBSignIn(
+        withNonce nonce: String,
+        withPermissions permissions: [String],
+        onSignIn: @escaping ([String: Any]) -> Void
+    )
+    
+    func logoutFBUser()
+    
+    func register(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey : Any]
+    )
+    
+    @available(iOS 13.0, *)
+    func register(
+        openURLContexts URLContexts: Set<UIOpenURLContext>
+    )
+    
+    func register(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    )
+}

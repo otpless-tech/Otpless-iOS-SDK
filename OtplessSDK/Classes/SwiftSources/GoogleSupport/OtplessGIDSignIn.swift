@@ -7,18 +7,39 @@
 
 import Foundation
 import UIKit
+import os
+
+// Empty implementation for when Google SDK is not available
+#if !canImport(GoogleSignIn)  && !canImport(GoogleSignInSwift)
+internal class OtplessGIDSignIn: NSObject, GoogleAuthProtocol {
+    func signIn(
+        vc: UIViewController,
+        withHint hint: String?,
+        shouldAddAdditionalScopes additionalScopes: [String]?,
+        withNonce nonce: String?,
+        onSignIn: @escaping ([String: Any]) -> Void
+    ) {
+        os_log("OTPLESS: Google support not initialized. Please add OtplessSDK/GoogleSupport to your Podfile")
+        onSignIn([
+            "success": false,
+            "error": "Google support not initialized. Please add OtplessSDK/GoogleSupport to your Podfile"
+        ])
+    }
+    func isGIDDeeplink(url: URL) -> Bool {
+        return false
+    }
+}
+#else
+import GoogleSignIn
 
 #if canImport(GoogleSignInSwift)
 import GoogleSignInSwift
 #endif
 
-#if canImport(GoogleSignIn)
-import GoogleSignIn
-#endif
-
-
-/// Wrapper class of Google's GIDSignIn class
-internal class OtplessGIDSignIn {
+internal class OtplessGIDSignIn: NSObject, GoogleAuthProtocol {
+    func isGIDDeeplink(url: URL) -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
+    }
     
     /// Initiates the Google Sign-In process.
     ///
@@ -35,11 +56,11 @@ internal class OtplessGIDSignIn {
     ///
     /// - Note: This function handles errors internally and calls the `onSignIn` closure with a result dictionary
     ///         representing the success or failure of the sign-in process.
-    func startGoogleSignIn(
+    func signIn(
         vc: UIViewController,
-        withHint hint: String? = nil,
-        shouldAddAdditionalScopes additionalScopes: [String]? = nil,
-        withNonce nonce: String? = nil,
+        withHint hint: String?,
+        shouldAddAdditionalScopes additionalScopes: [String]?,
+        withNonce nonce: String?,
         onSignIn: @escaping ([String: Any]) -> Void
     ) {
         GIDSignIn.sharedInstance.signIn(
@@ -104,3 +125,4 @@ private class GIDSignInResult: NSObject {
         return dict
     }
 }
+#endif

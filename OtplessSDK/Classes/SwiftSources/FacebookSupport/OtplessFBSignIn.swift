@@ -6,20 +6,84 @@
 //
 
 import Foundation
+import os
+import UIKit
+
+#if !canImport(FBSDKLoginKit) && !canImport(FacebookCore)
+class OtplessFBSignIn: NSObject, FacebookAuthProtocol {
+    func register(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
+        // No-op when Facebook SDK is not available
+    }
+    
+    func register(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) {
+        // No-op when Facebook SDK is not available
+    }
+    
+    @available(iOS 13.0, *)
+    func register(openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        // No-op when Facebook SDK is not available
+    }
+    
+    func startFBSignIn(
+        withNonce nonce: String,
+        withPermissions permissions: [String] = ["public_profile", "email"],
+        onSignIn: @escaping ([String: Any]) -> Void
+    ) {
+        os_log("OTPLESS: Facebook support not initialized. Please add OtplessSDK/FacebookSupport to your Podfile")
+        onSignIn([
+            "success": false,
+            "error": "Facebook support not initialized. Please add OtplessSDK/FacebookSupport to your Podfile"
+        ])
+    }
+    
+    func logoutFBUser() {
+        // No-op when Facebook SDK is not available
+    }
+}
+
+#else
 
 #if canImport(FBSDKCoreKit)
 import FBSDKCoreKit
+import FBSDKLoginKit
 #endif
 
+// Import for SPM
 #if canImport(FacebookCore)
 import FacebookCore
 #endif
 
-#if canImport(FBSDKLoginKit)
-import FBSDKLoginKit
-#endif
+class OtplessFBSignIn: NSObject, FacebookAuthProtocol {
+    func register(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
+        ApplicationDelegate.shared.application(
+            application,
+            didFinishLaunchingWithOptions: launchOptions
+        )
+    }
+    
+    func register(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) {
+        ApplicationDelegate.shared.application(
+            app,
+            open: url,
+            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+        )
+    }
+    
+    @available(iOS 13.0, *)
+    func register(openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else {
+            return
+        }
 
-class OtplessFBSignIn {
+        ApplicationDelegate.shared.application(
+            UIApplication.shared,
+            open: url,
+            sourceApplication: nil,
+            annotation: [UIApplication.OpenURLOptionsKey.annotation]
+        )
+    }
+    
     func startFBSignIn(
         withNonce nonce: String,
         withPermissions permissions: [String] = ["public_profile", "email"],
@@ -69,6 +133,8 @@ class OtplessFBSignIn {
         LoginManager().logOut()
     }
 }
+
+#endif
 
 /// Helper class to send the result of Facebook sign in using Facebook's Limited Login SDK.
 private class FBSignInResult: NSObject {
