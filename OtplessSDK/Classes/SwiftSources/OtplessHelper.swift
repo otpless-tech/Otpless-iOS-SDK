@@ -36,7 +36,7 @@ class OtplessHelper {
     }
     
     
-    public static func sendEvent(event: String, extras: [String: String] = [:]){
+    public static func sendEvent(event: String, extras: [String: String] = [:], musId: String = "", requestId: String = ""){
         var params = [String: String]()
         params["event_name"] = event
         params["platform"] = "iOS"
