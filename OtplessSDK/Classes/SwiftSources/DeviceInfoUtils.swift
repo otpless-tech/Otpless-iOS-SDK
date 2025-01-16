@@ -168,7 +168,7 @@ class DeviceInfoUtils {
         return tsid
     }
     
-    func getDeviceInfo() -> String {
+    func getDeviceInfoString() -> String {
         if let deviceInfoString = deviceInfoString {
             return deviceInfoString
         }

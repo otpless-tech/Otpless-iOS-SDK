@@ -62,9 +62,7 @@ class OtplessHelper {
             eventParams[key] = value
         }
         
-        for (key, value) in DeviceInfoUtils.shared.getAppInfo() {
-            eventParams[key] = value
-        }
+        eventParams["device_info"] = DeviceInfoUtils.shared.getDeviceInfoString()
         
         params["event_params"] = Utils.convertDictionaryToString(eventParams)
         
@@ -73,7 +71,8 @@ class OtplessHelper {
         OtplessNetworkHelper.shared.fetchDataWithGET(
             apiRoute: "https://mtkikwb8yc.execute-api.ap-south-1.amazonaws.com/prod/appevent",
             params: params
-        ) { (_, _, _) in
+        ) { _, _, _ in
+            
         }
     }
 }

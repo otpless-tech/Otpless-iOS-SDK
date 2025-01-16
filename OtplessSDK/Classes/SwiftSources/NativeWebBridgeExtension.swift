@@ -380,7 +380,7 @@ extension NativeWebBridge {
         )
         
         Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView)
-        OtplessHelper.sendEvent(event: EventConstants.HEADLESS_RESPONSE_WEB)
+        OtplessHelper.sendEvent(event: EventConstants.HEADLESS_RESPONSE_WEB, extras: headlessResponse.toDict())
         
         if containsIdentity(responseDict) {
             OtplessHelper.sendEvent(event: "auth_completed")
