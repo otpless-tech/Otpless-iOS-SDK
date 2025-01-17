@@ -32,16 +32,19 @@ import UIKit
     private weak var loggerDelegate: OtplessLoggerDelegate?
     private var loginUri: String?
     internal var merchantHeadlessRequest: HeadlessRequest?
+    private var timeoutInterval: Double = 30.0
     
     /// Initializes `Otpless` for Headless support
     ///
     /// - parameter vc: Instance of your `UIViewController`
     /// - parameter appId: Your `APP_ID` from `Otpless`
     /// - parameter loginUri: Optional String to override the default `loginUri` when a custom deeplink is needed. Ensure the `url scheme` in `info.plist` matches. `Host` of the `loginUri` must  be `otpless`. Eg. "yourscheme://otpless"
-    @objc public func initialise(vc : UIViewController, appId: String!, loginUri: String? = nil){
+    /// - parameter timeoutInterval: It is the request timeout. Once timeout is over, `TIMEOUT` response is sent. Default value is 30 seconds.
+    @objc public func initialise(vc : UIViewController, appId: String!, loginUri: String? = nil, timeoutInterval: Double = 30.0){
         merchantVC = vc
         self.appId = appId
         self.loginUri = loginUri
+        self.timeoutInterval = timeoutInterval
         
         let initHeadlessRequest = HeadlessRequest()
         initHeadlessRequest.setChannelType("")
@@ -190,13 +193,18 @@ import UIKit
                     }
                 }
             } else {
-                self.otplessView?.sendHeadlessRequestToWeb(request: headlessRequest)
+                self.otplessView?.sendHeadlessRequestToWeb(request: headlessRequest, startTimer: {
+                    RequestTimer.shared.startTimer(interval: self.timeoutInterval, onTimeout: {
+                        self.stopOtplessAndSendTimeoutResposne()
+                    })
+                })
                 OtplessHelper.sendEvent(event: EventConstants.REQUEST_PUSHED_WEB)
             }
         }
     }
     
     func sendHeadlessResponse(response: HeadlessResponse, closeView: Bool) {
+        RequestTimer.shared.cancelTimer()
         self.headlessDelegate?.onHeadlessResponse(response: response)
         if closeView && self.otplessView != nil {
             OtplessHelper.sendEvent(event: EventConstants.CLOSE_VIEW)
@@ -217,7 +225,11 @@ import UIKit
         }
         
         request.setOtp(otp: otp)
-        otplessView?.sendHeadlessRequestToWeb(request: request)
+        otplessView?.sendHeadlessRequestToWeb(request: request, startTimer: {
+            RequestTimer.shared.startTimer(interval: self.timeoutInterval, onTimeout: {
+                self.stopOtplessAndSendTimeoutResposne()
+            })
+        })
         OtplessHelper.sendEvent(event: EventConstants.START_HEADLESS)
     }
     
@@ -335,6 +347,29 @@ import UIKit
                 requestId: requestId
             )
         })
+    }
+    
+    private func stopOtplessAndSendTimeoutResposne() {
+        self.otplessView?.removeFromSuperview()
+        self.otplessView = nil
+        
+        var responseType = "INITIATE"
+        if merchantHeadlessRequest?.isVerifyRequest() == true {
+            responseType = "VERIFY"
+        }
+        let errorCode = 5005
+        let errorMessage = "Request timeout"
+        
+        self.headlessDelegate?.onHeadlessResponse(
+            response: HeadlessResponse(
+                responseType: responseType,
+                responseData: [
+                    "errorMessage": errorMessage,
+                    "errorCode": String(errorCode)
+                ],
+                statusCode: errorCode
+            )
+        )
     }
     
 }

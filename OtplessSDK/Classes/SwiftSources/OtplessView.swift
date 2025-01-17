@@ -111,10 +111,11 @@ class OtplessView: UIView {
         }
     }
     
-    func sendHeadlessRequestToWeb(request: HeadlessRequest) {
+    func sendHeadlessRequestToWeb(request: HeadlessRequest, startTimer: @escaping (() -> Void)) {
         self.headlessRequest = request
         bridge.setHeadlessRequest(headlessRequest: request, webview: mWebView)
         bridge.sendHeadlessRequestToWeb()
+        startTimer()
         OtplessHelper.sendEvent(event: EventConstants.REQUEST_PUSHED_WEB)
     }
     

@@ -139,4 +139,11 @@ import Foundation
         return channel.isEmpty
     }
     
+    internal func isVerifyRequest() -> Bool {
+        if self.hasCodeOrOtp() {
+            return true
+        }
+        return false
+    }
+    
 }
