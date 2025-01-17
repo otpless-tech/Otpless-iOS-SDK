@@ -34,6 +34,13 @@ class OtplessFBSignIn: NSObject, FacebookAuthProtocol {
             "success": false,
             "error": "Facebook support not initialized. Please add OtplessSDK/FacebookSupport to your Podfile"
         ])
+        
+        let errorEvent = [
+            "channel": HeadlessChannelType.sharedInstance.FACEBOOK_SDK,
+            "success": "false",
+            "error": "Facebook support not initialized. Please add OtplessSDK/FacebookSupport to your Podfile"
+        ]
+        OtplessHelper.sendEvent(event: EventConstants.LOGIN_SDK_CALLBACK_EXP, extras: errorEvent)
     }
     
     func logoutFBUser() {
@@ -108,6 +115,12 @@ class OtplessFBSignIn: NSObject, FacebookAuthProtocol {
                 break
             case .failed(let error):
                 fBSignInResult.setErrorStr(error.localizedDescription)
+                let event = [
+                    "channel": HeadlessChannelType.sharedInstance.FACEBOOK,
+                    "success": "false",
+                    "error": error.localizedDescription
+                ]
+                OtplessHelper.sendEvent(event: EventConstants.LOGIN_SDK_CALLBACK_EXP, extras: event)
                 break
             case .success( _, _, let token):
                 if let accessTokenStr = token?.tokenString {

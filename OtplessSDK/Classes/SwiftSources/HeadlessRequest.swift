@@ -62,7 +62,7 @@ import Foundation
         self.locale = locale
     }
     
-    func setOtp(otp: String) {
+    @objc public func setOtp(otp: String) {
         self.otp = otp
     }
     
@@ -137,6 +137,13 @@ import Foundation
     
     func isChannelEmpty() -> Bool {
         return channel.isEmpty
+    }
+    
+    internal func isVerifyRequest() -> Bool {
+        if self.hasCodeOrOtp() {
+            return true
+        }
+        return false
     }
     
 }

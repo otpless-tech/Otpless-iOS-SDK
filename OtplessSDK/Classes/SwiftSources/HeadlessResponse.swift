@@ -25,4 +25,29 @@ import Foundation
             "statusCode": String(statusCode)
         ]
     }
+    
+    internal func toEventDict(onDictCreate: @escaping (([String: String], _ musId: String, _ requestId: String) -> Void)) {
+        var requestId = ""
+        var musId = ""
+        var eventResponse: [String: String] = [:]
+        eventResponse["statusCode"] = String(self.statusCode)
+        eventResponse["responseType"] = self.responseType
+        
+        if self.statusCode != 200 {
+            if let responseData = self.responseData {
+                eventResponse["response"] = Utils.convertDictionaryToString(responseData)
+            } else {
+                eventResponse["response"] = "{}"
+            }
+        } else {
+            if let responseData = self.responseData {
+                requestId = responseData["requestID"] as? String ?? ""
+                musId = responseData["userId"] as? String ?? ""
+            } else {
+                eventResponse["response"] = "{}"
+            }
+        }
+        
+        onDictCreate(eventResponse, musId, requestId)
+    }
 }

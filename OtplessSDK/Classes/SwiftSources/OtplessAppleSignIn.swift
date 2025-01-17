@@ -23,6 +23,13 @@ class OtplessAppleSignIn: NSObject {
             case .failure(let error):
                 let signInResult = self.handleSignInError(error)
                 onSignInComplete(signInResult)
+                
+                let errorEvent = [
+                    "success": "false",
+                    "error": error.localizedDescription,
+                    "channel": HeadlessChannelType.sharedInstance.APPLE_SDK
+                ]
+                OtplessHelper.sendEvent(event: EventConstants.LOGIN_SDK_CALLBACK_EXP, extras: errorEvent)
             }
         })
     }
