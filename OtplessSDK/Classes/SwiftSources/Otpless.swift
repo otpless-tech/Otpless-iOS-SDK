@@ -370,6 +370,8 @@ import UIKit
                 statusCode: errorCode
             )
         )
+        
+        OtplessHelper.sendEvent(event: EventConstants.HEADLESS_TIMEOUT)
     }
     
 }
