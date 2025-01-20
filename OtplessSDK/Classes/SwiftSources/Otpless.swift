@@ -195,7 +195,7 @@ import UIKit
             } else {
                 self.otplessView?.sendHeadlessRequestToWeb(request: headlessRequest, startTimer: {
                     RequestTimer.shared.startTimer(interval: self.timeoutInterval, onTimeout: {
-                        self.stopOtplessAndSendTimeoutResposne()
+                        self.stopOtplessAndSendHeadlessResponse()
                     })
                 })
                 OtplessHelper.sendEvent(event: EventConstants.REQUEST_PUSHED_WEB)
@@ -205,6 +205,9 @@ import UIKit
     
     func sendHeadlessResponse(response: HeadlessResponse, closeView: Bool) {
         RequestTimer.shared.cancelTimer()
+        response.toEventDict(onDictCreate: { dict, musId, requestId in
+            OtplessHelper.sendEvent(event: EventConstants.HEADLESS_RESPONSE_WEB, extras: dict, musId: musId, requestId: requestId)
+        })
         self.headlessDelegate?.onHeadlessResponse(response: response)
         if closeView && self.otplessView != nil {
             OtplessHelper.sendEvent(event: EventConstants.CLOSE_VIEW)
@@ -227,7 +230,7 @@ import UIKit
         request.setOtp(otp: otp)
         otplessView?.sendHeadlessRequestToWeb(request: request, startTimer: {
             RequestTimer.shared.startTimer(interval: self.timeoutInterval, onTimeout: {
-                self.stopOtplessAndSendTimeoutResposne()
+                self.stopOtplessAndSendHeadlessResponse()
             })
         })
         OtplessHelper.sendEvent(event: EventConstants.START_HEADLESS)
@@ -349,7 +352,7 @@ import UIKit
         })
     }
     
-    private func stopOtplessAndSendTimeoutResposne() {
+    internal func stopOtplessAndSendHeadlessResponse(shouldSendEvent: Bool = true) {
         self.otplessView?.removeFromSuperview()
         self.otplessView = nil
         
@@ -371,7 +374,9 @@ import UIKit
             )
         )
         
-        OtplessHelper.sendEvent(event: EventConstants.HEADLESS_TIMEOUT)
+        if shouldSendEvent {
+            OtplessHelper.sendEvent(event: EventConstants.HEADLESS_TIMEOUT)
+        }
     }
     
 }

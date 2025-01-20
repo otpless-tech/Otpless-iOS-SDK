@@ -36,6 +36,7 @@ class RequestTimer {
         if timer != nil {
             timer?.invalidate()
             timer = nil
+            onTimeout = nil
             OtplessLogger.log(string: "Timer cancelled", type: "REQUEST_TIMER")
         }
     }
@@ -44,5 +45,6 @@ class RequestTimer {
     private func handleTimeout() {
         OtplessLogger.log(string: "Timer ended", type: "REQUEST_TIMER")
         onTimeout?()
+        cancelTimer()
     }
 }

@@ -363,6 +363,7 @@ extension NativeWebBridge {
         let responseStr = response?["response"] as? String ?? ""
         if responseStr.isEmpty {
             OtplessHelper.sendEvent(event: EventConstants.HEADLESS_EMPTY_RESPONSE_WEB)
+            Otpless.sharedInstance.stopOtplessAndSendHeadlessResponse(shouldSendEvent: false)
             return
         }
         
@@ -380,7 +381,6 @@ extension NativeWebBridge {
         )
         
         Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView)
-        OtplessHelper.sendEvent(event: EventConstants.HEADLESS_RESPONSE_WEB, extras: headlessResponse.toDict())
         
         if containsIdentity(responseDict) {
             OtplessHelper.sendEvent(event: "auth_completed")

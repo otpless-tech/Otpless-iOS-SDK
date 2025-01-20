@@ -41,7 +41,7 @@ import Foundation
             }
         } else {
             if let responseData = self.responseData {
-                requestId = responseData["requestID"] as? String ?? ""
+                requestId = responseData["token"] as? String ?? ""
                 musId = responseData["userId"] as? String ?? ""
             } else {
                 eventResponse["response"] = "{}"

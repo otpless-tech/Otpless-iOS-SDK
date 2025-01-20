@@ -62,6 +62,14 @@ class OtplessHelper {
             eventParams[key] = value
         }
         
+        if !requestId.isEmpty {
+            params["token"] = requestId
+        }
+        
+        if !musId.isEmpty {
+            params["musid"] = musId
+        }
+        
         eventParams["device_info"] = DeviceInfoUtils.shared.getDeviceInfoString()
         
         params["event_params"] = Utils.convertDictionaryToString(eventParams)
@@ -72,7 +80,6 @@ class OtplessHelper {
             apiRoute: "https://mtkikwb8yc.execute-api.ap-south-1.amazonaws.com/prod/appevent",
             params: params
         ) { _, _, _ in
-            
         }
     }
 }
