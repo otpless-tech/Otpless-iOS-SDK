@@ -362,8 +362,7 @@ extension NativeWebBridge {
     private func parseHeadlessResponse(withResponse response: [String: Any]?) {
         let responseStr = response?["response"] as? String ?? ""
         if responseStr.isEmpty {
-            OtplessHelper.sendEvent(event: EventConstants.HEADLESS_EMPTY_RESPONSE_WEB)
-            Otpless.sharedInstance.stopOtplessAndSendHeadlessResponse(shouldSendEvent: false)
+            Otpless.sharedInstance.stopOtplessAndSendEmptyResponseError()
             return
         }
         
@@ -380,24 +379,7 @@ extension NativeWebBridge {
             statusCode: statusCode
         )
         
-        Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView)
-        
-        if containsIdentity(responseDict) {
-            OtplessHelper.sendEvent(event: "auth_completed")
-        }
-    }
-    
-    private func containsIdentity(_ response: [String: Any]?) -> Bool {
-        guard let response = response else {
-            return false
-        }
-        
-        if let responseData = response["response"] as? [String: Any],
-           let identities = responseData["identities"] as? [[String: Any]] {
-            return !identities.isEmpty
-        }
-        
-        return false
+        Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView, sendWebResponseEvent: true)
     }
     
     private func forceOpenURLOverMobileNetwork(url: URL, completion: @escaping ([String: Any]) -> Void) {

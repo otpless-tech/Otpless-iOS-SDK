@@ -141,7 +141,7 @@ class Utils {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.timeZone = TimeZone.current
         dateFormatter.locale = Locale(identifier: "en_IN")
         
         return dateFormatter.string(from: date)

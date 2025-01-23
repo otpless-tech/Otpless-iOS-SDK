@@ -27,8 +27,6 @@ class RequestTimer {
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
             self?.handleTimeout()
         }
-        
-        OtplessLogger.log(string: "Timer started for \(interval) seconds", type: "REQUEST_TIMER")
     }
     
     /// Cancels the timer if it's running.
@@ -37,13 +35,11 @@ class RequestTimer {
             timer?.invalidate()
             timer = nil
             onTimeout = nil
-            OtplessLogger.log(string: "Timer cancelled", type: "REQUEST_TIMER")
         }
     }
     
     /// Handles the timeout action.
     private func handleTimeout() {
-        OtplessLogger.log(string: "Timer ended", type: "REQUEST_TIMER")
         onTimeout?()
         cancelTimer()
     }
