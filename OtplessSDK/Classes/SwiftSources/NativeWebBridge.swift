@@ -157,6 +157,7 @@ extension NativeWebBridge {
     }
     
     func sendHeadlessRequestToWeb(withCode code: String = "") {
+        OtplessHelper.sendEvent(event: EventConstants.HEADLESS_REQUEST_QUERY_WEB)
         if !code.isEmpty {
             // Send only code in request to verify it and get details
             self.sendHeadlessRequestToWeb(nil, withCode: code)

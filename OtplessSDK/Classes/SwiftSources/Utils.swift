@@ -134,4 +134,17 @@ class Utils {
             "http://80.in.safr.sekuramobile.com"
         ]
     }
+    
+    class func formatCurrentTimeToDateString() -> String {
+        let currentEpoch = Date().timeIntervalSince1970
+        let date = Date(timeIntervalSince1970: currentEpoch)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale(identifier: "en_IN")
+        
+        return dateFormatter.string(from: date)
+    }
+
 }

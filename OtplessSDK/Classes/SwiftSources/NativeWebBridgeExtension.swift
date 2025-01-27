@@ -46,11 +46,11 @@ extension NativeWebBridge {
     
     /// Key 7 - Open deeplink
     func openDeepLink(_ deeplink: String) {
-        OtplessHelper.sendEvent(event: "intent_redirect_out")
         let urlWithOutDecoding = deeplink.removingPercentEncoding
         if let link = URL(string: (urlWithOutDecoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))!) {
             UIApplication.shared.open(link, options: [:], completionHandler: nil)
         }
+        OtplessHelper.sendEvent(event: EventConstants.DEEPLINK_WEB)
     }
     
     
@@ -70,7 +70,7 @@ extension NativeWebBridge {
         let otplessResponse = OtplessResponse(responseString: nil, responseData: responseParams)
         Otpless.sharedInstance.delegate?.onResponse(response: otplessResponse)
         delegate?.dismissView()
-        OtplessHelper.sendEvent(event: "auth_completed")
+        OtplessHelper.sendEvent(event: EventConstants.LOGINPAGE_RESPONSE_WEB)
     }
     
     
@@ -119,6 +119,8 @@ extension NativeWebBridge {
         
         let jsonStr = Utils.convertDictionaryToString(requestData)
         loadScript(function: "headlessRequest", message: jsonStr)
+        
+        OtplessHelper.sendEvent(event: EventConstants.HEADLESS_REQUEST)
     }
     
     
@@ -221,6 +223,7 @@ extension NativeWebBridge {
                 completion: { silentAuthResponse in
                     let jsonStr = Utils.convertDictionaryToString(silentAuthResponse)
                     self.loadScript(function: "onCellularNetworkResult", message: jsonStr)
+                    OtplessHelper.sendEvent(event: EventConstants.SNA_CALLBACK_RESULT)
                 }
             )
         } else {
@@ -279,6 +282,7 @@ extension NativeWebBridge {
                     self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(Utils.createErrorDictionary(error: "missing_class", errorDescription: "Could not find an instance of OtplessGIDSignIn")))
                 }
             }
+            OtplessHelper.sendEvent(event: EventConstants.GOOGLE_SDK_WEB)
             break
         case HeadlessChannelType.sharedInstance.FACEBOOK_SDK:
             if let FacebookAuthClass = NSClassFromString("OtplessSDK.OtplessFBSignIn") as? NSObject.Type {
@@ -298,6 +302,7 @@ extension NativeWebBridge {
             } else {
                 self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(Utils.createErrorDictionary(error: "missing_class", errorDescription: "Could not find an instance of OtplessFBSignIn")))
             }
+            OtplessHelper.sendEvent(event: EventConstants.FACEBOOK_SDK_WEB)
             break
         case HeadlessChannelType.sharedInstance.APPLE_SDK:
             if #available(iOS 13.0, *) {
@@ -313,11 +318,12 @@ extension NativeWebBridge {
                     )
                 )
             }
-            
+            OtplessHelper.sendEvent(event: EventConstants.APPLE_SDK_WEB)
             break
         default:
             self.loadScript(function: "ssoSdkResponse", message: Utils.convertDictionaryToString(["success": false, "error": "Could not find a valid channel to authenticate user."]))
         }
+        OtplessHelper.sendEvent(event: EventConstants.LOGIN_SDK_CALLBACK)
     }
     
     /// Key 57 - Logout user if session exists in 3rd party sdk
@@ -355,6 +361,11 @@ extension NativeWebBridge {
     
     private func parseHeadlessResponse(withResponse response: [String: Any]?) {
         let responseStr = response?["response"] as? String ?? ""
+        if responseStr.isEmpty {
+            Otpless.sharedInstance.stopOtplessAndSendEmptyResponseError()
+            return
+        }
+        
         let responseDict = Utils.convertToDictionary(text: responseStr)
         let closeView = response?["closeView"] as? Int == 1
         let responseType = responseDict?["responseType"] as? String ?? ""
@@ -368,24 +379,7 @@ extension NativeWebBridge {
             statusCode: statusCode
         )
         
-        Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView)
-        
-        if containsIdentity(responseDict) {
-            OtplessHelper.sendEvent(event: "auth_completed")
-        }
-    }
-    
-    private func containsIdentity(_ response: [String: Any]?) -> Bool {
-        guard let response = response else {
-            return false
-        }
-        
-        if let responseData = response["response"] as? [String: Any],
-           let identities = responseData["identities"] as? [[String: Any]] {
-            return !identities.isEmpty
-        }
-        
-        return false
+        Otpless.sharedInstance.sendHeadlessResponse(response: headlessResponse, closeView: closeView, sendWebResponseEvent: true)
     }
     
     private func forceOpenURLOverMobileNetwork(url: URL, completion: @escaping ([String: Any]) -> Void) {

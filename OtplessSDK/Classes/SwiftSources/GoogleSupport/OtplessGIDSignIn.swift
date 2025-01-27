@@ -24,6 +24,12 @@ internal class OtplessGIDSignIn: NSObject, GoogleAuthProtocol {
             "success": false,
             "error": "Google support not initialized. Please add OtplessSDK/GoogleSupport to your Podfile"
         ])
+        let errorEvent = [
+            "channel": HeadlessChannelType.sharedInstance.GOOGLE_SDK,
+            "success": "false",
+            "error": "Google support not initialized. Please add OtplessSDK/GoogleSupport to your Podfile"
+        ]
+        OtplessHelper.sendEvent(event: EventConstants.LOGIN_SDK_CALLBACK_EXP, extras: errorEvent)
     }
     func isGIDDeeplink(url: URL) -> Bool {
         return false
@@ -70,30 +76,33 @@ internal class OtplessGIDSignIn: NSObject, GoogleAuthProtocol {
             nonce: nonce
         ) { signInResult, error in
             if let error = error {
-                onSignIn(
-                    GIDSignInResult(success: false, idToken: nil, error: error.localizedDescription).toDict()
-                )
+                self.handleSignInError(error.localizedDescription, onSignIn: onSignIn)
                 return
             }
             
             guard let signInResult = signInResult else {
-                onSignIn(
-                    GIDSignInResult(success: false, idToken: nil, error: "Could not get sign in result").toDict()
-                )
+                self.handleSignInError("Could not get sign in result", onSignIn: onSignIn)
                 return
             }
             
             if let idToken = signInResult.user.idToken?.tokenString {
-                onSignIn(
-                    GIDSignInResult(success: true, idToken: idToken, error: nil).toDict()
-                )
+                onSignIn(GIDSignInResult(success: true, idToken: idToken, error: nil).toDict())
             } else {
-                onSignIn(
-                    GIDSignInResult(success: false, idToken: nil, error: "Invalid idToken").toDict()
-                )
+                self.handleSignInError("Invalid idToken", onSignIn: onSignIn)
             }
         }
     }
+    
+    private func handleSignInError(_ errorDescription: String, onSignIn: @escaping ([String: Any]) -> Void) {
+        let event = [
+            "channel": HeadlessChannelType.sharedInstance.GOOGLE_SDK,
+            "success": "false",
+            "error": errorDescription
+        ]
+        onSignIn(GIDSignInResult(success: false, idToken: nil, error: errorDescription).toDict())
+        OtplessHelper.sendEvent(event: EventConstants.LOGIN_SDK_CALLBACK_EXP, extras: event)
+    }
+    
 }
 
 private class GIDSignInResult: NSObject {
