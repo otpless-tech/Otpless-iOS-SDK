@@ -40,7 +40,7 @@ class OtplessHelper {
         var params = [String: String]()
         params["event_name"] = event
         params["platform"] = "iOS"
-        params["sdk_version"] = "2.2.7"
+        params["sdk_version"] = "2.2.8"
         params["mid"] = Otpless.sharedInstance.getAppId()
         params["event_timestamp"] = Utils.formatCurrentTimeToDateString()
         let tsid = DeviceInfoUtils.shared.getTrackingSessionId()

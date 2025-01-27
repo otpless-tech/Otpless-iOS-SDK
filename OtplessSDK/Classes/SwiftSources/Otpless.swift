@@ -341,17 +341,22 @@ import UIKit
         OtplessHelper.sendEvent(event: EventConstants.SET_HEADLESS_CALLBACK)
     }
     
-    @objc public func commitHeadlessResponse(headlessResponse: HeadlessResponse) {
+    @objc public func commitHeadlessResponse(headlessResponse: HeadlessResponse?) {
         var eventParams: [String: String] = [:]
-        headlessResponse.toEventDict(onDictCreate: { response, musId, requestId in
-            eventParams["response"] = Utils.convertDictionaryToString(response)
-            OtplessHelper.sendEvent(
-                event: EventConstants.HEADLESS_MERCHANT_COMMIT,
-                extras: response,
-                musId: musId,
-                requestId: requestId
-            )
-        })
+        
+        if let response = headlessResponse {
+            response.toEventDict(onDictCreate: { response, musId, requestId in
+                eventParams["response"] = Utils.convertDictionaryToString(response)
+                OtplessHelper.sendEvent(
+                    event: EventConstants.HEADLESS_MERCHANT_COMMIT,
+                    extras: response,
+                    musId: musId,
+                    requestId: requestId
+                )
+            })
+        } else {
+            OtplessHelper.sendEvent(event: EventConstants.HEADLESS_MERCHANT_COMMIT, extras: [:], musId: "", requestId: "")
+        }
     }
     
     internal func stopOtplessAndSendTimeoutError(shouldSendEvent: Bool = true) {

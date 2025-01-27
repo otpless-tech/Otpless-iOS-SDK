@@ -14,6 +14,7 @@ import AdSupport
 class HeadlessDemoVC: UIViewController, onHeadlessResponseDelegate {
     func onHeadlessResponse(response: OtplessSDK.HeadlessResponse?) {
         print("Response - \(String(describing: response?.responseData))")
+        Otpless.sharedInstance.commitHeadlessResponse(headlessResponse: response)
         if response?.statusCode != 200 {
             DispatchQueue.main.async {
                 let alertController = UIAlertController(title: "Error", message: "\(response?.responseData as? [String: Any])", preferredStyle: .alert)
