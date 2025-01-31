@@ -22,10 +22,10 @@
 	<array>
 		<string>https://in.safr.sekuramobile.com/v1/.well-known/jwks.json</string>
 		<string>https://partnerapi.jio.com</string>
-        <string>http://80.in.safr.sekuramobile.com</string>
+		<string>http://80.in.safr.sekuramobile.com</string>
 	</array>
 	<key>OtplessSNAPreLoadingEnabled</key>
-    <true/>
+	<true/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -35,7 +35,7 @@
 			<string>otpless</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>otpless.your_appid_in_lowercase</string>
+				<string>otpless.od6f3sjgcp93605da5om</string>
 			</array>
 		</dict>
 		<dict>
@@ -52,7 +52,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>11</string>
+	<string>101</string>
 	<key>FacebookAppID</key>
 	<string>FACEBOOK_APPID</string>
 	<key>FacebookClientToken</key>

@@ -74,8 +74,6 @@ class OtplessHelper {
         
         params["event_params"] = Utils.convertDictionaryToString(eventParams)
         
-        OtplessLogger.log(dictionary: params, type: "EVENT")
-        
         OtplessNetworkHelper.shared.fetchDataWithGET(
             apiRoute: "https://mtkikwb8yc.execute-api.ap-south-1.amazonaws.com/prod/appevent",
             params: params

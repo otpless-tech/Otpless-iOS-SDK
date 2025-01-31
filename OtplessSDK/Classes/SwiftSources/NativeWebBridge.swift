@@ -8,13 +8,15 @@
 import Foundation
 import UIKit
 import WebKit
+import SafariServices
 
 
-class NativeWebBridge {
+@objc class NativeWebBridge: NSObject {
     internal var webView: WKWebView! = nil
     public weak var delegate: BridgeDelegate?
     public var headlessRequest: HeadlessRequest? = nil
     var otplessWebAuthn: OtplessWebAuthn?
+    internal var otplessSFSafariVC: SFSafariViewController?
     
     func parseScriptMessage(message: WKScriptMessage, webview : WKWebView){
         webView = webview
@@ -163,6 +165,25 @@ extension NativeWebBridge {
             self.sendHeadlessRequestToWeb(nil, withCode: code)
         } else if let request = headlessRequest {
             self.sendHeadlessRequestToWeb(request, withCode: "")
+        }
+    }
+}
+
+extension NativeWebBridge: SFSafariViewControllerDelegate, UIAdaptivePresentationControllerDelegate {
+    
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        otplessSFSafariVC = nil
+      }
+    
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        otplessSFSafariVC = nil
+    }
+    
+    func dismissOtplessSFSafariVC() {
+        if otplessSFSafariVC != nil {
+            otplessSFSafariVC?.dismiss(animated: true) { [weak self] in
+                self?.otplessSFSafariVC = nil
+            }
         }
     }
 }
