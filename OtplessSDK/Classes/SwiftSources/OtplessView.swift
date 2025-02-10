@@ -256,6 +256,7 @@ class OtplessView: UIView {
         let deepLinkURI = deeplink.absoluteString
         
         OtplessLogger.log(string: deepLinkURI, type: "Deeplink")
+        bridge.dismissOtplessSFSafariVC()
         
         // Parse existing URL
         if (self.mWebView.url != nil) {

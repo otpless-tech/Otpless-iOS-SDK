@@ -22,10 +22,10 @@
 	<array>
 		<string>https://in.safr.sekuramobile.com/v1/.well-known/jwks.json</string>
 		<string>https://partnerapi.jio.com</string>
-        <string>http://80.in.safr.sekuramobile.com</string>
+		<string>http://80.in.safr.sekuramobile.com</string>
 	</array>
 	<key>OtplessSNAPreLoadingEnabled</key>
-    <true/>
+	<true/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

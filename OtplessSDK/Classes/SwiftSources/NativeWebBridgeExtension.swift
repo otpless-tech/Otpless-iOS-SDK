@@ -7,6 +7,7 @@
 
 import Foundation
 import WebKit
+import SafariServices
 
 extension NativeWebBridge {
     
@@ -47,10 +48,35 @@ extension NativeWebBridge {
     /// Key 7 - Open deeplink
     func openDeepLink(_ deeplink: String) {
         let urlWithOutDecoding = deeplink.removingPercentEncoding
+        var params: [String: String] = [:]
         if let link = URL(string: (urlWithOutDecoding!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))!) {
-            UIApplication.shared.open(link, options: [:], completionHandler: nil)
+            
+            var channel = ""
+            if #available(iOS 16.0, *) {
+                channel = link.scheme ?? "" + "://" + (link.host() ?? "")
+            } else {
+                channel = link.scheme ?? "" + "://" + (link.host ?? "")
+            }
+            params["channel"] = channel
+            
+            if link.absoluteString.hasPrefix("http") || link.absoluteString.hasPrefix("https") {
+                if otplessSFSafariVC == nil {
+                    otplessSFSafariVC = SFSafariViewController(url: link)
+                }
+                // Do not change the order of code lines
+                if let safariVC = otplessSFSafariVC {
+                    safariVC.modalPresentationStyle = .formSheet
+                    safariVC.delegate = self
+                    safariVC.presentationController?.delegate = self
+                    Otpless.sharedInstance.merchantVC?.present(safariVC, animated: true)
+                } else {
+                    UIApplication.shared.open(link, options: [:], completionHandler: nil)
+                }
+            } else {
+                UIApplication.shared.open(link, options: [:], completionHandler: nil)
+            }
         }
-        OtplessHelper.sendEvent(event: EventConstants.DEEPLINK_WEB)
+        OtplessHelper.sendEvent(event: EventConstants.DEEPLINK_WEB, extras: params)
     }
     
     
